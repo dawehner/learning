@@ -1,0 +1,47 @@
+<link rel="import" href="../polymer/polymer-element.html">
+
+<dom-module id="first-counter">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <button on-click="decreaseCounter">-</button>
+    <strong>[[counter]]!</strong>
+    <button on-click="increaseCounter">+</button>
+  </template>
+
+  <script>
+    /**
+     * `first-counter`
+     * 
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class FirstCounter extends Polymer.Element {
+      static get is() { return 'first-counter'; }
+      static get properties() {
+        return {
+          counter: {
+            type: Number,
+            notify: true,
+            value: 0,
+          }
+        };
+      }
+        
+      decreaseCounter() {
+        this.set('counter', this.get('counter') - 1);
+      }
+
+      increaseCounter() {
+        this.set('counter', this.get('counter') + 1);
+      }
+    }
+
+    window.customElements.define(FirstCounter.is, FirstCounter);
+  </script>
+</dom-module>
