@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "after": "^0.8.2",
+    "async": "^2.1.2",
+    "fetch": "^1.1.0",
+    "learnyounode": "^3.5.8",
+    "node-fetch": "^1.6.3",
+    "through2-map": "^3.0.0"
+  }
+}
