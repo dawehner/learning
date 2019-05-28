@@ -1,0 +1,53 @@
+<html>
+  <style>
+    ul li {
+      list-style: none;
+      word-wrap: break-word;
+    }
+    .grid1 {
+      display: grid;
+      grid-template-columns: 1fr 2fr 3fr;
+    }
+    .grid2 {
+      display: grid;
+      grid-template-columns: 1fr 2fr 3fr;
+      grid-gap: 20px;
+    }
+    .grid3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-auto-columns: minmax(200px, 3fr);
+      grid-gap: 10px;
+    }
+
+  </style>
+  <body>
+    <!-- simple 1-2-3 width grid -->
+    <ul class="grid1">
+      <li>AAAAAA AAAAAAA AAAAAA AAAAAA AAAA</li>
+      <li>BBBBBB BBBBBBB BBBBBB BBBBBB BBBB</li>
+      <li>CCCCCC CCCCCCC CCCCCC CCCCCC CCCC</li>
+      <li>DDDDDD DDDDDDD DDDDDD DDDDDD DDDD</li>
+      <li>EEEEEE EEEEEEE EEEEEE EEEEEE EEEE</li>
+      <li>FFFFFF FFFFFFF FFFFFF FFFFFF FFFF</li>
+    </ul>
+    <!-- simple 1-2-3 width, with some gap -->
+    <ul class="grid2">
+      <li>AAAAAA AAAAAAA AAAAAA AAAAAA AAAA</li>
+      <li>BBBBBB BBBBBBB BBBBBB BBBBBB BBBB</li>
+      <li>CCCCCC CCCCCCC CCCCCC CCCCCC CCCC</li>
+      <li>DDDDDD DDDDDDD DDDDDD DDDDDD DDDD</li>
+      <li>EEEEEE EEEEEEE EEEEEE EEEEEE EEEE</li>
+      <li>FFFFFF FFFFFFF FFFFFF FFFFFF FFFF</li>
+    </ul>
+    <!-- simple 1-2-3 width, but with minimum width of 200px per column -->
+    <ul class="grid3">
+      <li>AAAAAA AAAAAAA AAAAAA AAAAAA AAAA</li>
+      <li>BBBBBB BBBBBBB BBBBBB BBBBBB BBBB</li>
+      <li>CCCCCC CCCCCCC CCCCCC CCCCCC CCCC</li>
+      <li>DDDDDD DDDDDDD DDDDDD DDDDDD DDDD</li>
+      <li>EEEEEE EEEEEEE EEEEEE EEEEEE EEEE</li>
+      <li>FFFFFF FFFFFFF FFFFFF FFFFFF FFFF</li>
+    </ul>
+  </body>
+</html>
