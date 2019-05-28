@@ -1,0 +1,6 @@
+client/Api.elm
+client/elm-stuff/
+client/tests.js
+.stack-work/
+assets/index.html
+.idea

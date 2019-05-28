@@ -1,0 +1,16 @@
+resolver: lts-8.24
+
+packages:
+  - location: ./.
+  - location:
+      git: https://www.github.com/soenkehahn/wai-make-assets
+      commit: c72a924
+    extra-dep: true
+  - location:
+      git: https://github.com/krisajenkins/elm-export
+      commit: 94b939bb95ec4a86ae634e785ee93b66c3c1c7e6
+    extra-dep: True
+  - location:
+      git: https://www.github.com/mattjbray/servant-elm
+      commit: 4e27dcc8c135a3c2ced3f6d2de74133532dcd743
+    extra-dep: True
