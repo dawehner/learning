@@ -40,8 +40,7 @@ P p <.> i =
 -- Result >abc< ""
 spaces ::
   Parser Chars
-spaces =
-  error "todo: Course.MoreParser#spaces"
+spaces = list space
 
 -- | Write a function that applies the given parser, then parses 0 or more spaces,
 -- then produces the result of the original parser.
