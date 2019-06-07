@@ -37,13 +37,13 @@ args = {
     'provide_context': True
 }
 
-tmpl_search_path = Variable.get("sql_path")
+# tmpl_search_path = Variable.get("sql_path")
 
 dag = airflow.DAG(
     'sync_homes',
     schedule_interval="@daily",
     dagrun_timeout=timedelta(minutes=60),
-    template_searchpath=tmpl_search_path,
+    # template_searchpath=tmpl_search_path,
     default_args=args,
     max_active_runs=1)
 
