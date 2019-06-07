@@ -100,6 +100,12 @@ unexpectedCharParser ::
 unexpectedCharParser c =
   P (\_ -> UnexpectedChar c)
 
+unexpectedStringParser ::
+  Chars
+  -> Parser a
+unexpectedStringParser cs =
+  P (\_ -> UnexpectedString cs)
+
 --- | Return a parser that always returns the given parse result.
 ---
 --- >>> isErrorResult (parse (constantParser UnexpectedEof) "abc")

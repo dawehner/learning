@@ -3,6 +3,8 @@
 
 module Course.FastAnagrams where
 
+import Course.Monad
+import Course.Applicative
 import Course.Core
 import Course.List
 import Course.Functor
@@ -14,8 +16,11 @@ fastAnagrams ::
   Chars
   -> FilePath
   -> IO (List Chars)
-fastAnagrams =
-  error "todo: Course.FastAnagrams#fastAnagrams"
+fastAnagrams string filename = do
+  contentLines <- lines <$> readFile filename
+  pure $ listh <$> show <$> intersectBy (==) possibleLines (NoCaseString <$> contentLines)
+  where
+    possibleLines = NoCaseString <$> permutations string
 
 newtype NoCaseString =
   NoCaseString {

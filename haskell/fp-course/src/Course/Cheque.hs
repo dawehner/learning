@@ -187,7 +187,7 @@ data Digit =
   | Seven
   | Eight
   | Nine
-  deriving (Eq, Ord)
+  deriving (Eq, Ord, Show)
 
 showDigit ::
   Digit
@@ -218,7 +218,23 @@ data Digit3 =
   D1 Digit
   | D2 Digit Digit
   | D3 Digit Digit Digit
-  deriving Eq
+  deriving (Eq, Show)
+
+convertToDigit3 :: List Digit -> List Digit3
+convertToDigit3 Nil = Nil
+convertToDigit3 digits =
+  case take 3 digits of
+    (x :. Nil) -> (D1 x ) :. (convertToDigit3 $ drop 1 digits)
+    (x :. x2 :. Nil) -> (D2 x x2) :. (convertToDigit3 $ drop 2 digits)
+    (x :. x2 :. x3 :. Nil) -> (D3 x x2 x3) :. (convertToDigit3 $ drop 3 digits)
+    _ -> error "this should not happen"
+    
+
+
+removeEmpties :: List (Optional a) -> List a
+removeEmpties xs =
+  flatMap (optional pure Nil) xs
+
 
 -- Possibly convert a character to a digit.
 fromChar ::
@@ -323,5 +339,7 @@ fromChar _ =
 dollars ::
   Chars
   -> Chars
-dollars =
-  error "todo: Course.Cheque#dollars"
+dollars string = error "todo"
+  --  case readFloats string of
+  --   Empty -> "zero dollars and zero cents"
+  --   Full x ->

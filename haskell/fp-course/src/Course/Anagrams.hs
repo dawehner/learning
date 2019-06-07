@@ -4,9 +4,11 @@
 
 module Course.Anagrams where
 
+import Course.Monad
 import Course.Core
 import Course.List
 import Course.Functor
+import Course.Applicative
 
 {-
 
@@ -32,13 +34,16 @@ anagrams ::
   Chars
   -> FilePath
   -> IO (List Chars)
-anagrams =
-  error "todo: Course.Anagrams#anagrams"
+anagrams string filename = do
+  contentLines <- lines <$> readFile filename
+  pure $ intersectBy equalIgnoringCase possibleLines contentLines
+  where
+    possibleLines = permutations string
 
 -- Compare two strings for equality, ignoring case
 equalIgnoringCase ::
   Chars
   -> Chars
   -> Bool
-equalIgnoringCase =
-  error "todo: Course.Anagrams#equalIgnoringCase"
+equalIgnoringCase xs ys =
+  (toLower <$> ys) == (toLower <$> xs)

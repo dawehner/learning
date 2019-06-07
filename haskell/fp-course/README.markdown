@@ -269,11 +269,11 @@ After this, the following progression of modules is recommended:
 <!-- * `Course.Traversable` -->
 <!-- * `Course.ListZipper` -->
 <!-- * `Course.Parser` *(see also `Course.Person` for the parsing rules)* -->
-* `Course.MoreParser`
-* `Course.JsonParser`
-* `Course.Interactive`
-* `Course.Anagrams`
-* `Course.FastAnagrams`
+<!-- * `Course.MoreParser` -->
+* `Course.JsonParser` almost
+<!-- * `Course.Interactive` -->
+<!-- * `Course.Anagrams` -->
+<!-- * `Course.FastAnagrams` -->
 * `Course.Cheque`
 
 During this progression, it is often the case that some exercises are abandoned
