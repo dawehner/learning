@@ -10,6 +10,7 @@ module Main exposing
 
 import Array as A
 import Browser
+import Element as E
 import Html exposing (Html)
 import List.Extra
 import Maybe.Extra
@@ -115,7 +116,17 @@ type Stone
 
 
 init =
-    A.repeat 9 (A.repeat 9 NoStone)
+    A.fromList
+        [ A.repeat 9 (Stone White)
+        , A.repeat 9 (Stone Black)
+        , A.repeat 9 (Stone White)
+        , A.repeat 9 (Stone Black)
+        , A.repeat 9 (Stone White)
+        , A.repeat 9 (Stone Black)
+        , A.repeat 9 (Stone White)
+        , A.repeat 9 (Stone Black)
+        , A.repeat 9 (Stone White)
+        ]
 
 
 type Msg
@@ -131,7 +142,11 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    Html.pre [] [ Html.text <| viewGridString model ]
+    E.layout
+        [ E.width E.fill
+        , E.height E.fill
+        ]
+        (E.text (viewGridString model))
 
 
 viewGridString : GoGrid -> String
