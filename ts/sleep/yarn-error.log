@@ -1,0 +1,32 @@
+Arguments: 
+  /Users/dawehner/.nvm/versions/node/v10.15.3/bin/node /usr/local/bin/yarn add @types/promise
+
+PATH: 
+  /Users/dawehner/.nvm/versions/node/v10.15.3/bin:/Users/dawehner/.nix-profile/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Library/TeX/texbin:.:/Applications/Wireshark.app/Contents/MacOS:/Users/dawehner/bin:/Users/dawehner/.composer/vendor/bin:/Users/dawehner/anaconda3/bin:/Users/dawehner/.cabal/bin:/Users/dawehner/.cargo/bin:/Users/dawehner/.local/bin:/Users/dawehner/.platformsh/bin:/Users/dawehner/.gem/ruby/2.3.0/bin:/Users/dawehner/bin/drush:/usr/local/opt/php@7.1/bin:/Users/dawehner/.deno/bin
+
+Yarn version: 
+  1.15.2
+
+Node version: 
+  10.15.3
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: getaddrinfo ENOTFOUND registry.yarnpkg.com registry.yarnpkg.com:443
+      at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:56:26)
+
+npm manifest: 
+  {
+    "name": "sleep",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
