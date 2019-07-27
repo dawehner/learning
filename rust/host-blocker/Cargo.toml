@@ -1,0 +1,10 @@
+[package]
+name = "host-blocker"
+version = "0.1.0"
+authors = ["Daniel Wehner <dawehner@googlemail.com>"]
+edition = "2018"
+
+[dependencies]
+quicli = "0.4.0"
+structopt = "0.2.18"
+nom = "5"
