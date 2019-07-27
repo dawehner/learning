@@ -18,11 +18,15 @@ enum Command {
 #[derive(Debug, PartialEq)]
 enum HostRow {
     HostComment(String),
-    HostPair(Ip4, String),
+    HostPair(Ip, String),
     EmptyRow,
 }
 
-type Ip4 = Vec<String>;
+#[derive(Debug, PartialEq)]
+enum Ip {
+    Ipv4(Vec<String>),
+    Ipv6(String),
+}
 
 fn read_hosts() -> Result<String, std::io::Error> {
     let content = std::fs::read_to_string("/tmp/test");
@@ -45,7 +49,9 @@ named!(parse_host_comment<&str, HostRow>, do_parse!(
   )
 );
 
-named!(parse_ip4<&str, Ip4>, map!(separated_list!(tag("."), digit1), |vec| vec.iter().map(|&s| String::from(s)).collect()));
+named!(parse_ipv4<&str, Ip>, map!(separated_list!(tag("."), digit1), |vec| Ip::Ipv4(vec.iter().map(|&s| String::from(s)).collect())));
+
+named!(parse_ipv6<&str, Ip>, map!(tag!("::1"), |ip| Ip::Ipv6(ip.to_string())));
 
 named!(parse_hostname<&str, String>, alt!(do_parse!(
   hostname: alphanumeric1 >>
@@ -57,9 +63,9 @@ named!(parse_hostname<&str, String>, alt!(do_parse!(
 );
 
 named!(parse_host_pair<&str, HostRow>, do_parse!(
-    ip: parse_ip4 >>
+    ip: alt!(parse_ipv6 | parse_ipv4) >>
     space1 >>
-    host: complete!(parse_hostname) >>
+    host: parse_hostname >>
     (HostRow::HostPair(ip, host.to_string()))
 ));
 
@@ -68,31 +74,43 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_parse_ip() {
+    fn test_parse_ipv4() {
         assert_eq!(
-            parse_ip4("127.0.0.1"),
+            parse_ipv4("127.0.0.1"),
             Ok((
                 "",
-                vec![
+                Ip::Ipv4(vec![
                     "127".to_string(),
                     "0".to_string(),
                     "0".to_string(),
                     "1".to_string()
-                ]
+                ])
             ))
         );
         assert_eq!(
-            parse_ip4("192.168.1.2"),
+            parse_ipv4("192.168.1.2"),
             Ok((
                 "",
-                vec![
+                Ip::Ipv4(vec![
                     "192".to_string(),
                     "168".to_string(),
                     "1".to_string(),
                     "2".to_string()
-                ]
+                ])
             ))
         );
+    }
+
+    #[test]
+    fn test_parse_ipv6() {
+        assert_eq!(parse_ipv6("::1"), Ok(("", Ip::Ipv6("::1".to_string()))));
+        //     assert_eq!(
+        //         parse_ipv6("2001:0db8:0000:0000:0000:ff00:0042:8329"),
+        //         Ok((
+        //             "",
+        //             Ip::Ipv6("2001:0db8:0000:0000:0000:ff00:0042:8329".to_string())
+        //         ))
+        //     );
     }
 
     #[test]
@@ -119,12 +137,12 @@ mod tests {
             Ok((
                 "",
                 (HostRow::HostPair(
-                    vec![
+                    Ip::Ipv4(vec![
                         "127".to_string(),
                         "0".to_string(),
                         "0".to_string(),
                         "1".to_string()
-                    ],
+                    ]),
                     "localhost".to_string()
                 ))
             ))
@@ -134,14 +152,21 @@ mod tests {
             Ok((
                 "",
                 (HostRow::HostPair(
-                    vec![
+                    Ip::Ipv4(vec![
                         "212".to_string(),
                         "211".to_string(),
                         "12".to_string(),
                         "5".to_string()
-                    ],
+                    ]),
                     "heise.de".to_string()
                 ))
+            ))
+        );
+        assert_eq!(
+            parse_host_pair("::1 localhost"),
+            Ok((
+                "",
+                (HostRow::HostPair(Ip::Ipv6("::1".to_string()), "localhost".to_string()))
             ))
         );
     }
@@ -181,6 +206,7 @@ mod tests {
 ##
 127.0.0.1 localhost
 255.255.255.255	broadcasthost
+::1 localhost
 
 127.0.0.1 example.loc
 127.0.0.1 d2.loc
@@ -217,40 +243,41 @@ mod tests {
                 ),
                 HostRow::HostComment("#".to_string()),
                 HostRow::HostPair(
-                    vec![
+                    Ip::Ipv4(vec![
                         "127".to_string(),
                         "0".to_string(),
                         "0".to_string(),
                         "1".to_string()
-                    ],
+                    ]),
                     "localhost".to_string()
                 ),
                 HostRow::HostPair(
-                    vec![
+                    Ip::Ipv4(vec![
                         "255".to_string(),
                         "255".to_string(),
                         "255".to_string(),
                         "255".to_string()
-                    ],
+                    ]),
                     "broadcasthost".to_string()
                 ),
+                HostRow::HostPair(Ip::Ipv6("::1".to_string()), "localhost".to_string()),
                 HostRow::EmptyRow,
                 HostRow::HostPair(
-                    vec![
+                    Ip::Ipv4(vec![
                         "127".to_string(),
                         "0".to_string(),
                         "0".to_string(),
                         "1".to_string()
-                    ],
+                    ]),
                     "example.loc".to_string()
                 ),
                 HostRow::HostPair(
-                    vec![
+                    Ip::Ipv4(vec![
                         "127".to_string(),
                         "0".to_string(),
                         "0".to_string(),
                         "1".to_string()
-                    ],
+                    ]),
                     "d2.loc".to_string()
                 ),
                 HostRow::EmptyRow,
@@ -259,24 +286,24 @@ mod tests {
                 HostRow::EmptyRow,
                 HostRow::HostComment(" D4".to_string()),
                 HostRow::HostPair(
-                    vec![
+                    Ip::Ipv4(vec![
                         "127".to_string(),
                         "0".to_string(),
                         "0".to_string(),
                         "1".to_string()
-                    ],
+                    ]),
                     "example.loc".to_string()
                 ),
                 HostRow::EmptyRow,
                 HostRow::HostComment(" Meh".to_string()),
                 HostRow::HostComment("".to_string()),
                 HostRow::HostPair(
-                    vec![
+                    Ip::Ipv4(vec![
                         "127".to_string(),
                         "0".to_string(),
                         "0".to_string(),
                         "1".to_string()
-                    ],
+                    ]),
                     "other.loc".to_string()
                 ),
                 HostRow::EmptyRow,
@@ -285,12 +312,12 @@ mod tests {
                 HostRow::HostComment(" Muh".to_string()),
                 HostRow::HostComment(" BEGIN section for OpenVPN Client SSL sites".to_string()),
                 HostRow::HostPair(
-                    vec![
+                    Ip::Ipv4(vec![
                         "127".to_string(),
                         "94".to_string(),
                         "0".to_string(),
                         "1".to_string()
-                    ],
+                    ]),
                     "client.openvpn".to_string()
                 )
             ]
