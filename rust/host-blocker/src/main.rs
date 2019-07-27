@@ -1,11 +1,8 @@
 use nom::{
     alt,
     bytes::complete::tag,
-    character::complete::{alpha1, digit1, line_ending, not_line_ending, space1},
-    complete, do_parse,
-    error::ErrorKind::CrLf,
-    many0, map, named, opt, separated_list, tag, terminated,
-    Err::Error,
+    character::complete::{alpha1, alphanumeric1, digit1, line_ending, not_line_ending, space1},
+    complete, do_parse, map, named, separated_list, tag,
 };
 use quicli::prelude::*;
 use std::result::Result;
@@ -32,10 +29,13 @@ fn read_hosts() -> Result<String, std::io::Error> {
     return content;
 }
 
-named!(parse_hosts<&str, Vec<HostRow>>, separated_list!(line_ending, alt!(parse_host_comment | parse_host_pair | parse_empty_line)));
+named!(parse_hosts<&str, Vec<HostRow>>,
+    separated_list!(line_ending,
+      alt!(parse_host_comment | parse_host_pair | parse_empty_line
+    )));
 
 named!(parse_empty_line<&str, HostRow>,
-  map!(complete!(line_ending), |_| HostRow::EmptyRow)
+  map!(tag!(""), |_| HostRow::EmptyRow)
 );
 
 named!(parse_host_comment<&str, HostRow>, do_parse!(
@@ -48,11 +48,11 @@ named!(parse_host_comment<&str, HostRow>, do_parse!(
 named!(parse_ip4<&str, Ip4>, map!(separated_list!(tag("."), digit1), |vec| vec.iter().map(|&s| String::from(s)).collect()));
 
 named!(parse_hostname<&str, String>, alt!(do_parse!(
-  hostname: alpha1 >>
+  hostname: alphanumeric1 >>
   complete!(tag!(".")) >>
   tld: complete!(alpha1) >>
   (format!("{}.{}", hostname, tld))
-) | complete!(map!(alpha1, String::from))
+) | complete!(map!(alphanumeric1, String::from))
 )
 );
 
@@ -101,6 +101,14 @@ mod tests {
         assert_eq!(
             parse_hostname("localhost"),
             Ok(("", "localhost".to_string()))
+        );
+        assert_eq!(
+            parse_hostname("example.loc"),
+            Ok(("", "example.loc".to_string()))
+        );
+        assert_eq!(
+            parse_hostname("example2.loc"),
+            Ok(("", "example2.loc".to_string()))
         );
     }
 
@@ -156,8 +164,9 @@ mod tests {
 
     #[test]
     fn test_empty_line() {
-        assert_eq!(parse_empty_line("#\n"), Err(Error(("#\n", CrLf))));
-        assert_eq!(parse_empty_line("\n"), Ok(("", HostRow::EmptyRow)));
+        assert_eq!(parse_empty_line("#\n"), Ok(("#\n", HostRow::EmptyRow)));
+        assert_eq!(parse_empty_line(""), Ok(("", HostRow::EmptyRow)));
+        assert_eq!(parse_empty_line("\n"), Ok(("\n", HostRow::EmptyRow)));
     }
 
     #[test]
@@ -193,19 +202,98 @@ mod tests {
 127.94.0.1	client.openvpn.net
 # END section for OpenVPN Client SSL sites
 "
-            ),
-            Ok((
-                "",
-                vec![
-                    HostRow::HostComment("#".to_string()),
-                    HostRow::HostComment(" Host Database".to_string()),
-                    HostRow::HostComment("".to_string()),
-                    HostRow::HostComment(" localhost is used to configure the loopback interface".to_string()),
-                    HostRow::HostComment(" when the system is booting.  Do not change this entry.".to_string()),
-                    HostRow::HostComment("#".to_string()),
-                    HostRow::HostPair(vec!["127".to_string(), "0".to_string(), "0".to_string(), "1".to_string()], "localhost".to_string())
-                ]
-            ))
+            )
+            .unwrap()
+            .1,
+            vec![
+                HostRow::HostComment("#".to_string()),
+                HostRow::HostComment(" Host Database".to_string()),
+                HostRow::HostComment("".to_string()),
+                HostRow::HostComment(
+                    " localhost is used to configure the loopback interface".to_string()
+                ),
+                HostRow::HostComment(
+                    " when the system is booting.  Do not change this entry.".to_string()
+                ),
+                HostRow::HostComment("#".to_string()),
+                HostRow::HostPair(
+                    vec![
+                        "127".to_string(),
+                        "0".to_string(),
+                        "0".to_string(),
+                        "1".to_string()
+                    ],
+                    "localhost".to_string()
+                ),
+                HostRow::HostPair(
+                    vec![
+                        "255".to_string(),
+                        "255".to_string(),
+                        "255".to_string(),
+                        "255".to_string()
+                    ],
+                    "broadcasthost".to_string()
+                ),
+                HostRow::EmptyRow,
+                HostRow::HostPair(
+                    vec![
+                        "127".to_string(),
+                        "0".to_string(),
+                        "0".to_string(),
+                        "1".to_string()
+                    ],
+                    "example.loc".to_string()
+                ),
+                HostRow::HostPair(
+                    vec![
+                        "127".to_string(),
+                        "0".to_string(),
+                        "0".to_string(),
+                        "1".to_string()
+                    ],
+                    "d2.loc".to_string()
+                ),
+                HostRow::EmptyRow,
+                HostRow::HostComment("".to_string()),
+                HostRow::HostComment("".to_string()),
+                HostRow::EmptyRow,
+                HostRow::HostComment(" D4".to_string()),
+                HostRow::HostPair(
+                    vec![
+                        "127".to_string(),
+                        "0".to_string(),
+                        "0".to_string(),
+                        "1".to_string()
+                    ],
+                    "example.loc".to_string()
+                ),
+                HostRow::EmptyRow,
+                HostRow::HostComment(" Meh".to_string()),
+                HostRow::HostComment("".to_string()),
+                HostRow::HostPair(
+                    vec![
+                        "127".to_string(),
+                        "0".to_string(),
+                        "0".to_string(),
+                        "1".to_string()
+                    ],
+                    "other.loc".to_string()
+                ),
+                HostRow::EmptyRow,
+                HostRow::HostComment("".to_string()),
+                HostRow::EmptyRow,
+                HostRow::HostComment(" Muh".to_string()),
+                HostRow::HostComment(" BEGIN section for OpenVPN Client SSL sites".to_string()),
+                HostRow::HostPair(
+                    vec![
+                        "127".to_string(),
+                        "94".to_string(),
+                        "0".to_string(),
+                        "1".to_string()
+                    ],
+                    "client.openvpn".to_string()
+                )
+            ]
         );
     }
 }
