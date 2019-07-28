@@ -5,7 +5,7 @@ use nom::{
     complete, do_parse, map, named, separated_list, tag,
 };
 use std::fmt;
-use std::iter::{FromIterator, IntoIterator};
+use std::iter::{FromIterator, IntoIterator, Iterator};
 
 #[derive(Debug)]
 pub struct HostFile {
@@ -16,6 +16,10 @@ impl HostFile {
     pub fn new(vec: Vec<HostRow>) -> HostFile {
         HostFile { vec: vec }
     }
+
+    // pub fn iter(&self) -> std::slice::Iter<HostRow> {
+    //     self.vec.iter()
+    // }
 }
 
 impl IntoIterator for HostFile {
@@ -48,7 +52,7 @@ impl PartialEq for HostFile {
     }
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone)]
 pub enum HostRow {
     HostComment(String),
     HostPair(Ip, String),
@@ -65,7 +69,7 @@ impl fmt::Display for HostRow {
     }
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone)]
 pub enum Ip {
     Ipv4(Vec<String>),
     Ipv6(String),

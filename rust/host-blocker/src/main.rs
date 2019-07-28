@@ -3,6 +3,7 @@ use std::result::Result;
 use structopt::StructOpt;
 mod hostfile;
 use hostfile::*;
+mod simplify;
 
 #[derive(Debug, StructOpt)]
 #[structopt(name = "command", about = "The used command")]
@@ -29,7 +30,7 @@ fn main() -> CliResult {
 
     match result {
         Ok((_input, output)) => {
-            println!("{:?}", output);
+            println!("{}", output);
             Ok(())
         }
         Err(err) => panic!("Error parsing hostfile, good luck {:?}", err),
