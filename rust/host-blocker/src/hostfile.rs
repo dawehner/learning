@@ -63,7 +63,7 @@ impl fmt::Display for HostRow {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             HostRow::EmptyRow => write!(f, "{}", ""),
-            HostRow::HostComment(comment) => write!(f, "#{}", comment),
+            HostRow::HostComment(comment) => write!(f, "# {}", comment),
             HostRow::HostPair(ip, host) => write!(f, "{} {}", ip, host),
         }
     }
@@ -397,7 +397,7 @@ mod tests {
         assert_eq!(format!("{}", HostRow::EmptyRow), "");
         assert_eq!(
             format!("{}", HostRow::HostComment("test".to_string())),
-            "#test"
+            "# test"
         );
         assert_eq!(
             format!(
@@ -420,7 +420,7 @@ mod tests {
                 ])
             ),
             "
-#test
+# test
 ::1 localhost
 "
         )

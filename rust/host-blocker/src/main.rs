@@ -13,7 +13,7 @@ enum Command {
 }
 
 fn read_hosts() -> Result<String, std::io::Error> {
-    let content = std::fs::read_to_string("/tmp/test");
+    let content = std::fs::read_to_string("/etc/hosts");
     return content;
 }
 
@@ -30,7 +30,7 @@ fn main() -> CliResult {
 
     match result {
         Ok((_input, output)) => {
-            println!("{}", output);
+            println!("{}", simplify::simplify(output));
             Ok(())
         }
         Err(err) => panic!("Error parsing hostfile, good luck {:?}", err),

@@ -1,7 +1,9 @@
 use crate::hostfile::*;
+use std::iter::Iterator;
 
 pub fn simplify(hostfile: HostFile) -> HostFile {
-    let hostfile2 = simplify_more_than_three_emptyrow(hostfile);
+    let mut hostfile2 = simplify_more_than_three_emptyrow(hostfile);
+    hostfile2 = simplify_remove_trailing_space_comment(hostfile2);
     hostfile2
 }
 
@@ -19,6 +21,21 @@ fn simplify_more_than_three_emptyrow(hostfile: HostFile) -> HostFile {
     });
 
     HostFile::new(rows)
+}
+
+fn simplify_remove_trailing_space_comment(hostfile: HostFile) -> HostFile {
+    HostFile::new(
+        hostfile
+            .vec
+            .into_iter()
+            .map(|row| match row {
+                HostRow::HostComment(comment) => {
+                    HostRow::HostComment(comment.trim_start().to_string())
+                }
+                _ => row,
+            })
+            .collect(),
+    )
 }
 
 #[cfg(test)]
@@ -42,6 +59,20 @@ mod tests {
 
         assert_eq!(simplify(hostfile3), hostfile2);
         assert_eq!(simplify(hostfile4), hostfile2);
+    }
+
+    #[test]
+    fn test_remove_trailing_space_comment() {
+        let hostfile = HostFile::new(vec![
+            HostRow::HostComment("test".to_string()),
+            HostRow::HostComment(" test".to_string()),
+        ]);
+        let expected = HostFile::new(vec![
+            HostRow::HostComment("test".to_string()),
+            HostRow::HostComment("test".to_string()),
+        ]);
+
+        assert_eq!(simplify(hostfile), expected);
     }
 
 }
