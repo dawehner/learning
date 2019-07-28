@@ -13,8 +13,7 @@ enum Command {
 }
 
 fn read_hosts() -> Result<String, std::io::Error> {
-    let content = std::fs::read_to_string("/etc/hosts");
-    return content;
+    std::fs::read_to_string("/etc/hosts")
 }
 
 /// Read some lines of a file

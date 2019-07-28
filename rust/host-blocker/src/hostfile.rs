@@ -14,7 +14,7 @@ pub struct HostFile {
 
 impl HostFile {
     pub fn new(vec: Vec<HostRow>) -> HostFile {
-        HostFile { vec: vec }
+        HostFile { vec }
     }
 
     // pub fn iter(&self) -> std::slice::Iter<HostRow> {
@@ -40,7 +40,7 @@ impl FromIterator<HostRow> for HostFile {
 impl fmt::Display for HostFile {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         for host_row in &self.vec {
-            write!(f, "{}\n", host_row)?;
+            writeln!(f, "{}", host_row)?;
         }
         Ok(())
     }
@@ -62,7 +62,7 @@ pub enum HostRow {
 impl fmt::Display for HostRow {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            HostRow::EmptyRow => write!(f, "{}", ""),
+            HostRow::EmptyRow => Ok(()),
             HostRow::HostComment(comment) => write!(f, "# {}", comment),
             HostRow::HostPair(ip, host) => write!(f, "{} {}", ip, host),
         }
