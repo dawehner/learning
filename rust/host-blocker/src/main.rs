@@ -5,6 +5,8 @@ use nom::{
     complete, do_parse, map, named, separated_list, tag,
 };
 use quicli::prelude::*;
+use std::fmt;
+use std::iter::{FromIterator, IntoIterator, Iterator};
 use std::result::Result;
 use structopt::StructOpt;
 
@@ -15,11 +17,54 @@ enum Command {
     CommandList,
 }
 
+#[derive(Debug)]
+struct HostFile(Vec<HostRow>);
+
+impl IntoIterator for HostFile {
+    type Item = HostRow;
+    type IntoIter = ::std::vec::IntoIter<Self::Item>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.0.into_iter()
+    }
+}
+
+impl FromIterator<HostRow> for HostFile {
+    fn from_iter<I: IntoIterator<Item = HostRow>>(iter: I) -> Self {
+        HostFile(Vec::from_iter(iter))
+    }
+}
+
+impl fmt::Display for HostFile {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        for host_row in &self.0 {
+            write!(f, "{}\n", host_row)?;
+        }
+        Ok(())
+    }
+}
+
+impl PartialEq for HostFile {
+    fn eq(&self, other: &Self) -> bool {
+        self.0 == other.0
+    }
+}
+
 #[derive(Debug, PartialEq)]
 enum HostRow {
     HostComment(String),
     HostPair(Ip, String),
     EmptyRow,
+}
+
+impl fmt::Display for HostRow {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            HostRow::EmptyRow => write!(f, "{}", ""),
+            HostRow::HostComment(comment) => write!(f, "#{}", comment),
+            HostRow::HostPair(ip, host) => write!(f, "{} {}", ip, host),
+        }
+    }
 }
 
 #[derive(Debug, PartialEq)]
@@ -28,15 +73,24 @@ enum Ip {
     Ipv6(String),
 }
 
+impl fmt::Display for Ip {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Ip::Ipv4(numbers) => write!(f, "{}", numbers.join(".")),
+            Ip::Ipv6(string) => write!(f, "{}", string),
+        }
+    }
+}
+
 fn read_hosts() -> Result<String, std::io::Error> {
     let content = std::fs::read_to_string("/tmp/test");
     return content;
 }
 
-named!(parse_hosts<&str, Vec<HostRow>>,
-    separated_list!(line_ending,
+named!(parse_hosts<&str, HostFile>,
+    map!(separated_list!(line_ending,
       alt!(parse_host_comment | parse_host_pair | parse_empty_line
-    )));
+    )), HostFile));
 
 named!(parse_empty_line<&str, HostRow>,
   map!(tag!(""), |_| HostRow::EmptyRow)
@@ -231,7 +285,7 @@ mod tests {
             )
             .unwrap()
             .1,
-            vec![
+            HostFile(vec![
                 HostRow::HostComment("#".to_string()),
                 HostRow::HostComment(" Host Database".to_string()),
                 HostRow::HostComment("".to_string()),
@@ -320,8 +374,59 @@ mod tests {
                     ]),
                     "client.openvpn".to_string()
                 )
-            ]
+            ])
         );
+    }
+
+    #[test]
+    fn test_display_ip() {
+        assert_eq!(
+            format!(
+                "{}",
+                Ip::Ipv4(vec![
+                    "127".to_string(),
+                    "0".to_string(),
+                    "0".to_string(),
+                    "1".to_string()
+                ])
+            ),
+            "127.0.0.1"
+        );
+        assert_eq!(format!("{}", Ip::Ipv6("::1".to_string())), "::1");
+    }
+
+    #[test]
+    fn test_display_hostrow() {
+        assert_eq!(format!("{}", HostRow::EmptyRow), "");
+        assert_eq!(
+            format!("{}", HostRow::HostComment("test".to_string())),
+            "#test"
+        );
+        assert_eq!(
+            format!(
+                "{}",
+                HostRow::HostPair(Ip::Ipv6("::1".to_string()), "localhost".to_string())
+            ),
+            "::1 localhost"
+        );
+    }
+
+    #[test]
+    fn test_display_hostfile() {
+        assert_eq!(
+            format!(
+                "{}",
+                HostFile(vec![
+                    HostRow::EmptyRow,
+                    HostRow::HostComment("test".to_string()),
+                    HostRow::HostPair(Ip::Ipv6("::1".to_string()), "localhost".to_string())
+                ])
+            ),
+            "
+#test
+::1 localhost
+"
+        )
     }
 }
 
