@@ -1,0 +1,8 @@
+*.cabal
+*~
+*.swp
+tarballs/
+.stack-work/
+
+example.xml
+report.html
