@@ -47,26 +47,27 @@ dag = airflow.DAG(
     default_args=args,
     max_active_runs=1)
 
-get_auditid = AuditOperator(
-    task_id='get_audit_id',
-    postgres_conn_id='source',
-    audit_key="customer",
-    cycle_dtm="{{ ts }}",
-    dag=dag,
-    pool='source')
+# get_auditid = AuditOperator(
+#     task_id='get_audit_id',
+#     postgres_conn_id='source',
+#     audit_key="customer",
+#     cycle_dtm="{{ ts }}",
+#     dag=dag,
+#     pool='source')
 
 extract_homes = PostgresToPostgresOperator(
-    sql='SELECT * from test_data_src.homes',
-    pg_table='test_data_dest.homes',
+    sql='SELECT * from test_data.homes',
+    pg_table='test_data.homes',
     src_postgres_conn_id='source',
     dest_postgress_conn_id='dest',
-    pg_preoperator="DELETE FROM test_data_dest.homes",
+    pg_preoperator="DELETE FROM test_data.homes",
     parameters={"audit_id": "{{ ti.xcom_pull(task_ids='get_audit_id', key='audit_id') }}"},
     task_id='extract_customer',
     dag=dag,
     pool='postgres_dwh')
 
-get_auditid >> extract_homes
+# get_auditid >>
+extract_homes
 
 
 if __name__ == "__main__":

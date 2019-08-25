@@ -50,6 +50,8 @@ class PostgresToPostgresOperator(BaseOperator):
             pg_preoperator=None,
             pg_postoperator=None,
             parameters=None,
+            src_schema=None,
+            dest_schema=None,
             *args, **kwargs):
         super(PostgresToPostgresOperator, self).__init__(*args, **kwargs)
         self.sql = sql
@@ -59,11 +61,13 @@ class PostgresToPostgresOperator(BaseOperator):
         self.pg_preoperator = pg_preoperator
         self.pg_postoperator = pg_postoperator
         self.parameters = parameters
+        self.src_schema = src_schema
+        self.dest_schema = dest_schema
 
     def execute(self, context):
         logging.info('Executing: ' + str(self.sql))
-        src_pg = PostgresHook(postgres_conn_id=self.src_postgres_conn_id)
-        dest_pg = PostgresHook(postgres_conn_id=self.dest_postgress_conn_id)
+        src_pg = PostgresHook(postgres_conn_id=self.src_postgres_conn_id, schema=self.src_schema)
+        dest_pg = PostgresHook(postgres_conn_id=self.dest_postgress_conn_id, schema=self.dest_schema)
 
         logging.info("Transferring Postgres query results into other Postgres database.")
         conn = src_pg.get_conn()

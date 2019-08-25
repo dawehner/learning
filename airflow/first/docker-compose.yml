@@ -7,16 +7,28 @@ services:
             - POSTGRES_PASSWORD=airflow
             - POSTGRES_DB=airflow
         volumes:
-           - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+           - ./sql/1_schema.sql:/docker-entrypoint-initdb.d/1_schema.sql
+           - ./sql/2_data.sql:/docker-entrypoint-initdb.d/2_data.sql
            - ./sql/homes.csv:/home/airflow/homes.csv
         ports:
             - "5432:5432"
+    postgres_dest:
+        image: postgres:9.6
+        environment:
+            - POSTGRES_USER=airflow
+            - POSTGRES_PASSWORD=airflow
+            - POSTGRES_DB=airflow
+        volumes:
+           - ./sql/1_schema.sql:/docker-entrypoint-initdb.d/1_schema.sql
+        ports:
+            - "5433:5432"
 
     webserver:
-        image: puckel/docker-airflow:1.10.2
+        image: puckel/docker-airflow:1.10.4
         restart: always
         depends_on:
             - postgres
+            - postgres_dest
         environment:
             - LOAD_EX=n
             - EXECUTOR=Local

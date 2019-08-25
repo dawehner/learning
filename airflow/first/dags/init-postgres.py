@@ -51,16 +51,16 @@ def initialize_postgres_example():
                      "conn_type": "postgres",
                      "host": "postgres",
                      "port": 5432,
-                     "schema": "test_data_src",
+                     "schema": "airflow",
                      "login": "airflow",
                      "password": "airflow"})
 
     create_new_conn(session,
                     {"conn_id": "dest",
                      "conn_type": "postgres",
-                     "host": "postgres",
+                     "host": "postgres_dest",
                      "port": 5432,
-                     "schema": "test_data_dest",
+                     "schema": "airflow",
                      "login": "airflow",
                      "password": "airflow"})
 
