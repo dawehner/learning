@@ -1,2 +1,0 @@
-dev:
-	php artisan serve
