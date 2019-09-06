@@ -4,6 +4,10 @@ module Run (run) where
 
 import Import
 import Xeno.DOM
+import qualified Brick as B
+import Brick.Widgets.Border as BB
+import qualified Brick.Widgets.Border.Style as BS
+import qualified Brick.Widgets.Center as BC
 import qualified RIO.List as L
 
 getRootNodes :: Node -> [ByteString]
@@ -21,4 +25,11 @@ run :: RIO App ()
 run = do
   file <- readFileBinary "example.xml"
   let content = Xeno.DOM.parse file
-  logInfo $ displayShow $ getNodeGroups . getRootNodes <$> content
+    app = B.App {}
+    initialState = 
+
+  B.withBorderStyle BS.unicode $
+    BB.borderWithLabel (B.str "Hello!") $
+    (BC.center (B.str "Left") B.<+> BB.vBorder B.<+> BC.center (B.str "Right"))
+
+  -- logInfo $ displayShow $ getNodeGroups . getRootNodes <$> content
