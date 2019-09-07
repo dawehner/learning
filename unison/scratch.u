@@ -1,0 +1,96 @@
+---- Anything below this line is ignored by Unison.
+
+NonEmptyList.filter f ns = 
+  NonEmptyList.fromList (NonEmptyList.listFilter f (NonEmptyList.toList ns))
+
+NonEmptyList.listFilter f xs =
+  base.List.foldl (agg x -> if f x then (x +: agg) else agg) [] xs
+
+NonEmptyList.map func ns = NonEmptyList (func (NonEmptyList.fst ns)) (base.List.map func (NonEmptyList.rst ns))
+
+NonEmptyList.toList ns = (NonEmptyList.fst ns) base.List.+: (NonEmptyList.rst ns)
+
+NonEmptyList.foldl f b ns = 
+  NonEmptyList.fromList (base.List.foldl f b (NonEmptyList.toList ns))
+
+NonEmptyList.size ns = 1 + base.List.size (NonEmptyList.rst ns)
+
+test.NonEmptyList.sizeEmpty = run (expect (NonEmptyList.size (NonEmptyList 1 []) == 1))
+test.NonEmptyList.size = run (expect (NonEmptyList.size (NonEmptyList 1 [2, 3]) == 3))
+
+
+NonEmptyList.concat :
+  NonEmptyList.NonEmptyList a
+  -> NonEmptyList.NonEmptyList a
+  -> NonEmptyList.NonEmptyList a
+NonEmptyList.concat ns1 ns2 =
+  use NonEmptyList fst
+  use NonEmptyList.releases.v1 rst
+  use base.List ++ +:
+  base.id (NonEmptyList.NonEmptyList (fst ns1) (rst ns1 ++ (fst ns2 +: rst ns2)))
+
+
+
+type NonEmptyList.NonEmptyList a = NonEmptyList.NonEmptyList a [a]
+
+
+---- Anything below this line is ignored by Unison.
+
+
+---- Anything below this line is ignored by Unison.
+type .NonEmptyList a = NonEmptyList a [a]
+
+isSingleton ns =
+  case rst ns of
+    [] -> true
+    _ -> false
+
+test> test.NonEmptyList.isSingletonEmpty = run (expect (isSingleton (NonEmptyList 1 []) == true))
+test> test.NonEmptyList.isSingleton = run (expect (isSingleton (NonEmptyList 1 [2, 3]) == false))
+
+toList ns =
+  fst ns +: rst ns
+
+test> test.NonEmptyList.toListEmpty = run (expect (toList (NonEmptyList 1 []) == [1]))
+test> test.NonEmptyList.toList = run (expect (toList (NonEmptyList 1 [2, 3]) == [1, 2, 3]))
+
+tail ns = rst ns
+
+test> test.NonEmptyList.tailEmpty = run(expect(tail (NonEmptyList 1 []) == []))
+test> test.NonEmptyList.tail = run(expect(tail (NonEmptyList 1 [2, 3]) == [2, 3]))
+
+fromList xs = 
+  case xs of
+    [] -> base.Optional.None
+    (x +: xs) -> base.Optional.Some (NonEmptyList x xs)
+
+test> test.NonEmptyList.fromListEmpty = run (expect (fromList [] == base.Optional.None))
+test> test.NonEmptyList.fromList = run (expect (fromList [1, 2, 3] == base.Optional.Some (NonEmptyList 1 [2, 3])))
+
+
+---- Anything below this line is ignored by Unison.
+
+type .NonEmptyList a = NonEmptyList a [a]
+
+
+reverse ns1 = 
+  case base.List.reverse (rst ns1) of
+    [] -> ns1
+    (x +: xs) -> NonEmptyList x (xs :+ fst ns1)
+
+test> test.NonEmptyList.reverseSingle = run (expect (reverse (NonEmptyList 1 []) == NonEmptyList 1 []))
+test> test.NonEmptyList.reverseLonger = run (expect (reverse (NonEmptyList 1 [2, 3]) == NonEmptyList 3 [2, 1]))
+    
+
+---- Anything below this line is ignored by Unison.
+
+type .NonEmptyList a = NonEmptyList a [a]
+
+(.++) : .NonEmptyList a -> .NonEmptyList a -> .NonEmptyList a
+ns1 .++ ns2 =
+  use .base.List ++ +:
+  use releases.v1 rst
+  NonEmptyList (fst ns1) (rst ns1 ++ (fst ns2 +: rst ns2))
+
+---- Anything below this line is ignored by Unison.
+
