@@ -37,6 +37,8 @@ type Msg
     | UpdateNewDocumentTitle String
     | AddNewDocument
     | AddNewDocumentResponse (RD.WebData Document)
+    | DeleteDocument Int
+    | DeleteDocumentResponse Int
 
 
 fetchDocuments : Cmd Msg
@@ -60,6 +62,17 @@ addNewDocument title =
                 )
         }
 
+deleteDocument : Int -> Cmd Msg
+deleteDocument id =
+  Http.request {
+    method = "DELETE"
+    , headers = []
+    , url = "/api/document/" ++ (String.fromInt id)
+    , expect = Http.expectWhatever (always (DeleteDocumentResponse id))
+    , body = Http.emptyBody
+    , timeout = Nothing
+    , tracker = Nothing
+  }
 
 decodeDocuments : JD.Decoder (List Document)
 decodeDocuments =
@@ -101,6 +114,14 @@ update msg model =
             , Cmd.none
             )
 
+        DeleteDocument id ->
+            (model, deleteDocument id)
+
+        DeleteDocumentResponse id ->
+            ({ model | documents = RD.map (List.filter (.id >> (/=) id)) model.documents}, Cmd.none)
+
+
+
 
 main =
     Browser.element
@@ -121,6 +142,10 @@ viewDocuments newDocument documents =
                     E.row [ E.spacing 10 ]
                         [ E.text "title:"
                         , E.text document.title
+                        , EI.button [E.alignRight] {
+                        label = E.text "Delete"
+                          , onPress= Just (DeleteDocument document.id)
+                        }
                         ]
                 )
                 ds
