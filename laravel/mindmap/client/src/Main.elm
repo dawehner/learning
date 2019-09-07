@@ -1,9 +1,10 @@
 module Main exposing (main)
 
-import Html
 import Browser
 import Element as E
 import Element.Input as EI
+import Html
+import Html.Events
 import Http
 import Json.Decode as JD
 import Json.Encode as JE
@@ -62,17 +63,19 @@ addNewDocument title =
                 )
         }
 
+
 deleteDocument : Int -> Cmd Msg
 deleteDocument id =
-  Http.request {
-    method = "DELETE"
-    , headers = []
-    , url = "/api/document/" ++ (String.fromInt id)
-    , expect = Http.expectWhatever (always (DeleteDocumentResponse id))
-    , body = Http.emptyBody
-    , timeout = Nothing
-    , tracker = Nothing
-  }
+    Http.request
+        { method = "DELETE"
+        , headers = []
+        , url = "/api/document/" ++ String.fromInt id
+        , expect = Http.expectWhatever (always (DeleteDocumentResponse id))
+        , body = Http.emptyBody
+        , timeout = Nothing
+        , tracker = Nothing
+        }
+
 
 decodeDocuments : JD.Decoder (List Document)
 decodeDocuments =
@@ -109,18 +112,16 @@ update msg model =
         AddNewDocumentResponse document ->
             ( { model
                 | documents =
-                    RD.map2 ((::)) document model.documents
+                    RD.map2 (::) document model.documents
               }
             , Cmd.none
             )
 
         DeleteDocument id ->
-            (model, deleteDocument id)
+            ( model, deleteDocument id )
 
         DeleteDocumentResponse id ->
-            ({ model | documents = RD.map (List.filter (.id >> (/=) id)) model.documents}, Cmd.none)
-
-
+            ( { model | documents = RD.map (List.filter (.id >> (/=) id)) model.documents }, Cmd.none )
 
 
 main =
@@ -133,48 +134,78 @@ main =
         }
 
 
+keyCode : JD.Decoder Int
+keyCode =
+    JD.field "keyCode" JD.int
+
+
+onKeyDown : (Int -> msg) -> E.Attribute msg
+onKeyDown tagger =
+    E.htmlAttribute (Html.Events.on "keydown" (JD.map tagger keyCode))
+
+
+enterKey =
+    13
+
+
 viewDocuments : Maybe String -> RD.WebData (List Document) -> E.Element Msg
 viewDocuments newDocument documents =
     RD.map
         (\ds ->
             List.map
                 (\document ->
-                    E.row [ E.spacing 10 ]
+                    E.row [ E.spacing 10, E.width E.fill ]
                         [ E.text "title:"
                         , E.text document.title
-                        , EI.button [E.alignRight] {
-                        label = E.text "Delete"
-                          , onPress= Just (DeleteDocument document.id)
-                        }
+                        , EI.button [ E.alignRight ]
+                            { label = E.text "Delete"
+                            , onPress = Just (DeleteDocument document.id)
+                            }
                         ]
                 )
                 ds
                 |> (::) (newDocumentBox newDocument)
-                |> E.column [ E.centerX, E.spacing 20, E.padding 40 ]
+                |> E.column
+                    [ E.centerX
+                    , E.spacing 20
+                    , E.padding 40
+                    , E.width (E.px 500)
+                    ]
         )
         documents
         |> RD.withDefault (E.text "Loading ...")
 
+
 newDocumentBox : Maybe String -> E.Element Msg
 newDocumentBox maybeTitle =
     let
-        title = Maybe.withDefault "" maybeTitle
+        title =
+            Maybe.withDefault "" maybeTitle
     in
-      E.row [E.spacing 10] [
-      EI.text [] {
-        label = EI.labelHidden "New document title"
-        , onChange = UpdateNewDocumentTitle
-        , placeholder = Nothing
-        , text = title
-      },
-      EI.button [] {
-        label = E.text "Add"
-        , onPress = Just AddNewDocument
-      }
-      ]
+    E.row [ E.spacing 10, E.width E.fill ]
+        [ EI.text
+            [ onKeyDown
+                (\i ->
+                    if i == enterKey then
+                        AddNewDocument
+
+                    else
+                        Noop
+                )
+            ]
+            { label = EI.labelHidden "New document title"
+            , onChange = UpdateNewDocumentTitle
+            , placeholder = Nothing
+            , text = title
+            }
+        , EI.button []
+            { label = E.text "Add"
+            , onPress = Just AddNewDocument
+            }
+        ]
 
 
 view : Model -> Html.Html Msg
 view model =
     E.layout [ E.width E.fill ]
-        (viewDocuments model.newDocument model.documents )
+        (viewDocuments model.newDocument model.documents)
