@@ -13,7 +13,7 @@ class CreateDocumentTable extends Migration
      */
     public function up()
     {
-        Schema::create('document', function (Blueprint $table) {
+        Schema::create('mindmap_document', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
 
@@ -28,6 +28,6 @@ class CreateDocumentTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('document');
+        Schema::dropIfExists('mindmap_document');
     }
 }

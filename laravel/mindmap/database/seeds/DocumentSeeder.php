@@ -13,14 +13,13 @@ class DocumentSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('mindmap_document')
-            ->delete();
-        
+        DB::table('mindmap_document')->delete();
+
         Document::create([
             'title' => 'My initial mindmap',
-        ]);
+        ])->save();
         Document::create([
             'title' => 'My other mindmap',
-        ]);
+        ])->save();
     }
 }
