@@ -40,6 +40,7 @@ withId : String -> Node -> Node
 withId id node =
     { node | id = id }
 
+
 withParent : String -> Node -> Node
 withParent id node =
     { node | parent = Just id }
@@ -49,6 +50,11 @@ type Nodes
     = Nodes (Dict.Dict String Node)
 
 
+nodesToList : Nodes -> List Node
+nodesToList (Nodes nodes) =
+    Dict.values nodes
+
+
 emptyNodes =
     Nodes <| Dict.empty
 
@@ -56,35 +62,139 @@ emptyNodes =
 addNode id node (Nodes nodes) =
     Nodes (Dict.insert id node nodes)
 
+
+addNodeWithId node (Nodes nodes) =
+    Nodes (Dict.insert node.id node nodes)
+
+
 getParent : String -> Nodes -> Maybe Node
 getParent id (Nodes nodes) =
     Dict.get id nodes
-    |> Maybe.andThen .parent
-    |> Maybe.andThen (\parent -> Dict.get parent nodes)
+        |> Maybe.andThen .parent
+        |> Maybe.andThen (\parent -> Dict.get parent nodes)
+
 
 getRoot : Nodes -> Maybe Node
 getRoot (Nodes nodes) =
     Dict.values nodes
-    |> List.filter (\node -> node.parent == Nothing)
-    |> List.head
+        |> List.filter (\node -> node.parent == Nothing)
+        |> List.head
+
 
 nodeLevel : Node -> Nodes -> Maybe Int
 nodeLevel node nodes =
     nodeLevelId node.id nodes
 
+
 nodeLevelId : String -> Nodes -> Maybe Int
 nodeLevelId id (Nodes nodes) =
-    if (Dict.member id nodes) then
+    if Dict.member id nodes then
         case getParent id (Nodes nodes) of
-            Nothing -> Just 1
-            Just parent -> case nodeLevelId parent.id (Nodes nodes) of
-                Nothing -> Just 2
-                Just depth -> Just (2 + depth)
+            Nothing ->
+                Just 1
+
+            Just parent ->
+                case nodeLevelId parent.id (Nodes nodes) of
+                    Nothing ->
+                        Just 2
+
+                    Just depth ->
+                        Just (2 + depth)
+
     else
-      Nothing
+        Nothing
+
 
 getChildren : Node -> Nodes -> List Node
 getChildren node (Nodes nodes) =
     Dict.values nodes
-    |> List.filter (\node_ -> node_.parent == Just node.id)
+        |> List.filter (\node_ -> node_.parent == Just node.id)
 
+
+getSiblings : Node -> Nodes -> List Node
+getSiblings node (Nodes nodes) =
+    case node.parent of
+        Nothing ->
+            []
+
+        Just parent ->
+            Dict.values nodes
+                |> List.filter (\node_ -> node_.id /= node.id && node_.parent == Just parent)
+
+
+type Orientation
+    = Left
+    | Right
+    | Root
+
+
+calculateOrientation : Node -> Nodes -> Orientation
+calculateOrientation node nodes =
+    case getRoot nodes of
+        Just parent ->
+            if node.x < parent.x then
+                Left
+
+            else
+                Right
+
+        Nothing ->
+            Root
+
+
+calculateYCoordinate : Float -> List Node -> Float
+calculateYCoordinate parentY siblings =
+    getLowerNode siblings
+        |> Maybe.map (\node -> node.y + 60)
+        |> Maybe.withDefault (parentY - 120)
+
+
+getLowerNode : List Node -> Maybe Node
+getLowerNode siblings =
+    List.sortBy .y siblings
+        |> List.reverse
+        |> List.head
+
+
+calculateCoordinates : Node -> Node -> Nodes -> { x : Float, y : Float }
+calculateCoordinates node parent nodes =
+    let
+        parentX =
+            parent.x
+
+        parentY =
+            parent.y
+
+        siblings =
+            getSiblings node nodes
+
+        allNodes =
+            nodesToList nodes
+    in
+    if parent.parent == Nothing then
+        let
+            leftNodes =
+                List.filter (\sibling -> calculateOrientation sibling nodes == Left) allNodes
+
+            rightNodes =
+                List.filter (\sibling -> calculateOrientation sibling nodes == Right) allNodes
+        in
+        if List.length leftNodes <= List.length rightNodes then
+            { x = parentX - 200
+            , y = calculateYCoordinate parentY leftNodes
+            }
+
+        else
+            { x = parentX + 200
+            , y = calculateYCoordinate parentY rightNodes
+            }
+
+    else if calculateOrientation node nodes == Left then
+        { x = parentX - 200
+        , y = calculateYCoordinate parentY siblings
+        }
+
+    else
+        { x = parentX + 200
+        , y = calculateYCoordinate parentY siblings
+        }
