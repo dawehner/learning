@@ -1,2 +1,12 @@
+exec base.IO.printLine (withColour blue "test")
+ls print
+exec base.IO.print (withColour blue "test")
+exec withColour blue "test"
+withColour blue "test"
+addd
+find Text
+find.all base.io
+ls base.io
+:edit 
 find.all Regex
 view .base.

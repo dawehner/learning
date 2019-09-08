@@ -20,13 +20,20 @@ type alias Document =
 type alias Model =
     { documents : RD.WebData (List Document)
     , newDocument : Maybe String
+    , mainFocus : Page
     }
+
+
+type Page
+    = ListDocumentsPage
+    | EditMindmapPage Int
 
 
 init : () -> ( Model, Cmd Msg )
 init _ =
     ( { documents = RD.NotAsked
       , newDocument = Nothing
+      , mainFocus = ListDocumentsPage
       }
     , fetchDocuments
     )
@@ -40,6 +47,7 @@ type Msg
     | AddNewDocumentResponse (RD.WebData Document)
     | DeleteDocument Int
     | DeleteDocumentResponse Int
+    | SwitchPage Page
 
 
 fetchDocuments : Cmd Msg
@@ -122,6 +130,14 @@ update msg model =
 
         DeleteDocumentResponse id ->
             ( { model | documents = RD.map (List.filter (.id >> (/=) id)) model.documents }, Cmd.none )
+
+        SwitchPage page ->
+            case page of
+                ListDocumentsPage ->
+                    ( model, fetchDocuments )
+
+                EditMindmapPage id ->
+                    ( model, fetchFullDocument id )
 
 
 main =

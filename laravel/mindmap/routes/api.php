@@ -19,5 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('/document', 'API\DocumentController@index');
 Route::get('/document/{document}', 'API\DocumentController@show');
+Route::get('/document/{document}/full', 'API\DocumentController@showFull');
 Route::delete('/document/{document}', 'API\DocumentController@destroy');
 Route::post('/document', 'API\DocumentController@store');
+

@@ -1,10 +1,11 @@
 <?php
 
 use App\Document;
+use App\Topic;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class DocumentSeeder extends Seeder
+class TopicSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,7 +14,11 @@ class DocumentSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('mindmap_document')->delete();
+        DB::table('mindmap_topic')->delete();
+
+        $topic = Topic::create([
+            'title' => 'root',
+        ]);
 
         Document::create([
             'title' => 'My initial mindmap',

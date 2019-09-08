@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Document;
+use App\Topic;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -45,8 +46,18 @@ class DocumentController extends Controller
         if ($validator->fails()) {
             return response('', 422);
         }
+
+        $topic = Topic::create([
+            'title' => 'Root',
+        ]);
+        $topic->save();
+        $topic->root_id = $topic->id;
+        $topic->parent_id = null;
+        $topic->save();
+        
         $document = Document::create([
             'title' => $request->input('title'),
+            'root_topic' => $topic->id,
         ]);
         $document
             ->save();
@@ -68,6 +79,7 @@ class DocumentController extends Controller
         return \response()->json([
             'id' => $document->id,
             'title' => $document->title,
+            ''
         ]);
     }
 
