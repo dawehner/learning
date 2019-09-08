@@ -3,16 +3,6 @@ module Mindmap exposing (..)
 import Dict
 
 
-
---type alias MindmapTest = {
---  text : String,
---  x : Float,
---  y : Float,
---  left: MindmapChildren,
---  right: MindMapChildren
---}
-
-
 type alias Node =
     { id : String
     , parent : Maybe String
@@ -21,6 +11,7 @@ type alias Node =
     , width : Float
     , height : Float
     , locked : Bool
+    , text : String
     }
 
 
@@ -30,10 +21,16 @@ emptyNode =
     , parent = Just "no-parent"
     , x = 0
     , y = 0
-    , width = 0
-    , height = 0
+    , width = 50
+    , height = 50
     , locked = False
+    , text = ""
     }
+
+
+mindMapGenerator : Nodes
+mindMapGenerator =
+    Debug.todo "not implemented"
 
 
 withId : String -> Node -> Node
@@ -41,9 +38,19 @@ withId id node =
     { node | id = id }
 
 
+withText : String -> Node -> Node
+withText text node =
+    { node | text = text }
+
+
 withParent : String -> Node -> Node
 withParent id node =
     { node | parent = Just id }
+
+
+withCoords : Float -> Float -> Node -> Node
+withCoords x y node =
+    { node | x = x, y = y }
 
 
 type Nodes
@@ -55,6 +62,11 @@ nodesToList (Nodes nodes) =
     Dict.values nodes
 
 
+nodesToDict : Nodes -> Dict.Dict String Node
+nodesToDict (Nodes nodes) =
+    nodes
+
+
 emptyNodes =
     Nodes <| Dict.empty
 
@@ -63,12 +75,30 @@ addNode id node (Nodes nodes) =
     Nodes (Dict.insert id node nodes)
 
 
-addNodeWithId node (Nodes nodes) =
-    Nodes (Dict.insert node.id node nodes)
+addNodeWithId : Node -> Nodes -> Nodes
+addNodeWithId node nodes =
+    case getParent (Debug.log "node" node) nodes of
+        Just parent ->
+            calculateCoordinates node parent nodes
+                |> (\{ x, y } -> node |> withCoords x y)
+                |> (\node_ -> Dict.insert node.id node_ (nodesToDict nodes))
+                |> Nodes
+
+        Nothing ->
+            nodesToDict nodes
+                |> Dict.insert node.id node
+                |> Nodes
+                |> Debug.log "root"
 
 
-getParent : String -> Nodes -> Maybe Node
-getParent id (Nodes nodes) =
+getParent : Node -> Nodes -> Maybe Node
+getParent node nodes =
+    node.parent
+        |> Maybe.andThen (\parent -> Dict.get parent (nodesToDict nodes))
+
+
+getParentById : String -> Nodes -> Maybe Node
+getParentById id (Nodes nodes) =
     Dict.get id nodes
         |> Maybe.andThen .parent
         |> Maybe.andThen (\parent -> Dict.get parent nodes)
@@ -89,7 +119,7 @@ nodeLevel node nodes =
 nodeLevelId : String -> Nodes -> Maybe Int
 nodeLevelId id (Nodes nodes) =
     if Dict.member id nodes then
-        case getParent id (Nodes nodes) of
+        case getParentById id (Nodes nodes) of
             Nothing ->
                 Just 1
 
@@ -198,3 +228,15 @@ calculateCoordinates node parent nodes =
         { x = parentX + 200
         , y = calculateYCoordinate parentY siblings
         }
+
+
+exampleNodes =
+    Nodes Dict.empty
+        |> addNodeWithId (emptyNode |> withText "root" |> withId "root" |> withCoords 400 300)
+        |> addNodeWithId (emptyNode |> withText "child 11" |> withId "child11" |> withParent "root")
+        |> addNodeWithId
+            (emptyNode |> withText "child 12" |> withId "child12" |> withParent "root")
+        |> addNodeWithId
+            (emptyNode |> withText "child 21" |> withId "child21" |> withParent "root")
+        |> addNodeWithId
+            (emptyNode |> withText "child 22" |> withId "child22" |> withParent "root")

@@ -1,6 +1,8 @@
 module Main exposing (main)
 
 import Browser
+import Color
+import Dict
 import Element as E
 import Element.Input as EI
 import Html
@@ -8,7 +10,13 @@ import Html.Events
 import Http
 import Json.Decode as JD
 import Json.Encode as JE
+import Mindmap
 import RemoteData as RD
+import TypedSvg exposing (circle, svg)
+import TypedSvg.Attributes exposing (cx, cy, fill, r, stroke, strokeWidth, viewBox)
+import TypedSvg.Core
+import TypedSvg.Events
+import TypedSvg.Types exposing (Fill(..), px)
 
 
 type alias Document =
@@ -20,7 +28,8 @@ type alias Document =
 type alias Model =
     { documents : RD.WebData (List Document)
     , newDocument : Maybe String
-    , mainFocus : Page
+    , page : Page
+    , mindmap : Maybe Mindmap.Nodes
     }
 
 
@@ -33,7 +42,8 @@ init : () -> ( Model, Cmd Msg )
 init _ =
     ( { documents = RD.NotAsked
       , newDocument = Nothing
-      , mainFocus = ListDocumentsPage
+      , page = EditMindmapPage 0
+      , mindmap = Just Mindmap.exampleNodes
       }
     , fetchDocuments
     )
@@ -48,6 +58,7 @@ type Msg
     | DeleteDocument Int
     | DeleteDocumentResponse Int
     | SwitchPage Page
+    | AddChild Mindmap.Node
 
 
 fetchDocuments : Cmd Msg
@@ -137,7 +148,20 @@ update msg model =
                     ( model, fetchDocuments )
 
                 EditMindmapPage id ->
-                    ( model, fetchFullDocument id )
+                    ( Debug.todo "implement fetchFullDocument", Cmd.none )
+
+        AddChild parent ->
+            Maybe.map
+                (\nodes ->
+                    Mindmap.addNodeWithId
+                        (Mindmap.emptyNode
+                            |> Mindmap.withParent parent.id
+                            |> Mindmap.withId (parent.id ++ "_" ++ String.fromInt (Mindmap.nodesToList nodes |> List.length))
+                        )
+                        nodes
+                )
+                model.mindmap
+                |> (\nodes -> ( { model | mindmap = nodes }, Cmd.none ))
 
 
 main =
@@ -224,4 +248,56 @@ newDocumentBox maybeTitle =
 view : Model -> Html.Html Msg
 view model =
     E.layout [ E.width E.fill ]
-        (viewDocuments model.newDocument model.documents)
+        (case model.page of
+            ListDocumentsPage ->
+                viewDocuments model.newDocument model.documents
+
+            EditMindmapPage _ ->
+                case model.mindmap of
+                    Just nodes ->
+                        viewMindMap nodes
+
+                    Nothing ->
+                        E.none
+        )
+
+
+viewMindMap : Mindmap.Nodes -> E.Element Msg
+viewMindMap nodes =
+    viewNodes nodes
+        |> svg
+            [ TypedSvg.Attributes.viewBox 0 0 800 600
+            ]
+        |> E.html
+
+
+viewNodes : Mindmap.Nodes -> List (TypedSvg.Core.Svg Msg)
+viewNodes (Mindmap.Nodes nodes) =
+    Dict.map (always viewNode) nodes
+        |> Dict.values
+        |> List.concat
+
+
+viewNode : Mindmap.Node -> List (TypedSvg.Core.Svg Msg)
+viewNode node =
+    [ TypedSvg.ellipse
+        [ TypedSvg.Attributes.cx (TypedSvg.Types.px node.x)
+        , TypedSvg.Attributes.cy (TypedSvg.Types.px node.y)
+        , TypedSvg.Attributes.ry (TypedSvg.Types.px 30)
+        , TypedSvg.Attributes.rx (TypedSvg.Types.px node.width)
+        ]
+        []
+    , TypedSvg.circle
+        [ TypedSvg.Attributes.cx (TypedSvg.Types.px (node.x + 80))
+        , TypedSvg.Attributes.cy (TypedSvg.Types.px node.y)
+        , TypedSvg.Attributes.r (TypedSvg.Types.px 20)
+        , TypedSvg.Events.onClick (AddChild node)
+        ]
+        []
+    , TypedSvg.text_
+        [ TypedSvg.Attributes.x (TypedSvg.Types.px (node.x - (node.width / 2)))
+        , TypedSvg.Attributes.y (TypedSvg.Types.px node.y)
+        , TypedSvg.Attributes.fill (TypedSvg.Types.Fill Color.white)
+        ]
+        [ TypedSvg.Core.text node.text ]
+    ]
