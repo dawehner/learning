@@ -5,6 +5,11 @@ class HackagePackage(scrapy.Item):
     description = scrapy.Field()
     link = scrapy.Field()
 
+    def __init__(self, name: str, description: str, link: str) -> None:
+      self.item['name'] = name
+      self.item['description'] = description
+      self.item['link'] = link
+
 
 class HackageSpider(scrapy.Spider):
     name = 'hackagespider'
