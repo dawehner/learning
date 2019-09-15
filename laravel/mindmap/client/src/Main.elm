@@ -264,9 +264,12 @@ view model =
 
 viewMindMap : Mindmap.Nodes -> E.Element Msg
 viewMindMap nodes =
+    let
+        coords = Mindmap.maxNodes nodes
+    in
     viewNodes nodes
         |> svg
-            [ TypedSvg.Attributes.viewBox 0 0 800 600
+            [ TypedSvg.Attributes.viewBox 0 0 (coords.x * 2) (coords.y * 2)
             ]
         |> E.html
 
@@ -283,14 +286,14 @@ viewNode node =
     [ TypedSvg.ellipse
         [ TypedSvg.Attributes.cx (TypedSvg.Types.px node.x)
         , TypedSvg.Attributes.cy (TypedSvg.Types.px node.y)
-        , TypedSvg.Attributes.ry (TypedSvg.Types.px 30)
+        , TypedSvg.Attributes.ry (TypedSvg.Types.px 15)
         , TypedSvg.Attributes.rx (TypedSvg.Types.px node.width)
         ]
         []
     , TypedSvg.circle
         [ TypedSvg.Attributes.cx (TypedSvg.Types.px (node.x + 80))
         , TypedSvg.Attributes.cy (TypedSvg.Types.px node.y)
-        , TypedSvg.Attributes.r (TypedSvg.Types.px 20)
+        , TypedSvg.Attributes.r (TypedSvg.Types.px 10)
         , TypedSvg.Events.onClick (AddChild node)
         ]
         []

@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="00debf7b-72cd-4cfb-9af1-c515eee6dd9c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/elm.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/elm.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/Main.elm" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Main.elm" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/Mindmap.elm" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Mindmap.elm" afterDir="false" />
     </list>
@@ -27,11 +26,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/client/src/Main.elm">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="515">
-              <caret line="158" column="108" selection-start-line="158" selection-start-column="108" selection-end-line="158" selection-end-column="108" />
-              <folding>
-                <element signature="e#29#43#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="900">
+              <caret line="306" selection-start-line="306" selection-end-line="306" />
             </state>
           </provider>
         </entry>
@@ -39,8 +35,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/client/src/Mindmap.elm">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="481">
-              <caret line="78" column="18" selection-start-line="78" selection-start-column="18" selection-end-line="78" selection-end-column="18" />
+            <state relative-caret-position="4640">
+              <caret line="232" column="7" selection-start-line="232" selection-start-column="7" selection-end-line="232" selection-end-column="7" />
             </state>
           </provider>
         </entry>
@@ -180,47 +176,17 @@
     </include_path>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="960" />
+    <option name="x" value="504" />
     <option name="y" value="23" />
-    <option name="width" value="960" />
-    <option name="height" value="1177" />
+    <option name="width" value="1201" />
+    <option name="height" value="1057" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes>
-      <pane id="Scope" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="mindmap" type="b2602c69:ProjectViewProjectNode" />
-              <item name="mindmap" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="mindmap" type="b2602c69:ProjectViewProjectNode" />
-              <item name="mindmap" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="mindmap" type="b2602c69:ProjectViewProjectNode" />
-              <item name="mindmap" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="mindmap" type="b2602c69:ProjectViewProjectNode" />
-              <item name="mindmap" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
-              <item name="tests" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-    </panes>
+    <panes />
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
@@ -260,7 +226,9 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1567796237237</updated>
-      <workItem from="1567924902354" duration="9710000" />
+      <workItem from="1567924902354" duration="9864000" />
+      <workItem from="1568011772986" duration="18000" />
+      <workItem from="1568044390347" duration="1664000" />
     </task>
     <task id="LOCAL-00001" summary="Progressˆ">
       <created>1567852692041</created>
@@ -319,17 +287,15 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="12369000" />
+    <option name="totallyTimeSpent" value="14205000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="960" y="23" width="960" height="1177" extended-state="0" />
-    <editor active="true" />
+    <frame x="504" y="23" width="1201" height="1057" extended-state="0" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.4291939" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
-      <window_info anchor="bottom" id="Elm Compiler" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3299539" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.3299539" />
@@ -341,11 +307,12 @@
       <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Terminal" order="10" />
-      <window_info anchor="right" id="Elm" />
-      <window_info anchor="right" x="0" y="0" width="190" height="977" id="Documentation" side_tool="true" weight="0.32897604" />
+      <window_info anchor="bottom" id="Elm Compiler" order="11" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Elm" order="3" />
+      <window_info anchor="right" x="0" y="0" width="190" height="977" id="Documentation" order="4" side_tool="true" weight="0.32897604" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -412,9 +379,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
           <caret line="6" column="20" selection-start-line="6" selection-start-column="20" selection-end-line="6" selection-end-column="20" />
-          <folding>
-            <element signature="e#7#24#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -482,9 +446,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="266">
           <caret line="749" column="35" selection-start-line="749" selection-start-column="35" selection-end-line="749" selection-end-column="35" />
-          <folding>
-            <element signature="e#7#37#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -492,9 +453,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="920">
           <caret line="46" column="8" selection-start-line="46" selection-start-column="8" selection-end-line="46" selection-end-column="8" />
-          <folding>
-            <element signature="e#44#61#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -551,9 +509,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="420">
           <caret line="21" column="40" selection-start-line="21" selection-start-column="40" selection-end-line="21" selection-end-column="40" />
-          <folding>
-            <element signature="e#7#45#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -603,9 +558,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="82">
           <caret line="153" column="21" selection-start-line="153" selection-start-column="21" selection-end-line="153" selection-end-column="21" />
-          <folding>
-            <element signature="e#34#70#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -613,13 +565,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="880">
           <caret line="94" selection-start-line="94" selection-end-line="94" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/Mindmap.elm">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="481">
-          <caret line="78" column="18" selection-start-line="78" selection-start-column="18" selection-end-line="78" selection-end-column="18" />
         </state>
       </provider>
     </entry>
@@ -632,11 +577,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/client/src/Main.elm">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="515">
-          <caret line="158" column="108" selection-start-line="158" selection-start-column="108" selection-end-line="158" selection-end-column="108" />
-          <folding>
-            <element signature="e#29#43#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="900">
+          <caret line="306" selection-start-line="306" selection-end-line="306" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/Mindmap.elm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4640">
+          <caret line="232" column="7" selection-start-line="232" selection-start-column="7" selection-end-line="232" selection-end-column="7" />
         </state>
       </provider>
     </entry>

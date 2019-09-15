@@ -230,6 +230,18 @@ calculateCoordinates node parent nodes =
         }
 
 
+maxNodes : Nodes -> { x : Float, y : Float }
+maxNodes (Nodes nodes) =
+    List.foldl
+        (\node { x, y } ->
+            { x = abs node.x |> max x
+            , y = abs node.y |> max y
+            }
+        )
+        { x = 0.0, y = 0.0 }
+        (Dict.values nodes)
+
+
 exampleNodes =
     Nodes Dict.empty
         |> addNodeWithId (emptyNode |> withText "root" |> withId "root" |> withCoords 400 300)
