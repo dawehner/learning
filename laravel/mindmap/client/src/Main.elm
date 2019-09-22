@@ -58,7 +58,7 @@ type Msg
     | DeleteDocument Int
     | DeleteDocumentResponse Int
     | SwitchPage Page
-    | AddChild Mindmap.Node
+    | AddChild Mindmap.Node Mindmap.Orientation
 
 
 fetchDocuments : Cmd Msg
@@ -150,13 +150,15 @@ update msg model =
                 EditMindmapPage id ->
                     ( Debug.todo "implement fetchFullDocument", Cmd.none )
 
-        AddChild parent ->
+        AddChild parent orientation ->
             Maybe.map
                 (\nodes ->
-                    Mindmap.addNodeWithId
+                    -- @TODO figure out adding left / right
+                    Mindmap.addNodeWithId orientation
                         (Mindmap.emptyNode
                             |> Mindmap.withParent parent.id
                             |> Mindmap.withId (parent.id ++ "_" ++ String.fromInt (Mindmap.nodesToList nodes |> List.length))
+                            |> Mindmap.withText "enter title"
                         )
                         nodes
                 )
@@ -265,7 +267,8 @@ view model =
 viewMindMap : Mindmap.Nodes -> E.Element Msg
 viewMindMap nodes =
     let
-        coords = Mindmap.maxNodes nodes
+        coords =
+            Mindmap.maxNodes nodes
     in
     viewNodes nodes
         |> svg
@@ -276,31 +279,61 @@ viewMindMap nodes =
 
 viewNodes : Mindmap.Nodes -> List (TypedSvg.Core.Svg Msg)
 viewNodes (Mindmap.Nodes nodes) =
-    Dict.map (always viewNode) nodes
+    Dict.map (\key node -> viewNode node (Mindmap.Nodes nodes)) nodes
         |> Dict.values
         |> List.concat
 
 
-viewNode : Mindmap.Node -> List (TypedSvg.Core.Svg Msg)
-viewNode node =
+viewNode : Mindmap.Node -> Mindmap.Nodes -> List (TypedSvg.Core.Svg Msg)
+viewNode node nodes =
+    let
+        centerX =
+            node.x
+
+        centerY =
+            node.y
+
+        circleLeft =
+            TypedSvg.circle
+                [ TypedSvg.Attributes.cx (TypedSvg.Types.px (centerX - 80))
+                , TypedSvg.Attributes.cy (TypedSvg.Types.px centerY)
+                , TypedSvg.Attributes.r (TypedSvg.Types.px 10)
+                , TypedSvg.Events.onClick (AddChild node Mindmap.Left)
+                ]
+                []
+
+        circleRight =
+            TypedSvg.circle
+                [ TypedSvg.Attributes.cx (TypedSvg.Types.px (centerX + 80))
+                , TypedSvg.Attributes.cy (TypedSvg.Types.px centerY)
+                , TypedSvg.Attributes.r (TypedSvg.Types.px 10)
+                , TypedSvg.Events.onClick (AddChild node Mindmap.Right)
+                ]
+                []
+
+        mainNode =
+            TypedSvg.text_
+                [ TypedSvg.Attributes.x (TypedSvg.Types.px (node.x - (node.width / 2)))
+                , TypedSvg.Attributes.y (TypedSvg.Types.px centerY)
+                , TypedSvg.Attributes.fill (TypedSvg.Types.Fill Color.white)
+                ]
+                [ TypedSvg.Core.text node.text ]
+    in
     [ TypedSvg.ellipse
-        [ TypedSvg.Attributes.cx (TypedSvg.Types.px node.x)
-        , TypedSvg.Attributes.cy (TypedSvg.Types.px node.y)
+        [ TypedSvg.Attributes.cx (TypedSvg.Types.px centerX)
+        , TypedSvg.Attributes.cy (TypedSvg.Types.px centerY)
         , TypedSvg.Attributes.ry (TypedSvg.Types.px 15)
         , TypedSvg.Attributes.rx (TypedSvg.Types.px node.width)
         ]
         []
-    , TypedSvg.circle
-        [ TypedSvg.Attributes.cx (TypedSvg.Types.px (node.x + 80))
-        , TypedSvg.Attributes.cy (TypedSvg.Types.px node.y)
-        , TypedSvg.Attributes.r (TypedSvg.Types.px 10)
-        , TypedSvg.Events.onClick (AddChild node)
-        ]
-        []
-    , TypedSvg.text_
-        [ TypedSvg.Attributes.x (TypedSvg.Types.px (node.x - (node.width / 2)))
-        , TypedSvg.Attributes.y (TypedSvg.Types.px node.y)
-        , TypedSvg.Attributes.fill (TypedSvg.Types.Fill Color.white)
-        ]
-        [ TypedSvg.Core.text node.text ]
     ]
+        ++ (case Mindmap.calculateOrientation node nodes of
+                Mindmap.Left ->
+                    [ circleLeft, mainNode ]
+
+                Mindmap.Right ->
+                    [ mainNode, circleRight ]
+
+                Mindmap.Root ->
+                    [ circleLeft, mainNode, circleRight ]
+           )

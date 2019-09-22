@@ -1,6 +1,7 @@
 module Mindmap exposing (..)
 
 import Dict
+import Element exposing (onLeft)
 
 
 type alias Node =
@@ -28,6 +29,11 @@ emptyNode =
     }
 
 
+setRoot : Node -> Node
+setRoot node =
+    { node | parent = Nothing }
+
+
 mindMapGenerator : Nodes
 mindMapGenerator =
     Debug.todo "not implemented"
@@ -53,6 +59,15 @@ withCoords x y node =
     { node | x = x, y = y }
 
 
+type alias Coords =
+    { x : Float, y : Float }
+
+
+getCoords : Node -> Coords
+getCoords { x, y } =
+    { x = x, y = y }
+
+
 type Nodes
     = Nodes (Dict.Dict String Node)
 
@@ -75,12 +90,23 @@ addNode id node (Nodes nodes) =
     Nodes (Dict.insert id node nodes)
 
 
-addNodeWithId : Node -> Nodes -> Nodes
-addNodeWithId node nodes =
-    case getParent (Debug.log "node" node) nodes of
+addNodeWithId : Orientation -> Node -> Nodes -> Nodes
+addNodeWithId orientation node nodes =
+    case getParent node nodes of
         Just parent ->
+            let
+                newX =
+                    if orientation == Left then
+                        parent.x - 200
+
+                    else if orientation == Right then
+                        parent.x + 200
+
+                    else
+                        parent.x
+            in
             calculateCoordinates node parent nodes
-                |> (\{ x, y } -> node |> withCoords x y)
+                |> (\{ x, y } -> node |> withCoords newX y)
                 |> (\node_ -> Dict.insert node.id node_ (nodesToDict nodes))
                 |> Nodes
 
@@ -88,7 +114,6 @@ addNodeWithId node nodes =
             nodesToDict nodes
                 |> Dict.insert node.id node
                 |> Nodes
-                |> Debug.log "root"
 
 
 getParent : Node -> Nodes -> Maybe Node
@@ -107,8 +132,14 @@ getParentById id (Nodes nodes) =
 getRoot : Nodes -> Maybe Node
 getRoot (Nodes nodes) =
     Dict.values nodes
+        |> Debug.log "nodes"
         |> List.filter (\node -> node.parent == Nothing)
         |> List.head
+
+
+isRoot : Node -> Bool
+isRoot node =
+    node.parent == Nothing
 
 
 nodeLevel : Node -> Nodes -> Maybe Int
@@ -161,8 +192,8 @@ type Orientation
 calculateOrientation : Node -> Nodes -> Orientation
 calculateOrientation node nodes =
     case getRoot nodes of
-        Just parent ->
-            if node.x < parent.x then
+        Just rootNode ->
+            if node.x < rootNode.x then
                 Left
 
             else
@@ -244,11 +275,34 @@ maxNodes (Nodes nodes) =
 
 exampleNodes =
     Nodes Dict.empty
-        |> addNodeWithId (emptyNode |> withText "root" |> withId "root" |> withCoords 400 300)
-        |> addNodeWithId (emptyNode |> withText "child 11" |> withId "child11" |> withParent "root")
-        |> addNodeWithId
-            (emptyNode |> withText "child 12" |> withId "child12" |> withParent "root")
-        |> addNodeWithId
-            (emptyNode |> withText "child 21" |> withId "child21" |> withParent "root")
-        |> addNodeWithId
-            (emptyNode |> withText "child 22" |> withId "child22" |> withParent "root")
+        |> addNodeWithId Root
+            (emptyNode
+                |> withText "root"
+                |> withId "root"
+                |> withCoords 400 300
+                |> setRoot
+            )
+        |> addNodeWithId Left
+            (emptyNode
+                |> withText "child 11"
+                |> withId "child11"
+                |> withParent "root"
+            )
+        |> addNodeWithId Left
+            (emptyNode
+                |> withText "child 12"
+                |> withId "child12"
+                |> withParent "root"
+            )
+        |> addNodeWithId Right
+            (emptyNode
+                |> withText "child 21"
+                |> withId "child21"
+                |> withParent "root"
+            )
+        |> addNodeWithId Right
+            (emptyNode
+                |> withText "child 22"
+                |> withId "child22"
+                |> withParent "root"
+            )

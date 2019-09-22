@@ -19,15 +19,15 @@
     <elmProjects>
       <project path="$PROJECT_DIR$/client/elm.json" />
     </elmProjects>
-    <settings elmCompilerPath="$USER_HOME$/.nix-profile/bin/elm" elmFormatPath="$USER_HOME$/.nix-profile/bin/elm-format" elmTestPath="/usr/local/bin/elm-test" isElmFormatOnSaveEnabled="false" />
+    <settings elmCompilerPath="$USER_HOME$/.nix-profile/bin/elm" elmFormatPath="$USER_HOME$/.nix-profile/bin/elm-format" elmTestPath="/usr/local/bin/elm-test" isElmFormatOnSaveEnabled="true" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/client/src/Main.elm">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="900">
-              <caret line="306" selection-start-line="306" selection-end-line="306" />
+            <state relative-caret-position="1964">
+              <caret line="302" column="17" selection-start-line="302" selection-start-column="17" selection-end-line="302" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -35,8 +35,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/client/src/Mindmap.elm">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4640">
-              <caret line="232" column="7" selection-start-line="232" selection-start-column="7" selection-end-line="232" selection-end-column="7" />
+            <state relative-caret-position="-212">
+              <caret line="98" column="46" selection-start-line="98" selection-start-column="46" selection-end-line="98" selection-end-column="46" />
+              <folding>
+                <element signature="e#30#41#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -54,6 +57,8 @@
       <find>addNode</find>
       <find>calculateCoordinates</find>
       <find>Color</find>
+      <find>AddChild</find>
+      <find>Orientation</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -81,8 +86,8 @@
         <option value="$PROJECT_DIR$/app/Topic.php" />
         <option value="$PROJECT_DIR$/database/migrations/2019_09_07_104856_add_topic_to_document.php" />
         <option value="$PROJECT_DIR$/client/tests/MindmapTest.elm" />
-        <option value="$PROJECT_DIR$/client/src/Mindmap.elm" />
         <option value="$PROJECT_DIR$/client/src/Main.elm" />
+        <option value="$PROJECT_DIR$/client/src/Mindmap.elm" />
       </list>
     </option>
   </component>
@@ -176,7 +181,7 @@
     </include_path>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="504" />
+    <option name="x" value="659" />
     <option name="y" value="23" />
     <option name="width" value="1201" />
     <option name="height" value="1057" />
@@ -195,7 +200,7 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="yarn" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="org.elm.workspace.ui.ElmWorkspaceConfigurable" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -229,6 +234,7 @@
       <workItem from="1567924902354" duration="9864000" />
       <workItem from="1568011772986" duration="18000" />
       <workItem from="1568044390347" duration="1664000" />
+      <workItem from="1569180637078" duration="1846000" />
     </task>
     <task id="LOCAL-00001" summary="Progressˆ">
       <created>1567852692041</created>
@@ -287,10 +293,11 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="14205000" />
+    <option name="totallyTimeSpent" value="16051000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="504" y="23" width="1201" height="1057" extended-state="0" />
+    <frame x="659" y="23" width="1201" height="1057" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.4291939" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -575,17 +582,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/Main.elm">
+    <entry file="file://$PROJECT_DIR$/client/src/Mindmap.elm">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="900">
-          <caret line="306" selection-start-line="306" selection-end-line="306" />
+        <state relative-caret-position="-212">
+          <caret line="98" column="46" selection-start-line="98" selection-start-column="46" selection-end-line="98" selection-end-column="46" />
+          <folding>
+            <element signature="e#30#41#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/Mindmap.elm">
+    <entry file="file://$PROJECT_DIR$/client/src/Main.elm">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4640">
-          <caret line="232" column="7" selection-start-line="232" selection-start-column="7" selection-end-line="232" selection-end-column="7" />
+        <state relative-caret-position="1964">
+          <caret line="302" column="17" selection-start-line="302" selection-start-column="17" selection-end-line="302" selection-end-column="17" />
         </state>
       </provider>
     </entry>
