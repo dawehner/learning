@@ -261,12 +261,12 @@ calculateCoordinates node parent nodes =
         }
 
 
-maxNodes : Nodes -> { x : Float, y : Float }
+maxNodes : Nodes -> Coords
 maxNodes (Nodes nodes) =
     List.foldl
         (\node { x, y } ->
-            { x = abs node.x |> max x
-            , y = abs node.y |> max y
+            { x = (abs node.x + 50) |> max x
+            , y = (abs node.y + 50) |> max y
             }
         )
         { x = 0.0, y = 0.0 }
