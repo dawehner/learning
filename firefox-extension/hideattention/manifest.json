@@ -1,0 +1,20 @@
+{
+
+  "manifest_version": 2,
+  "name": "Hide attension",
+  "version": "1.0",
+
+  "description": "Hides attension seekers on social media.",
+
+  "icons": {
+    "48": "icons/border-48.png"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["*://*.twitter.com/*", "*://twitter.com/*"],
+      "js": ["hideattention.js"]
+    }
+  ]
+
+}
