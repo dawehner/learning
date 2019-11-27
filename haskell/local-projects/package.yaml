@@ -1,0 +1,41 @@
+name: local-projects
+version: '0.0.0'
+synopsis: Find all local projects, different languages etc.
+description: Find all local projects, different languages etc.
+category: Utiility
+author: Daniel Wehner
+maintainer: dawehner@googlemail.com
+copyright: 2019 Daniel Wehner
+license: MIT
+ghc-options:
+- -Wall
+- -threaded
+- -rtsopts
+# - -with-rtsopts=-N
+- -Wincomplete-uni-patterns
+- -Wincomplete-record-updates
+- -Wcompat
+- -Widentities
+- -Wredundant-constraints
+- -fhide-source-paths
+- -Wmissing-export-lists
+- -Wpartial-fields
+dependencies:
+- base >=4.12.0.0
+- rio
+- directory
+executables:
+  local-projects:
+    main: Main.hs
+    source-dirs: app
+tests:
+  local-projects-test:
+    main: Spec.hs
+    source-dirs: test
+benchmarks:
+  local-projects-benchmark:
+    main: Main.hs
+    source-dirs: benchmark
+    dependencies:
+    - gauge
+tested-with: ghc ==8.6.4

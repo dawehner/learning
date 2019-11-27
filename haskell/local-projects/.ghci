@@ -1,0 +1,4 @@
+:set -fwarn-unused-binds -fwarn-unused-imports
+:set -fno-warn-deprecations 
+:set -isrc
+:load Main
