@@ -1,0 +1,5 @@
+[package]
+
+name = "cvs-reader"
+version = "0.0.1"
+authors = ["Daniel Wehner <daniel@tag1consulting.com>"]

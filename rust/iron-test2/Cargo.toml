@@ -1,0 +1,15 @@
+[package]
+
+name = "iron-test2"
+version = "0.0.1"
+authors = ["Daniel Wehner <daniel@tag1consulting.com>"]
+
+[dependencies.iron]
+version = "*"
+
+[dependencies.time]
+version = "*"
+
+[dependencies]
+router = "*"
+toml = "*"

@@ -1,0 +1,9 @@
+[package]
+
+name = "toml-test1"
+version = "0.0.1"
+authors = ["Daniel Wehner <daniel@tag1consulting.com>"]
+
+[dependencies]
+
+toml = "*"
