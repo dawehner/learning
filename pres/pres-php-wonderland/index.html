@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>HTTP wonderland</title>
+
+    <meta name="description" content="HTTP Wonderland">
+    <meta name="author" content="Daniel Wehner">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/colorbrewer.css">
+    <link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+
+    <!-- Code syntax highlighting -->
+    <!-- <link rel="stylesheet" href="css/highlight-colorbrewer.css"> -->
+    <link rel="stylesheet" href="css/railscasts.css">
+    
+
+    <!-- Printing and PDF exports -->
+    <script>
+var link = document.createElement( 'link' );
+link.rel = 'stylesheet';
+link.type = 'text/css';
+link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!--[if lt IE 9]>
+      <script src="lib/js/html5shiv.js"></script>
+      <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+
+        <section>
+          <h1>HTTP wonderland in PHP</h1>
+        </section>
+
+
+        <section class="muh">
+        <h1 id="daniel-wehner">Daniel
+          <!-- Hello reader ... Arthur -->
+          Wehner</h1>
+        <div class="unfloater">
+        <ul style="margin-left: 180px">
+          <li>Drupal Core contributor</li>
+          <li>Tag1 Consulting, Chapter Three</li>
+          <li>Curios person</li>
+        </ul>
+        <div class="unfloater">
+        </div>
+        <p>
+          <img src="../images/pre.png" alt="left-logo">
+          <img src="../images/logo.png" alt="left-logo">
+          <img src="../images/c3-logo.png" alt="left-logo">
+        </p>
+        </div>
+        </section>
+
+        <section>
+        <h1>HTTP</h1>
+        <h2>HyperText Transfer Protocol</h2>
+        <aside class="notes" data-markdown>
+          * As you know, you all use HTTP every day
+          * What is HTTP exactly?
+          * Its a transfer protocol: you transfer data over the internet
+          * What does it transport: documents with links to each other. Examples (HTTP, of course; but also the windows help AND ...) 
+        </aside>
+        </section>
+        <section data-background="../images/Myst-library_and_ship.jpg" class="Spectral">
+        </section>
+        <section data-background="../images/First_Web_Server.jpg">
+
+        <h1>HTTP history</h1>
+        <!--
+        <h2>HyperText Transfer Protocol</h2>
+
+        <ul>
+          <li> <a href="https://tools.ietf.org/html/rfc1945">HTTP/1.0 (1996) ✝ [RFC 1945]</a></li>
+          <li> <a href="https://tools.ietf.org/html/rfc2616">HTTP/1.1 (1999) ✝ [RFC 2616]</a></li>
+          <li> <a href="https://tools.ietf.org/html/rfc7230">HTTP/1.1 (2014) * [RFC 7230 ... 7235]</a></li>
+          <li> <a href="https://tools.ietf.org/html/rfc7540">HTTP/2.0 (2015) * [RFC 7540  /  7541]</a></li>
+        </ul>
+        -->
+        <aside class="notes" data-markdown>
+          * HTTP: The hypertext transfer protocol
+          * HTTP/1.1 allowed to reuse the same connection multiple times => better performance for pages with more than just one file.
+          * NEW RFC splitted up in 6 logical documents worked out in 2013/2014
+          * Good podcasts about the topics, see attachments
+          * HTTP/2.0 improves speed via various underlying changes, semantic of the protocol doesn't change
+        </aside>
+        </section>
+
+        <section>
+          <img src="../images/server-request-response.svg" width="100%" height="100%" />
+        </section>
+
+        <section class="Spectral">
+          <h2> Message</h2>
+          <pre>
+        $ curl <span class="q1-6">-I </span> <span class="q0-6">https://www.drupal.org</span>
+
+        <span class="q2-6">HTTP/1.1</span> <span class="q3-6">200 OK</span>
+        Cache-Control: no-cache
+        <span class="q4-6">Content-Type: text/html; charset=utf-8</span>
+        Server: Apache
+        Last-modified: Friday, 13 October 2019 05:20:09 GMT
+
+        <span class="q5-6">&lt;html&gt; ... &lt;/html&gt;</span>
+          </pre>
+
+          <ul>
+            <li>
+              <span class="q0-6">URL</span>
+            </li>
+            <li>
+              <span class="q1-6">Header</span>
+            </li>
+            <li>
+              <span class="q2-6">Protocol version</span>, <span class="q3-6">Status code</span>
+            </li>
+            <li>
+              <span class="q4-6">Content-Type</span>
+            </li>
+            <li>
+              <span class="q5-6">Body</span>
+            </li>
+          </ul>
+
+        <aside class="notes" data-markdown>
+          * CURL can be used to introspect HTTP requests
+          * -I flag for showing just the headers
+          * Once the HEADER is sent, it cannot be changed any longer, important!
+          * So what do we see here: URL, the used HTTP version.
+        </aside>
+        </section>
+
+        <section class="Spectral">
+          <h2>URL</h2>
+          <span class="q0-5">http</span>://<span class="q1-5">drupal.org:1234</span><span class="q2-5">/user/1</span><span class="q3-5">?key=value</span><span class="q4-5">#foo</span>
+          <ul>
+            <li><span class="q0-5">schema</span></li>
+            <li><span class="q1-5">authority: user@host:port<span></li>
+            <li><span class="q2-5">path</span></li>
+            <li><span class="q3-5">query</span></li>
+            <li><span class="q4-5">fragment</span></li>
+          </ul>
+        </section>
+    
+        <section>
+          <h2>HTTP Body</h2>
+          <ul>
+            <li>HTML (GET requests)</li>
+            <li>Form data (POST requests)</li>
+            <li>Uploaded files (POST requests)</li>
+            <li>JSON (GET and POST requests)</li>
+            <li>Streaming of data supported</li>
+          </ul>
+        </section>
+
+        <section>
+          <h1>PHP</h1>
+        </section>
+
+        <section data-background="../images/rubish.jpg" class="Spectral">
+          <h1 class="q4-5">
+            The old way (0)
+          </h1>
+        </section>
+
+        <section>
+          <h2>Recieving data</h2>
+          <pre><code class="php">
+print $_GET['q'];
+print $_GET['key']
+print $_POST['bar']
+
+print $_SERVER['information'];
+print $_SERVER['INFORMATION'];
+
+function request_uri() {
+  if (isset($_SERVER['REQUEST_URI'])) {
+    $uri = $_SERVER['REQUEST_URI'];
+  }
+  if (isset($_SERVER['argv'])) {
+    $uri = $_SERVER['SCRIPT_NAME'] . '?' . $_SERVER['argv'][0];
+  }
+  elseif (isset($_SERVER['QUERY_STRING'])) {
+    $uri = $_SERVER['SCRIPT_NAME'] . '?' . $_SERVER['QUERY_STRING'];
+  }
+  else {
+    $uri = $_SERVER['SCRIPT_NAME'];
+  }
+}
+          </code></pre>
+</section>
+
+<section>
+<pre><code>Warning: Cannot modify header information - headers already sent
+by (output started at /some/file.php:12)
+in /some/file.php on line 23
+</code></pre>
+<aside class="notes" data-markdown>
+* Anyone know that guy? Anyone got angry about that?
+* Can we avoid that in the beginning with a better architecture?
+</aside>
+</section>
+
+<section data-background-image="../images/9157146650_9aa27514eb_k.jpg" class="Spectral">
+<h1 class="q0-5">WAT</h1>
+</section>
+
+<section>
+<h2>Sending data</h2>
+<pre><code class="php">header('Location: http://www.example.com/');
+print "body";
+header_remove('Location');
+
+header('Content-Type: application/json');
+$my_json_data = [
+  'title' => 'Hey',
+  'type' => 'page',
+];
+print json_encode($my_json_data);
+          </code></pre>
+
+        <aside class="notes" data-markdown>
+          * Variables are available in PHP
+          * "Easy" to use
+          * No information about available variables
+          * global state => no way to write abstract code
+          * hard to deal with headers
+        </aside>
+        </section>
+
+
+        <section>
+        <h2>Problems</h2>
+        <ul>
+          <li>Global structures</li>
+          <li>No real API</li>
+          <li>Hard to test</li>
+          <li>Hard to write generic code</li>
+        </ul>
+
+        <aside class="notes" data-markdown>
+         * What is generic code. Generic code here means code which interacts with other people's code
+         in a nice way, not like two boxers trying to fight each others.
+        </aside>
+        </section>
+
+      <section class="Spectral">
+      <h1>Using libraries (1)</h1>
+      </section>
+
+        <section class="Spectral">
+          <h2>Some chosen libraries</h2>
+          <ul>
+            <li>Zend</li>
+            <li class="q1-5">Guzzle</li>
+            <li>oauth-server-php</li>
+            <li class="q1-5">Symfony HttpFoundation (common with composer)</li>
+          </ul>
+          <aside class="notes" data-markdown>
+          * many places invented new apis
+          * composer kinda made HttpFoundation one of the most used example
+          </aside>
+        </section>
+
+        <!--<section data-markdown>
+          ## Composer
+          * Dependency managment for PHP
+          ```
+          {
+          "name": "vendor/package",
+          "require": {
+          "symfony/http-foundation": "~2.7"
+          }
+          }
+          ```
+          * Painless reuse of existing libraries http://packagist.org
+          ![left-logo](../images/logo-composer-transparent5.png)
+          ![left-logo](../images/logo-small.png)
+        </section>
+-->
+
+        <section>
+          <h1>Symfony</br> HTTP Foundation</h1>
+          <ul>
+            <li>ezPublish 5</li>
+            <li>Drupal 8</li>
+            <li>PHPBB 3</li>
+            <li>Cantao 4</li.
+          </ul>
+          <!--<img alt="left-logo" src="../images/2ff2ebcbcad718f9cad635cf04d3237e.jpg" /> -->
+          <!-- <img alt="left-logo" src="../images/drupal-8-symfony-2-01-300x300.png" /> -->
+
+        <aside class="notes">
+          * Symfony HTTP foundation
+          * Provides an abstraction of HTTP which orients on HTTP
+          * Used by Drupal and many many other projects
+        </aside>
+        </section>
+
+        <section>
+          <h2>Recieving data</h2>
+          <pre><code class="php">
+$request = Request::createFromGlobals();
+
+print $request->query->get('key');
+print $request->request->get('bar');
+
+print $request->server->get('information');
+print $request->server->get('INFORMATION');
+
+print $request->getPathInfo();
+          </code></pre>
+          <aside class="notes" data-markdown>
+          * Similar to the globals you can get data out of it
+          * First step is usually to convert the current globals presented by PHP into an object using that particular method
+          * but there are cool things like you don't have to care about upper/lowercase handling
+          * globals <-> request, more like HTTP looks like (is that necessarily a good idea??)
+          </aside>
+</section>
+<section>
+<h2>Sending data</h2>
+<pre><code class="php">
+$response = new Response();
+$response->headers->set('Location', 'http://www.example.com');
+$response->setContent('body');
+$response->send();
+
+$my_json_data = [
+  'title' => 'Hey',
+  'type' => 'page',
+];
+$response = new JsonResponse($my_json_data);
+$response->send();
+          </code></pre>
+
+        <aside class="notes" data-markdown>
+          * Write code which can be reused much easier
+          * Nicer API (OOP, autocompletion)
+          * Solves the problem we talked about earlier
+          * Unit testable (no global side effects)
+          * Reusable between packages
+        </aside>
+        </section>
+
+        <section data-markdown>
+          ## Application
+          * Let's build an application:
+          * Retrieves a HTTP request
+          * Convert it to a HTTP response
+        </section>
+
+        <!--
+      <section data-markdown>
+          ## Symfony HTTP Kernel
+          ![](../images/Drupal8Routing.png)
+        </section>
+<aside class="notes">
+* Common abstraction to convert a request to a response
+* How this is done, is implementation detail
+* Problem, How do you extend the behaviour of your application in a framework agnostic way.
+</aside>
+        -->
+
+        <section data-markdown>
+        ## Middleware
+        ![Stack middleware](../images/httpkernel2.svg)
+</section>
+
+        <section data-markdown>
+          # Request data via HTTP
+</section>
+        <section data-markdown>
+          ## Guzzle
+        </section>
+
+        <section>
+<h2>Retrieve data</h2>
+<pre><code class="php">$client = new GuzzleHttp\Client();
+$url = 'https://drupal.org/api-d7/project_issue.json';
+$result = $client->get($url);
+print $result->getStatusCode();
+print json_decode($result->getBody());
+</code></pre>
+        </section>
+
+        <section>
+<h2>Post data</h2>
+<pre><code class="php">// $response = $client->post('http://httpbin.org/post', [
+$response = $client->request('POST', 'http://httpbin.org/post', [
+  'form_params' => [
+    'field_name' => 'abc',
+    'other_field' => '123',
+    'nested_field' => [
+      'nested' => 'hello'
+    ]
+  ]
+]);
+</code></pre>
+<aside class="notes" data-markdown>
+  * You can also post data to a different server
+  * The underlying method is request()
+  * The data is specified as an array
+</aside>
+
+        </section>
+
+
+  <section>
+  <h2>Advanced guzzle</h2>
+
+  <ul>
+<li>React to events
+<pre><code class="php">$promise = $client
+  ->requestAsync('GET',
+      'http://example.com', $options)
+  ->then(function(ResponseInterface $response) {
+      return $response->withStatus(403);
+  });
+</code></pre>
+</li>
+<li>Middlewares</li>
+</ul>
+<aside class="notes" data-markdown>
+  * You can defer the execution of the HTTP request until its actually needed
+  * You can run multiple HTTP methods in a row.
+  * Similar to the application stack there is also a middleware stack with CURL in the middle of it.
+</aside>
+</section>
+
+
+<section>
+<h3>Example middlewares</h3>
+<pre><code class="php">// Cookies
+$options['cookies'] = TRUE;
+// Throw exceptions on error
+$options['http_errors'] = FALSE;
+
+// Redirect
+$options['allow_redirects']['track_redirects'] = TRUE;
+$response->getHeader('X-Guzzle-Redirect-History');
+
+// log, history, your own
+
+// guzzle-services
+</code></pre>
+</section>
+
+<section data-markdown data-background="../images/deep_space.jpg">
+  #PSR-7 (2)
+</section>
+
+<section>
+<h1><a href="http://www.php-fig.org/psr/psr-7/">PSR-7</a></h1>
+<ul>
+  <li>Useable by everyone</li>
+  <li>Consensus in the community</li>
+  <li>Flexible for everyone</li>
+</ul>
+
+<aside class="notes" data-markdown>
+* historically guzzle wanted to not reinvent the wheel again, even they did it multiple times
+* On the other hand people like Matthew from zend wanted to do something similar for server side requests.
+* new PSR (PHP Standard Recommendation) in the FIG (Framework Interoperability Group) (not just frameworks, but also CMSs etc.)
+</aside>
+
+</section>
+
+
+<section class="Spectral">
+  <h2>PSR-7</h2>
+<ul>
+  <li>\Psr\Http\Message\<span class="q0-4">ResponseInterface</span> \Psr\Http\Message\<span class="q1-4">RequestInterface</span> \Psr\Http\Message\<span class="q2-4">MessageInterface</span>
+
+</br>
+</li>
+  <li>\Psr\Http\Message\<span class="q1-4">ServerRequestInterface</span></li>
+  <li>\Psr\Http\Message\<span class="q3-4">UriInterface</span></li>
+</ul>
+<aside class="notes" data-markdown>
+  * Architected like HTTP
+</aside>
+</section>
+
+<section>
+<h2>RequestInterface</h2>
+<pre>
+<code>$request = new \GuzzleHttp\Psr7\Request(
+   $method, $uri, $headers = [], $body = NULL
+);
+$request = new \Zend\Diactoros\Request(
+  $uri, $method, $body, $headers
+); // :(
+
+$request = $request
+  ->withHeader('user-agent',
+    'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)'
+  );
+$request = $request->withMethod('POST');
+$request->getUri()->getPath();
+
+$server_request = new \Zend\Diactoros\ServerRequest(...);
+$server_request->getQueryParams(); // Returns a key value map.
+</code>
+</pre>
+<aside class="notes" data-markdown>
+* guzzle has different constructor than diactoros :(
+* with header returns a new object with just the changed values
+* immutability helps to fix some issues
+</aside>
+</section>
+
+<section>
+<h1>Immutability</h1>
+<aside class="notes" data-markdown>
+  * Origins often in functionality programming
+  * State is encapsulated
+  * Helps to reason about it
+  * functional programming helps to parallilize things up potentially (not necessarily important here though)
+</aside>
+</section>
+
+<section>
+<h2>UriInterface</h2>
+<pre><code>$uri = new \Zend\Diactoros\Uri('https://www.drupal.org');
+$uri = $uri
+  ->withPath('/node/1')
+  ->withQuery('foo=bar');
+(string) $uri;
+
+$uri->getHost();
+$uri->getPort();
+$uri->getScheme();
+</code></pre>
+
+<aside class="notes" data-markdown>
+  * Unlike symfony / PHP itself URI are its own object
+  * You can create a new one using the Diactoros/guzzle library
+  * Its really handy if you just want to manipulate an existing URL you have.
+  * Note: Again, the URI is immutable, so with... returns new instances.
+</aside>
+</section>
+
+
+<!--
+<section data-markdown>
+## Use PSR-7 in your project
+```
+use \Psr\Http\Message\ServerRequestInterface;
+use \Zend\Diactoros\Response\JsonResponse;
+
+public function testController(ServerRequestInterface $request) {
+  return new JsonResponse([
+    'path' => $request->getUri()->getPath()
+  ]);
+}
+```
+</section>
+-->
+
+
+<section>
+<h2>PSR-7 aware middlewares</h2>
+<pre><code class="php">function (RequestInterface $req, ResponseInterface $res,
+          callable $next) use ($logger) {
+  $this->logger->log($req->getUri()->getPath());
+  return $next($req, $res);
+}
+</code></pre>
+<ul>
+  <li><a href="https://github.com/zendframework/zend-stratigility">Stragility</a>
+</li>
+<li><a href="http://www.slimframework.com">Slim framework</a></li>
+<li><a href="http://relayphp.github.io">Relay</a></li>
+</ul>
+</section>
+
+
+
+
+<section data-markdown>
+  # Thank you!
+  # Questions?
+  [Session evaluation (https://events.drupal.org/barcelona2015/sessions/wonderland-http-php)](https://events.drupal.org/barcelona2015/sessions/wonderland-http-php)
+</section>
+
+        <section data-markdown>
+          # Material for more information
+          * http://www.se-radio.net/2015/07/episode-232-mark-nottingham-on-http2/
+          * https://changelog.com/161/
+          * http://symfony.com/doc/current/components/http_foundation/introduction.html
+          * http://www.php-fig.org/psr/psr-7/
+          * https://www.phproundtable.com/episode/psr-7-streams-immutability-middleware-oh-my
+        </section>
+
+      </div>
+
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+
+// Full list of configuration options available at:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+  controls: false,
+  progress: false,
+  history: true,
+  center: true,
+  slideNumber: false,
+  backgroundTransition: 'none',
+  transition: 'none', // none/fade/slide/convex/concave/zoom
+
+  // Optional reveal.js plugins
+  dependencies: [
+  { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+  { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+  { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+  { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+  { src: 'plugin/zoom-js/zoom.js', async: true },
+  { src: 'plugin/notes/notes.js', async: true }
+  ]
+});
+
+    </script>
+
+  </body>
+</html>

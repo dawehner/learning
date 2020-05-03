@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Javascript testing</title>
+
+    <meta name="description" content="HTTP Wonderland">
+    <meta name="author" content="Daniel Wehner">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/colorbrewer.css">
+    <link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+
+    <!-- Code syntax highlighting -->
+    <!-- <link rel="stylesheet" href="css/highlight-colorbrewer.css"> -->
+    <link rel="stylesheet" href="css/railscasts.css">
+    
+
+    <!-- Printing and PDF exports -->
+    <script>
+var link = document.createElement( 'link' );
+link.rel = 'stylesheet';
+link.type = 'text/css';
+link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!--[if lt IE 9]>
+      <script src="lib/js/html5shiv.js"></script>
+      <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+
+        <section>
+          <section>
+            <h1>Testing</h1>
+            <aside class="notes" data-markdown>
+            * Who tests stuff?
+            * Manual testing?
+            * Simpletest?
+            * PHPUnit?
+            * Behat?
+            * Why do you not do it?
+            </aside>
+          </section>
+          <section>
+            <h1>Testing javascript</h1>
+          </section>
+        </section>
+
+        <section class="muh">
+          <h1 id="daniel-wehner">Daniel Wehner</h1>
+            <div class="unfloater">
+            <ul style="margin-left: 180px">
+              <li>Drupal Core contributor</li>
+              <li>Chapter Three, Tag1 Consulting ...</li>
+              <li>Curios person</li>
+            </ul>
+            <div class="unfloater">
+            </div>
+            <p>
+              <img src="../images/pre.png" alt="left-logo">
+              <img src="../images/c3-logo.png" alt="left-logo">
+              <img src="../images/logo.png" alt="left-logo">
+            </p>
+          </div>
+        </section>
+
+        <section>
+          <section>
+            <h1>We are ignorant</h1>
+            <aside class="notes">
+            * The daily life is hard as we are incredible stupid.
+            </aside>
+          </section>
+
+          <section>
+            <blockquote>It worked when I tested it</blockquote>
+            <aside class="notes">
+              Things work on one computer but not on the other, maybe some additional stuff has to be installed / build?
+            </aside>
+          </section>
+
+          <section>
+            <blockquote>It worked last month</blockquote>
+            <aside class="notes">
+              Things that used to work break at some point. We want to reduce the amount of them ...
+            </aside>
+          </section>
+
+          <section>
+              <blockquote>The code is too slow, let's fix that</blockquote>
+              <aside class="notes">
+            We often write really slow code, which is sort of fine, as most of the time we don't need to scale. At some
+               point though we potentially need to scale/fix that code. How do we ensure that things still work?
+               </aside>
+          </section>
+
+          <section>
+            <h3>More problems</h3>
+            <ul>
+              <li>Sites get more complex</li>
+              <li>New members comes into the team</li>
+              <li>Everyone wants to be able to sleep at night</li>
+            </ul>
+            <aside class="notes">
+            * Sites get more and more complex over time
+            * Not a single person knows everything ... how do you document how stuff is supposed to work? 
+              ... for when members come into a team there should be a way for them to figure it out.
+            * Finally we want to not worry about the state, everything should be nice.
+            * Other points: You should be able to iterate more quickly when you no, nothing breaks.
+            </aside>
+          </section>
+        </section>
+
+        <section>
+          <h1>Let's test</h1>
+          <div class="fragment">
+            <h2>End-to-end testing</h2>
+            <h2>Unit testing</h2>
+          </div>
+          <aside class="notes">
+          End-to-end testing tests the entire system, not just a small aspect of it.
+          </aside>
+        </section>
+
+        <section>
+          <h2>End-to-end testing</h2>
+          <ul>
+            <li><span>Behat + Selenium</span><span><img src="assets/547869.png" width="100px" /></span></li>
+            <li>CasperJS <img src="assets/casperjs-logo.png" width="100px" /></li>
+            <li>Drupal BrowserTestBase | JavascriptTestBase </br> (new in Drupal 8.1) <img src="assets/phantomjs_400x400.png" width="100px" /></li>
+          </ul>
+          <aside class="notes">
+          Behat: documentation of the test, client language => tests for free ;;;
+
+          CasperJS: in JS => easier testing of JS ;;;
+
+          There is plenty of documentation out there for the other ones.
+
+          BrowserTestBase|JavscripTestBase: Tools by Drupal ... written in PHP;
+          Sets up the complete Drupal + the module you want to test.
+          Focus on JTB, as it will be useful when you write modules; port stuff.
+          </aside>
+        </section>
+
+        <section>
+        <h3>Browser Test</h3>
+
+        <ul>
+          <li>Based upon PHPUnit / Mink</li>
+          <li>New since Drupal 8</li>
+          <li>Execute via command line or PHPStorm</li>
+        </ul>
+        <aside class="notes">
+          * Installs a fresh drupal
+          * Installs some modules
+          * advantage over simpletest: you can run it via phpstorm ...
+        </aside>
+        </section>
+
+        <section>Browser Test</code>
+      <pre><code class="php">
+// modules/example/tests/src/Function/ExampleTest.php
+
+class ExampleTest extends BrowserTestBase {
+
+  public static $modules = ['example'];
+
+  /**
+   * Tests basic page test.
+   */
+  public function testGoTo() {
+    $account = $this->drupalCreateUser();
+    $this->drupalLogin($account);
+
+    // Visit a Drupal page that requires login.
+    $this->drupalGet('test-page');
+    $this->assertSession()->statusCodeEquals(200);
+
+    // Test page contains some text.
+    $this->assertSession()->pageTextContains('Test page text.');
+  }
+}
+</code></pre>
+        </section>
+
+        <section>
+        <h2>Basic actions</h2>
+        <ul>
+          <li>::setup()</code>
+          <li>drupalGet</li>
+          <li>drupalPostForm</li>
+          <li>clickLink</li>
+        </section>
+
+        <section>
+        <h2>More useful stuff</h2>
+        <ul>
+          <li>drupalCreateUser </br>
+          drupalLogin </br>
+          drupalLogout</li>
+          <li>drupalCreateNode</li>
+        </ul>
+<pre><code>use \Behat\Mink\WebAssert;
+
+$this->webAssert = new WebAssert($this->getSession());
+$this->webAssert->statusCodeEquals(200);
+$this->webAssert->pageTextContains('The content was saved.');
+$this->webAssert->elementsCount('css', 'div.views ul li', 3);
+$this->webAssert->fieldExists('title[0][value]');
+$this->webAssert->checkboxNotChecked('published');
+</code></pre>
+        </section>
+
+        <section>
+          <h2>JavascriptTestBase</h2>
+          <img src="assets/460-phantom_997209c.jpg" />
+          <aside class="notes">
+          Static sites so far ;; 
+          Want to test javascript ;;  
+          You need sort of a browser ;;
+          We use phantomjs ;;
+          based upon webkit, is headless for itself ;;
+          Still take screenshots
+          </aside>
+        </section>
+
+        <section>
+        <h3>JavascriptTestBase</h3>
+        <pre><code class="php">
+// modules/toolbar/tests/src/
+//   FunctionalJavascript/ToolbarIntegrationTest.php
+
+class ToolbarIntegrationTest extends JavascriptTestBase {
+  public static $modules = ['toolbar', 'node'];
+
+  public function testToolbarToggling() {
+    $this->drupalLogin($admin);
+    $this->drupalGet('< front>');
+    $this->assertElementVisible('#toolbar-link-admin_content');
+    $this->click('#toolbar-item-administration');
+    $this->assertElementNotVisible('#toolbar-link-admin_content');
+  }
+}
+</code></pre>
+        <a href="https://www.chapterthree.com/blog/javascript-testing-comes-to-drupal-8">Blog post about running javascript tests</a>
+        </section>
+
+
+        <section>
+        <video controls="controls" width="800" height="600" name="Video Name" src="assets/phantomjs.mov"></video>
+        </section>
+
+        <section>
+        <h3>Run them</h3>
+        <pre><code>phantomjs --ssl-protocol=any --ignore-ssl-errors=true \\
+  vendor/jcalderonzumba/gastonjs/src/Client/main.js 8510 1024 768</code></pre>
+        <pre><code>SIMPLETEST_BASE_URL="http://drupal.loc"
+SIMPLETEST_DB="sqlite://localhost/sites/default/files/.ht.sqlite"</code></pre>
+      <pre><code>$ sudo -u _www ./vendor/bin/phpunit -c core core/modules/toolbar/\\
+tests/src/FunctionalJavascript/ToolbarIntegrationTest.php</code></pre>
+
+<pre><code>Time: 10.25 seconds, Memory: 5.50Mb</code></pre>
+      </section>
+
+      <section>
+        <h3>Run them all</h3>
+        <pre><code>sudo -u _www ./vendor/bin/phpunit -c core modules/example/tests/src</code></pre>
+      </section>
+
+      <section>
+        <section>
+          <h2>Problems with end to end testing</h2>
+        </section>
+        <section>
+        <img src="assets/a72dc7d0d235fa9e5dbfef07b9903e832ab73a9bf6196930eb354f484c6f1d74.jpg" />
+        </section>
+        <section>
+          <h2>Problems with end to end testing</h2>
+          <ul>
+            <li>Tests too much</li>
+            <li>Slow</li>
+            <li>Error prone</li>
+            <li>Feedback cycle</li>
+        </section>
+      </section>
+
+      <section>
+      <h1>Unit testing</h1>
+      </section>
+
+      <section>
+      <blockquote>
+        For a given input expect a given output.
+      </blockquote>
+      </section>
+
+        <section>
+          <h2>Tools</h2>
+          <ul>
+            <li>Qunit</li>
+            <li>Jasmine</li>
+            <li>Mocha</li>
+            <li>Karma</li>
+            <li>Chai</li>
+            <li>Tape</li>
+            <li>more ...</li>
+            <li>even more ... ?</li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h3>Step 0: Think about the problem</h3>
+          <a href="http://todotxt.com">TodoTxt</a>
+          <pre><code>x 2016-04-18 Finish JS testing presentation @dcampEs +js +testing</code></pre>
+        </section>
+
+        <section>
+          <section>
+          <h3>Step 1: Define a test</h3>
+          <pre><code class="javascript">
+// test/todo-parser.js
+var assert = require('chai').assert;
+var TodoParser = require('../todo-parser');
+
+describe('todo-parser', function() {
+  describe('parse', function() {
+    it('parses a simple string', function() {
+      var todo = TodoParser.parse('hello');
+      assert.isOk(todo);
+      assert.equal('hello', todo.text);
+    });
+  });
+});
+</code></pre>
+        <aside class="notes" data-markdown>
+        </aside>
+        </section>
+          <section>
+            <img src="assets/test-result0.png" width="90%" />
+          </section>
+        </section>
+        <section>
+          <section>
+            <h3>Step 2: Make the test pass</h3>
+            <pre><code class="javascript">
+// todo-parser.js
+TodoParser = {
+  parse(string) {
+    var text = string;
+    return new Todo(text);
+  }
+};
+
+// todo.js
+Todo = function(text) {
+  this.text = text;
+};
+  
+</code></pre>
+            </section>
+            <section>
+              <img src="assets/test-result1.png" width="90%" />
+            </section>
+          </section>
+          <section>
+            <h3>Step 3: Write another test</h3>
+            <pre><code class="javascript">
+    it('parse string with priority', function() {
+      var todo = TodoParser.parse('(A) hello');
+      assert.isOk(todo);
+      assert.equal('hello', todo.text);
+      assert.equal('A', todo.priority);
+    });
+
+</code></pre>
+          </section>
+
+          <section>
+            <h3>Step 4: Fix the code</h3>
+          </section>
+
+          <section>
+            <h3>Step 5: Refactor</h3>
+          </section>
+
+          <section>
+          <img src="assets/redgreenrefacor.png" width="80%"/>
+          </section>
+
+
+          <section>
+            <section>
+            <h3>Test driven development (TDD)</h3>
+            </section>
+            <aside class="notes">
+              This kind of testin gis called TDD ...
+            </aside>
+            <section>
+            <h3>Test driven development (TDD)</h3>
+            <ul>
+              <li>Code is testable</li>
+              <li>Code is tested</li>
+              <li>Code is easy to use</li>
+              <li>Less premature optimization</li>
+              <li>Uncle Bob</li>
+            </ul>
+            </section>
+            
+          </section>
+
+          <section>
+            <section data-background-image="assets/Mocha-Coffee.jpg" class="Spectral">
+            </section>
+            <section>
+            <h3>Mocha</h3>
+            <ul>
+              <li>Testing framework</li>
+              <li>No assertions/mocking</li>
+              <li>Runs in the shell</li>
+            </ul>
+            <pre><code class="javascript">
+{
+  "name": "My project",
+  "devDependencies": {
+    "mocha": "^2.4.5",
+    "chai": "^3.5.0"
+  },
+  "scripts": {
+    "test": "node_modules/mocha/bin/mocha",
+    "test-watch": "node_modules/mocha/bin/mocha --watch"
+  }
+}
+</code></pre>
+            <pre><code>--watch
+-R --reporter min,json,xunit,nyan
+</code></pre>
+          </section>
+          <section>
+            <img src="assets/test-result-nyan.png" width="90%" />
+          </section>
+          <section>
+            <img src="assets/test-result-landing.png" width="90%" />
+          </section>
+
+          <section>
+          <h3>Chai</h3>
+          <ul>
+            <li>Assertion library</li>
+            <li>Different flavours:</li>
+            <li>Expect
+            <pre><code class="javascript" style="width: 600px">expect(todo.text).to.equal('hello');
+expect(todo.priority)
+  .to.not.equal('A');
+expect(todo)
+  .to.have.property('text')
+  .and.not.equal('hola');
+</code></pre>
+            </li>
+            <li>Should
+            <pre><code class="javascript" style="width: 600px">
+todo.text.should.equal('hello');
+todo.priority.should.not.equal(A');
+todo.should.have.property('text');
+</code></pre>
+            </li>
+            <li>Assert
+            <pre><code class="javascript" style="width: 600px">assert.equal('hello', todo.text);
+assert.notEqual('A', todo.priority);
+assert.property(todo, 'text');
+</code></pre>
+            </li>
+          </ul>
+          </section>
+
+<!--
+          <section>
+          <h3>Real life example</h3>
+          </section>
+          -->
+
+          <section>
+          <h2>Mocking</h2>
+          <ul>
+            <li>Fake external code (libraries, databases, etc.)</li>
+            <li>Just test your code</li>
+            <li>Shows code with too many dependencies</li>
+            <li>Sinon is a good library for that</li>
+          </ul>
+          </section>
+
+          <section>
+          <h2>Your projects</h2>
+          <ul>
+            <li>Start with testing now</li>
+          </ul>
+          <aside class="notes">
+          Start with testing now, there is no excuse. Behat/CasperJS are good tools.
+          Module authors should use BTB/JTB for their stuff.
+          </aside>
+          </section>
+          <section>
+            <h2>Drupal</h2>
+            <ul>
+              <li>Add a package.json and start unit testing now</li>
+              <li><a href="https://www.drupal.org/node/2702747">Add javascript unit-testing [#2702747]</a></li>
+              <li>State: Research/Experiments</li>
+              <li>Many open questions</li>
+            </ul>
+            <aside class="notes" data-markdown>
+            * You can start using it now. Just add a package.json with the dependencies, run npm install and do it.
+            * There is a core issue ...
+            * Many open questions:
+              * Do we want those testing libraries?
+              * Do we want to run them in the browser?
+              * Other ideas
+            </aside>
+          </section>
+          <section>
+          <h2>¡Gracias!</h2>
+          <h3>Questions?</h3>
+          </section>
+      </div>
+
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+
+// Full list of configuration options available at:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+  controls: false,
+  progress: false,
+  history: true,
+  center: true,
+  slideNumber: false,
+  backgroundTransition: 'none',
+  transition: 'none', // none/fade/slide/convex/concave/zoom
+
+  // Optional reveal.js plugins
+  dependencies: [
+  { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+  { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+  { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+  { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+  { src: 'plugin/zoom-js/zoom.js', async: true },
+  { src: 'plugin/notes/notes.js', async: true }
+  ]
+});
+
+    </script>
+
+  </body>
+</html>

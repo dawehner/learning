@@ -1,0 +1,743 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - The HTML Presentation Framework</title>
+
+		<meta name="description" content="This presentation describes the routing system and a lot of related stuff to it.">
+		<meta name="author" content="Daniel Wehner">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Custom formatting -->
+    <link rel="stylesheet" href="css/custom.css"/>
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+
+        <script src="mbostock-d3-f2347b4/d3.min.js" charset="utf-8"></script>
+        <script src="d3-cloud-master/d3.layout.cloud.js" charset="utf-8"></script>
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+                <section>
+                    <h1>D8 - The successor(s) of hook_menu()</h1>
+                </section>
+                <!--<section>-->
+                  <!--<h3><code>man</code> Daniel Wehner</h3>-->
+                  <!--<ul>-->
+                    <!--<li>Physics student by day</li>-->
+                    <!--<li>Drupal developer by night</li>-->
+                  <!--</ul>-->
+                <!--</section>-->
+                <section data-background="images/2038502257_a9909e42fe_o.jpg">
+                    <h1 style="color: white">Routing</h1>
+                </section>
+                <section>
+                    <section id="tagcloud">
+                        <h2>D7 hook_menu()</h2>
+                        <script src="presentation-js/tagcloud.js"></script>
+                    </section>
+                    <section>
+                        <h2>D7 hook_menu()</h2>
+                        <pre><code data-trim>
+function user_menu() {
+  $items['user'] = array(
+    'title' => 'User account',
+    'title callback' => 'user_menu_title',
+    'page callback' => 'user_page',
+    'access callback' => TRUE,
+    'file' => 'user.pages.inc',
+    'weight' => -10,
+    'menu_name' => 'user-menu',
+  );
+
+  return $items;
+}
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>D7 Page callback</h2>
+                        <pre><code data-trim>
+function user_page() {
+  global $user;
+  if ($user->uid) {
+    return drupal_goto("$user/$user->uid");
+  }
+  else {
+    return drupal_get_form('user_login');
+  }
+}
+                        </code>
+                        </pre>
+                    </section>
+                </section>
+                <section>
+                  <h2>Drupal 8</h2>
+                    <img src="images/symfony_black_03.png" width="40%" />
+                    <img src="images/300px-Druplicon.large.png" width="40%" />
+                </section>
+                <section data-background="images/Don_t_panic.jpg">
+                </section>
+                <section>
+                  <section>
+                    <h2>Routing</h2>
+                    <img src="images/basic-with-routing-white.png" />
+                  </section>
+                  <section>
+                        <h2>... in the past</h2>
+                        <pre><code data-trim>
+function user_page() {
+  global $user;
+  if ($user->uid) {
+    return drupal_goto("$user/$user->uid");
+  }
+  else {
+    return drupal_get_form('user_login');
+  }
+}
+                        </code>
+                        </pre>
+                    </section>
+                  <section>
+                      <h2>D8: Controller</h2>
+                        <pre><code>
+namespace Drupal\user;
+
+use Drupal\Core\Controller\ControllerBase;
+
+class UserController extends ControllerBase {
+
+  public function userPage() {
+    $user = $this->currentUser();
+    if ($user->id()) {
+      $response = $this->redirect('user.view', array('user' => $user->id()));
+    }
+    else {
+      $response = $this->formBuilder()->getForm('Drupal\user\Form\UserLoginForm');
+    }
+    return $response;
+  }
+}
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>D8: $module.routing.yml</h2>
+                      <strike>Page callback</strike>
+                        <pre><code>
+user.page:
+  path: '/user'
+  defaults:
+    _content: '\Drupal\user\Controller\UserController::userPage'
+  requirements:
+    _access: 'TRUE'
+                        </code></pre>
+                    </section>
+                  <section data-background="images/user-view.png"></section>
+                </section>
+                <section>
+                    <section>
+                        <h2>More/advanced routing.yml</h2>
+                    </section>
+                  <section>
+                    <h2>Available controller types</h2>
+                    <pre><code>
+user.page:
+  path: '/user'
+  defaults:
+    _content: '\Drupal\user\Controller\UserController::userPage'
+                    </code></pre>
+                    <ul>
+                      <li><code class="highlight-red">_content</code>:  Content on a page</li>
+                      <li><code class="highlight-red">_form</code>: Forms</li>
+                      <li><code>_controller</code>:  Raw data, like json</li>
+                      <li><code>_entity_view: node.view</code>:  A rendered entity</li>
+                      <li><code>_entity_form: node.add</code>:  An entity edit/add form</li>
+                      <li><code>_entity_list: node</code>:  A list of entities</li>
+                    </ul>
+                  </section>
+                    <section>
+                        <h2>Route parameters</h2>
+                        <ul>
+                            <li><strike>page arguments</strike></li>
+                            <li>Pass <span class="highlight-red">variables</span> from the URL to the route</li>
+                            <li><span class="highlight-red">Convert</span> IDs to entities</li>
+                        </ul>
+                        <pre><code>
+views_ui.form_display:
+  path: '/admin/structure/views/{js}/display/{view}/{display_id}/{type}'
+  defaults:
+    _controller: '\Drupal\views_ui\Form\Ajax\Display::getForm'
+                        </code></pre>
+                        <pre><code>
+class Display extends ViewsFormBase {
+
+public function getForm(ViewInterface $view, $display_id, $js, $type = NULL) {
+    $this->setType($type);
+    // Do all the magic.
+    return parent::getForm($view, $display_id, $js);
+  }
+
+}
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Default values</h2>
+                        <pre><code>
+user.cancel_confirm:
+  path: '/user/{user}/cancel/confirm/{timestamp}/{hashed_pass}'
+  defaults:
+    _content: '\Drupal\user\Controller\UserController::confirmCancel'
+    timestamp: 0
+    hashed_pass: ''
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Title</h2>
+                      <strike>title, title callback</strike>
+                      <strike>drupal_set_title()</strike>
+                        <pre><code>
+user.view:
+  path: '/user/{user}'
+  defaults:
+    _entity_view: 'user.full'
+    _title: User
+    _title_callback: 'Drupal\user\Controller\UserController::userTitle'
+                        </code></pre>
+                      <pre><code>
+  public function content() {
+    $build = array();
+    $build['#markup'] = $this->t('Drupalcamp Vienna, 2013');
+    $build['#title'] = \Drupal::service('date')->format(REQUEST_TIME, 'short');
+  }
+}
+                      </code></pre>
+                    </section>
+                    <section>
+                        <h2>Access checkers</h2>
+                      <strike>access callback, access arguments</strike>
+<pre><code>
+user.admin_account:
+  path: '/admin/people'
+  defaults:
+    _controller: '\Drupal\user\Controller\UserAdmin::userList'
+  requirements:
+    _permission: 'administer users'
+</code></pre>
+                        <ul>
+                            <li>Based upon roles, permissions: <pre><code>_permission: "administer nodes"
+_role: "administrator"</code></pre>
+                            </li>
+                            <li>Based upon access to Entities (view, update, delete)<pre><code>_entity_access: $entity_type.$operation</code></pre> </li>
+                            <li>Everyone!<pre><code>_access: TRUE</code></pre> </li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>Complex access checking</h2>
+                      <ul>
+                        <li>Must match <span class="highlight-red">ALL</span> (default) </li>
+                      <li><span class="highlight-red">ANY</span> must match</li>
+                      </ul>
+                        <pre><code>
+node.add_page:
+  path: '/node/add'
+  defaults:
+    _content: '\Drupal\node\Controller\NodeController::addPage'
+  requirements:
+    _permission: 'administer content types'
+    _node_add_access: 'node'
+  options:
+    _access_mode: 'ANY'
+                        </code></pre>
+                    </section>
+                  </section>
+                  <section>
+                    <section>
+
+                    <h2>ControllerBase</h2>
+                  <pre><code style="word-wrap: break-word">
+namespace Drupal\Core\Controller;
+class ControllerBase {
+  protected function entityManager() { }
+  protected function cache($bin = 'cache') { }
+  protected function config($name) { }
+  protected function keyValue($collection) { }
+  protected function moduleHandler() { }
+  protected function url($route_name, $route_parameters = array(), $options = array()) { }
+  protected function l($text, $route_name, array $parameters = array(), array $options = array()) { }
+  protected function currentUser() { }
+  protected function t($string, array $args = array(), array $options = array()) { }
+  protected function redirect($route_name, array $route_parameters = array(), $status = 302) { }
+}
+                    </code></pre>
+                    </section>
+                    <section>
+                      <h2>ControllerBase example</h2>
+                      <pre><code>
+namespace Drupal\node\Controller;
+
+class NodeController extends ControllerBase {
+  /**
+   * Builds a node page render array.
+   */
+  protected function buildPage(NodeInterface $node) {
+    return array(
+      'nodes' =>
+        $this->entityManager()
+          ->getViewBuilder('node')
+          ->view($node)
+    );
+  }
+
+}
+
+                     </code></pre>
+                    </section>
+                  </section>
+                <section>
+                    <h2>Summary</h2>
+                  <ul>
+                    <li>Register routes via <span class="highlight-red">$module.routing.yml</span></li>
+                    <li>Set a callback via <code class="highlight-red">_content</code>: class::method</li>
+                    <li>Set a title via <code class="highlight-red">_title</code></li>
+                    <li>Set access in <code>requirements</code></li>
+                    <li>Use ControllerBase methods</li>
+                  </ul>
+                </section>
+                <section>
+                    <section>
+                        <h2>Forms</h2>
+                      <img src="images/login.png" />
+                    </section>
+                    <section>
+                      <h2>Forms</h2>
+                      <strike>drupal_get_form(), form callback</strike>
+                      <ul>
+                        <li>Forms are classes</li>
+                        <li>Uses <code>_form</code> instead of <code>_content</code></li>
+                        <li>No method needed</li>
+                      </ul>
+                        <pre><code>
+user.login:
+  path: '/user/login'
+  defaults:
+    _form: '\Drupal\user\Form\UserLoginForm'
+    _title: 'Log in'
+  requirements:
+    _access: 'TRUE'</code></pre>
+                    </section>
+                    <section>
+                        <h2>Example form</h2>
+                        <pre><code>
+class UserLoginForm extends FormBase {
+  public function getFormId() { return 'user_login_form'; }
+
+  public function buildForm(array $form, array &$form_state) {
+    $form['name'] = array(
+      '#type' => 'textfield',
+      '#title' => $this->t('Username'),
+    );
+    $form['pass'] = array(
+      '#type' => 'password',
+      '#title' => $this->t('Password'),
+    );
+    return $form;
+  }
+
+  public function submitForm(array &$form, array &$form_state) {
+    $account = $this->userStorage->load($form_state['uid']);
+    $form_state['redirect_route'] = array(
+      'route_name' => 'user.view',
+      'route_parameters' => array('user' => $account->id()),
+    );
+
+    user_login_finalize($account);
+  }
+}
+                        </code></pre>
+                    </section>
+                  <!--<section>-->
+                    <!--<h2>Forms</h2>-->
+                        <!--<pre><code>-->
+<!--namespace Drupal\Core\Form;-->
+
+<!--interface FormInterface {-->
+
+  <!--public function getFormId();-->
+
+  <!--public function buildForm(array $form, array &$form_state);-->
+
+  <!--public function validateForm(array &$form, array &$form_state);-->
+
+  <!--public function submitForm(array &$form, array &$form_state);-->
+
+<!--}-->
+                        <!--</code></pre>-->
+                  <!--</section>-->
+                    <section>
+                        <h2>Helper forms</h2>
+                        <ul>
+                            <li><code>\Drupal\Core\Form\FormBase</code> </li>
+                            <li><code>\Drupal\Core\Form\ConfigFormBase</code> </li>
+                            <li><code>\Drupal\Core\Form\ConfirmFormBase</code> </li>
+                            <li><code>\Drupal\Core\Entity\EntityFormController</code> </li>
+                        </ul>
+                    </section>
+                </section>
+				<section>
+                    <section>
+                        <h2>Local tasks</h2>
+                        <img src="images/local_tasks.png" />
+                    </section>
+                    <section>
+                        <h2>$module.local_tasks.yml</h2>
+                      <strike>MENU_LOCAL_TASK</strike>
+                        <pre><code>
+user.page:
+  route_name: user.page
+  tab_root_id: user.page
+  title: 'Log in'
+  weight: -10
+user.register:
+  route_name: user.register
+  tab_root_id: user.page
+  title: 'Create new account'
+user.pass:
+  route_name: user.pass
+  tab_root_id: user.page
+  title: 'Request new password'
+                        </code></pre>
+                    </section>
+				</section>
+                <section>
+                    <section>
+                        <h2>Local actions</h2>
+                        <img src="images/local_action.png" />
+                    </section>
+                    <section>
+                        <h2>$module.local_actions.yml</h2>
+                      <strike>MENU_LOCAL_ACTION</strike>
+                        <pre><code>
+node.type_add:
+  route_name: node.type_add
+  title: 'Add content type'
+  appears_on:
+    - node.overview_types
+                        </code></pre>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Contextual links</h2>
+                        <img src="images/contextual_links.png" />
+                    </section>
+                    <section>
+                        <h2>$module.contextual_links.yml</h2>
+                        <pre><code>
+block_configure:
+  title: 'Configure block'
+  route_name: 'block.admin_edit'
+  group: 'block'
+                        </code></pre>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Breadcrumbs</h2>
+                        <img src="images/breadcrumb.png" />
+                    </section>
+                    <section>
+                        <h2>Path based breadcrumb</h2>
+                        <ul>
+                            <li>No need to specify entries in hook_menu()</li>
+                            <li>Path based: <br>
+                                /node/add/<span class="highlight-red">article</span><br>
+                                /node/<span class="highlight-red">add</span><br>
+                                /<span class="highlight-red">node</span><br>
+                                <span class="highlight-red">/</span>
+                            </li>
+                        </ul>
+                    </section>
+                </section>
+                <section>
+                  <section>
+                    <h2>Menu links</h2>
+                    <ul>
+                        <li>Ongoing discussion/work: https://drupal.org/node/2047633 <br><br></li>
+                        <li>Probably hook_default_menu_links() <br><br></li>
+                        <li>Explicit support for parents <br><br></li>
+                    </ul>
+                  </section>
+                  <section>
+                    <h2>Potential example</h2>
+                    <pre><code>
+function user_default_menu_links() {
+  // Registration and login pages.
+  $links['user'] = array(
+    'link_title' => 'My account',
+    'weight' => -10,
+    'route_name' => 'user.page',
+    'menu_name' => 'account',
+  );
+
+  // User listing pages.
+  $links['admin.people'] = array(
+    'link_title' => 'People',
+    'route_name' => 'user.admin_account',
+    'description' => 'Manage user accounts, roles, and permissions.',
+    'parent' => 'admin',
+    'weight' => -4,
+  );
+
+}
+                    </code></pre>
+                  </section>
+                </section>
+                <section>
+                  <section>
+                  <h2>Raw data</h2>
+                  <pre><code>
+{
+  "nid":[ { "value":"1" } ],
+  "title":[ { "value":"DRUPALCAMP VIENNA" } ],
+  "uid":[ { "target_id":"1" } ],
+  "status":[ { "value":"1" }
+  "body":[ { "value":"Connecting Open Minds\r\n22-24. November 2013, Vienna\r\n",
+    "format":"basic_html",
+    "summary":""
+  } ]
+}
+                  </code></pre>
+                  </section>
+                  <section>
+                    <h2> Data controller </h2>
+                    <pre><code>
+user.autocomplete:
+  path: '/user/autocomplete'
+  defaults:
+    _controller: '\Drupal\user\Controller\UserAutocompleteController::autocompleteUser'
+                    </code></pre>
+                    <pre><code>
+class UserAutocompleteController {
+  public function autocompleteUser(Request $request) {
+    $matches = $this->userAutocomplete->getMatches($request->query->get('q'));
+
+    return new JsonResponse($matches);
+  }
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <h2>REST</h2>
+                    <ul>
+                      <li><p><span class="highlight-red">C</span>reate, <span class="highlight-red">R</span>ead, <span class="highlight-red">U</span>pdate and <span class="highlight-red">D</span>elete data via HTTP</p></li>
+                      <li> https://www.youtube.com/watch?v=w6dqzDbY78k </li>
+                    </ul>
+                </section>
+                </section>
+                <section>
+                  <img src="images/benchmark.png" />
+                </section>
+                <section>
+                    <h2>Thank you, any questions?</h2>
+                  Come to the sprints on sunday!
+                </section>
+                <section>
+                  <section>
+                    <h2>Dynamic routes</h2>
+                    <pre><code>
+services:
+  route_subscriber.search:
+    class: Drupal\search\Routing\SearchRouteSubscriber
+    tags:
+      - { name: event_subscriber }
+                    </code></pre>
+                    <pre><code>
+class SearchRouteSubscriber extends RouteSubscriberBase {
+  protected function routes(RouteCollection $collection) {
+    $path = 'search/' . $search_info['path'] . '/{keys}';
+    $defaults = array(
+      '_content' => 'Drupal\search\Controller\SearchController::view',
+      'plugin_id' => $plugin_id,
+      'keys' => '',
+    );
+    $route = new Route($path, $defaults, $requirements);
+    $collection->add('search.view_' . $plugin_id, $route);
+  }
+}
+                    </code></pre>
+                  </section>
+                </section>
+                <section>
+                    <h2>Custom access checkers</h2>
+                    <pre><code>
+services:
+  access_check.permission:
+    class: Drupal\user\Access\PermissionAccessCheck
+    tags:
+      - { name: access_check }
+                    </code></pre>
+                    <pre><code>
+class PermissionAccessCheck implements StaticAccessCheckInterface {
+
+  public function appliesTo() {
+    return array('_permission');
+  }
+
+  public function access(Route $route, Request $request, AccountInterface $account) {
+    $permission = $route->getRequirement('_permission');
+    return $account->hasPermission($permission) ? static::ALLOW : static::DENY;
+  }
+
+}
+                    </code></pre>
+                </section>
+                <section>
+                  <h2>Custom paramconvert</h2>
+                  <pre>
+                    <code>
+paramconverter.vienna:
+  class: Drupal\vienna\ParamConverter
+  tags:
+    - { name: paramconverter, priority: 10 }
+                    </code>
+                    <code>
+class ParamConverter implements ParamConverterInterface {
+  public function applies($definition, $name, Route $route) {
+    // Return
+    return $name == 'vienna.example';
+  }
+  public function convert($value, $definition, $name, array $defaults, Request $request) {
+    // Convert the value.
+  }
+}
+                    </code>
+                  </pre>
+                </section>
+                <section>
+                  <h2>Custom breadcrumb</h2>
+                        <pre><code>
+namespace Drupal\taxonomy;
+
+class TermBreadcrumbBuilder extends BreadcrumbBuilderBase {
+
+  public function build(array $attributes) {
+    if ($attributes[RouteObjectInterface::ROUTE_NAME] == 'taxonomy.term_page') {
+      $term = $attributes['taxonomy_term'];
+      $breadcrumb = array();
+      while ($parents = taxonomy_term_load_parents($term->id())) {
+        $term = array_shift($parents);
+        $breadcrumb[] = $this->l($term->label(), 'taxonomy.term_page', array('taxonomy_term' => $term->id()));
+      }
+      $breadcrumb[] = $this->l($this->t('Home'), '< front >');
+      $breadcrumb = array_reverse($breadcrumb);
+
+      return $breadcrumb;
+    }
+  }
+}
+                        </code></pre>
+                </section>
+                <section>
+                  <h2>$module.services.yml</h2>
+                  <pre><code>
+services:
+  taxonomy_term.breadcrumb:
+  class: Drupal\taxonomy\TermBreadcrumbBuilder
+  tags:
+   - { name: breadcrumb_builder, priority: 1002 }
+                  </code></pre>
+                </section>
+                <section>
+                    <section>
+                        <h2>Theme negotiators</h2>
+                        <ul>
+                            <li>Determine the used theme on a request<br><br></li>
+                            <li><code>theme.negotiator.default</code></li>
+                            <li><code>theme.negotiator.user</code></li>
+                            <li><code>theme.negotiator.admin_theme</code></li>
+                        </ul>
+                    </section>
+
+                    <section>
+                    <h2>Custom negotiator</h2>
+                    <pre><code>
+theme.negotiator.admin_theme:
+  class: Drupal\user\Theme\AdminNegotiator
+  arguments: ['@current_user', '@config.factory', '@entity.manager']
+  tags:
+    - { name: theme_negotiator, priority: -40 }
+                  </code></pre>
+                    <pre><code>
+class AdminNegotiator implements ThemeNegotiatorInterface {
+
+  public function determineActiveTheme(Request $request) {
+    $path = $request->attributes->get('_system_path');
+
+    if ($this->user->hasPermission('view the administration theme') && path_is_admin($path)) {
+      return $this->configFactory->get('system.theme')->get('admin');
+    }
+  }
+
+}
+                    </code></pre>
+                    </section>
+                </section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
