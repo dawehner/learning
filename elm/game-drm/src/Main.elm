@@ -40,6 +40,14 @@ randomPill =
         ]
 
 
+randomColour : Random.Generator Colour
+randomColour =
+    Random.uniform Red
+        [ Blue
+        , Yellow
+        ]
+
+
 randomArea : Random.Generator Area
 randomArea =
     let
@@ -186,13 +194,21 @@ movePillDown ( x1, y1 ) ( x2, y2 ) area =
         y2_ =
             y2 + 1
 
+        b =
+            Debug.log "el1" ( x1, y1 )
+
+        a =
+            Debug.log "el2" ( x2, y2 )
+
         canMove =
-            not (hasInArea ( x1, y1_ ) area)
-                && not (hasInArea ( x2, y2_ ) area)
-                && y1_
-                <= 15
-                && y2_
-                <= 15
+            not (hasInArea (Debug.log "el1" ( x1, y1_ )) area)
+                && not (hasInArea (Debug.log "el2" ( x2, y2_ )) area)
+                && (y1_
+                        <= 15
+                   )
+                && (y2_
+                        <= 15
+                   )
 
         mel1 =
             getFromArea ( x1, y1 ) area
@@ -208,7 +224,7 @@ movePillDown ( x1, y1 ) ( x2, y2 ) area =
                     |> removeFromArea ( x2, y2 )
                     |> setToArea el1 ( x1, y1_ )
                     |> setToArea el2 ( x2, y2_ )
-                    |> checkAreaFor4s
+             -- |> checkAreaFor4s
             )
             mel1
             mel2
@@ -242,21 +258,34 @@ type Colour
 type Msg
     = Frame Float
     | InitArea Area
+    | NewActivePills ( Colour, Colour )
+
+
+generateNewActivePills : Cmd Msg
+generateNewActivePills =
+    Random.generate NewActivePills (Random.map2 (\x y -> ( x, y )) randomColour randomColour)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         InitArea area ->
-            let
-                a_ =
-                    Debug.log "init" area
-            in
             ( { model
                 | area =
                     area
                         |> setToArea (Pill Red) ( 4, 0 )
                         |> setToArea (Pill Red) ( 5, 0 )
+                , activePill = Just ( ( 5, 0 ), ( 4, 0 ) )
+              }
+            , Cmd.none
+            )
+
+        NewActivePills ( c1, c2 ) ->
+            ( { model
+                | area =
+                    model.area
+                        |> setToArea (Pill c1) ( 4, 0 )
+                        |> setToArea (Pill c2) ( 5, 0 )
                 , activePill = Just ( ( 5, 0 ), ( 4, 0 ) )
               }
             , Cmd.none
@@ -273,13 +302,23 @@ update msg model =
                             model.activePill
                             |> Maybe.withDefault ( model.activePill, model.area )
                 in
-                ( { model
-                    | count = model.count + 1
-                    , activePill = activePill_
-                    , area = area_
-                  }
-                , Cmd.none
-                )
+                if activePill_ == Nothing then
+                    ( { model
+                        | count = model.count + 1
+                        , activePill = Nothing
+                        , area = area_
+                      }
+                    , generateNewActivePills
+                    )
+
+                else
+                    ( { model
+                        | count = model.count + 1
+                        , activePill = Debug.log "activePill" activePill_
+                        , area = area_
+                      }
+                    , Cmd.none
+                    )
 
             else
                 ( { model
