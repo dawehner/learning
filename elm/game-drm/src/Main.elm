@@ -3,19 +3,48 @@ module Main exposing (..)
 import Array exposing (Array)
 import Array.Extra
 import Browser
-import Browser.Events exposing (onAnimationFrameDelta)
+import Browser.Events exposing (onAnimationFrameDelta, onKeyUp)
 import Canvas exposing (..)
 import Canvas.Settings exposing (..)
 import Canvas.Settings.Advanced exposing (..)
 import Color
 import Html exposing (Html, div)
 import Html.Attributes exposing (style)
+import Json.Decode as JD
 import Maybe.Extra
 import Random
 
 
 type alias Area =
     Array (Array Pill)
+
+
+type KeyboardDirection
+    = MoveLeft
+    | MoveRight
+    | MoveDown
+    | FlipLeft
+    | FlipRight
+    | Other
+
+
+keyDecoder : JD.Decoder Msg
+keyDecoder =
+    JD.map
+        (\string ->
+            KeyboardEvent
+                (case Debug.log "key" string of
+                    "ArrowLeft" ->
+                        MoveLeft
+
+                    "ArrowRight" ->
+                        MoveRight
+
+                    _ ->
+                        Other
+                )
+        )
+        (JD.field "key" JD.string)
 
 
 initArea : Area
@@ -72,7 +101,10 @@ randomArea =
 
 
 type alias Model =
-    { count : Float, area : Area, activePill : Maybe ( Pos, Pos ) }
+    { count : Float
+    , area : Area
+    , activePill : Maybe ( Pos, Pos )
+    }
 
 
 type Pill
@@ -259,6 +291,7 @@ type Msg
     = Frame Float
     | InitArea Area
     | NewActivePills ( Colour, Colour )
+    | KeyboardEvent KeyboardDirection
 
 
 generateNewActivePills : Cmd Msg
@@ -290,6 +323,104 @@ update msg model =
               }
             , Cmd.none
             )
+
+        KeyboardEvent key ->
+            case key of
+                MoveLeft ->
+                    ( Maybe.map
+                        (\( pos1, pos2 ) ->
+                            let
+                                hitLeftBorder =
+                                    Tuple.first pos1 <= 0 || Tuple.first pos2 <= 0
+
+                                pos1_ =
+                                    if hitLeftBorder then
+                                        pos1
+
+                                    else
+                                        Tuple.mapFirst (\x -> max (x - 1) 0) pos1
+
+                                pos2_ =
+                                    if hitLeftBorder then
+                                        pos2
+
+                                    else
+                                        Tuple.mapFirst (\x -> max (x - 1) 0) pos2
+                            in
+                            Maybe.map2
+                                (\el1 el2 ->
+                                    { model
+                                        | activePill =
+                                            Just
+                                                ( pos1_
+                                                , pos2_
+                                                )
+                                        , area =
+                                            removeFromArea pos1 model.area
+                                                |> removeFromArea pos2
+                                                |> setToArea el1 pos1_
+                                                |> setToArea el2 pos2_
+                                    }
+                                )
+                                (getFromArea pos1 model.area)
+                                (getFromArea pos2 model.area)
+                                |> Maybe.withDefault model
+                        )
+                        model.activePill
+                        |> Maybe.withDefault model
+                    , Cmd.none
+                    )
+
+                MoveRight ->
+                    ( Maybe.map
+                        (\( pos1, pos2 ) ->
+                            let
+                                hitRightBorder =
+                                    Tuple.first pos1 >= 7 || Tuple.first pos2 >= 7
+
+                                pos1_ =
+                                    if hitRightBorder then
+                                        pos1
+
+                                    else
+                                        Tuple.mapFirst (\x -> max (x + 1) 7) pos1
+
+                                pos2_ =
+                                    if hitRightBorder then
+                                        pos2
+
+                                    else
+                                        Tuple.mapFirst (\x -> max (x + 1) 7) pos2
+                            in
+                            Maybe.map2
+                                (\el1 el2 ->
+                                    { model
+                                        | activePill =
+                                            Just
+                                                ( pos1_
+                                                , pos2_
+                                                )
+                                        , area =
+                                            removeFromArea pos1 model.area
+                                                |> removeFromArea pos2
+                                                |> setToArea el1 pos1_
+                                                |> setToArea el2 pos2_
+                                    }
+                                )
+                                (getFromArea pos1 model.area)
+                                (getFromArea pos2 model.area)
+                                |> Maybe.withDefault model
+                        )
+                        model.activePill
+                        |> Maybe.withDefault model
+                    , Cmd.none
+                    )
+
+                MoveDown ->
+                    ( model, Cmd.none )
+
+                _ ->
+                    ( model, Cmd.none )
 
         Frame _ ->
             if modBy 50 (floor model.count) == 0 then
@@ -341,7 +472,7 @@ main =
                 )
         , view = view
         , update = update
-        , subscriptions = \model -> onAnimationFrameDelta Frame
+        , subscriptions = \model -> Sub.batch [ onAnimationFrameDelta Frame, onKeyUp keyDecoder ]
         }
 
 
