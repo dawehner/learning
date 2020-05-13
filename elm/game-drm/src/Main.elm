@@ -33,12 +33,15 @@ keyDecoder =
     JD.map
         (\string ->
             KeyboardEvent
-                (case Debug.log "key" string of
+                (case "key" string of
                     "ArrowLeft" ->
                         MoveLeft
 
                     "ArrowRight" ->
                         MoveRight
+
+                    "ArrowDown" ->
+                        MoveDown
 
                     _ ->
                         Other
@@ -481,7 +484,7 @@ update msg model =
                 else
                     ( { model
                         | count = model.count + 1
-                        , activePill = Debug.log "activePill" activePill_
+                        , activePill = activePill_
                         , area = area_
                       }
                     , Cmd.none
