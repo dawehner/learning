@@ -381,14 +381,14 @@ update msg model =
                                         pos1
 
                                     else
-                                        Tuple.mapFirst (\x -> max (x + 1) 7) pos1
+                                        Tuple.mapFirst (\x -> min (x + 1) 7) pos1
 
                                 pos2_ =
                                     if hitRightBorder then
                                         pos2
 
                                     else
-                                        Tuple.mapFirst (\x -> max (x + 1) 7) pos2
+                                        Tuple.mapFirst (\x -> min (x + 1) 7) pos2
                             in
                             Maybe.map2
                                 (\el1 el2 ->
