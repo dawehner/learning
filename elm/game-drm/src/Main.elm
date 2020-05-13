@@ -140,6 +140,18 @@ removeXRangeFromArea ( x, y ) n area =
         area
 
 
+removeYRangeFromArea : Pos -> Int -> Area -> Area
+removeYRangeFromArea ( x, y ) n area =
+    let
+        range =
+            List.range 0 n
+    in
+    List.foldl
+        (\n_ area_ -> setToArea Empty ( x, y + n_ ) area_)
+        area
+        range
+
+
 setToArea : Pill -> Pos -> Area -> Area
 setToArea a ( x, y ) area =
     Array.Extra.update y
@@ -198,25 +210,51 @@ pos4InColumn x area =
 
 checkAreaFor4s : Area -> Area
 checkAreaFor4s area =
-    List.range 0 15
-        |> List.foldl
-            (\y area_ ->
-                let
-                    result =
-                        pos4InRow y area_
-                in
-                if result == Nothing then
-                    area_
+    let
+        filterRow area0 =
+            List.range 0 15
+                |> List.foldl
+                    (\y area_ ->
+                        let
+                            result =
+                                pos4InRow y area_
+                        in
+                        if result == Nothing then
+                            area_
 
-                else
-                    Maybe.map
-                        (\( pos, count ) ->
-                            removeXRangeFromArea pos count area_
-                        )
-                        result
-                        |> Maybe.withDefault area_
-            )
-            area
+                        else
+                            Maybe.map
+                                (\( pos, count ) ->
+                                    removeXRangeFromArea pos count area_
+                                )
+                                result
+                                |> Maybe.withDefault area_
+                    )
+                    area0
+
+        filterColumn area0 =
+            List.range 0 8
+                |> List.foldl
+                    (\x area_ ->
+                        let
+                            result =
+                                pos4InColumn x area_
+                        in
+                        if result == Nothing then
+                            area_
+
+                        else
+                            Maybe.map
+                                (\( pos, count ) ->
+                                    removeYRangeFromArea pos count area_
+                                )
+                                result
+                                |> Maybe.withDefault area_
+                    )
+                    area0
+    in
+    filterRow area
+        |> filterColumn
 
 
 movePillDown : Pos -> Pos -> Area -> ( Maybe ( Pos, Pos ), Area )
