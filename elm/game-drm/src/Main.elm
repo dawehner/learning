@@ -49,12 +49,7 @@ keyDecoder =
 
 initArea : Area
 initArea =
-    Array.repeat 16
-        (Array.repeat
-            8
-            Empty
-         -- (Array.repeat 4 (Virus Red)) (Array.repeat 4 (Virus Blue))
-        )
+    emptyArea
         |> setToArea (Pill Red) ( 4, 0 )
         |> setToArea (Pill Red) ( 5, 0 )
 
@@ -117,6 +112,15 @@ type alias Pos =
     ( Int, Int )
 
 
+emptyArea : Area
+emptyArea =
+    Array.repeat 16
+        (Array.repeat
+            8
+            Empty
+        )
+
+
 removeFromArea : Pos -> Area -> Area
 removeFromArea =
     setToArea Empty
@@ -161,7 +165,7 @@ pos4InArray array =
     Array.map pillToColur array
         |> Array.foldl
             (\cell ( colour, ( count, currentPos ), pos ) ->
-                if cell == colour then
+                if cell /= None && cell == colour then
                     if count + 1 >= 4 then
                         ( cell, ( count + 1, currentPos + 1 ), Just ( currentPos - count, count + 1 ) )
 
@@ -226,15 +230,9 @@ movePillDown ( x1, y1 ) ( x2, y2 ) area =
         y2_ =
             y2 + 1
 
-        b =
-            Debug.log "el1" ( x1, y1 )
-
-        a =
-            Debug.log "el2" ( x2, y2 )
-
         canMove =
-            not (hasInArea (Debug.log "el1" ( x1, y1_ )) area)
-                && not (hasInArea (Debug.log "el2" ( x2, y2_ )) area)
+            not (hasInArea ( x1, y1_ ) area)
+                && not (hasInArea ( x2, y2_ ) area)
                 && (y1_
                         <= 15
                    )
@@ -256,7 +254,7 @@ movePillDown ( x1, y1 ) ( x2, y2 ) area =
                     |> removeFromArea ( x2, y2 )
                     |> setToArea el1 ( x1, y1_ )
                     |> setToArea el2 ( x2, y2_ )
-             -- |> checkAreaFor4s
+                    |> checkAreaFor4s
             )
             mel1
             mel2
