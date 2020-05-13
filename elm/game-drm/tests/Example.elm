@@ -3,7 +3,7 @@ module Example exposing (..)
 import Array
 import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer, int, list, string)
-import Main
+import Main exposing (Colour(..), Pill(..), setToArea)
 import Test exposing (..)
 
 
