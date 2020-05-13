@@ -33,7 +33,7 @@ keyDecoder =
     JD.map
         (\string ->
             KeyboardEvent
-                (case "key" string of
+                (case string of
                     "ArrowLeft" ->
                         MoveLeft
 
@@ -511,28 +511,32 @@ main =
                 )
         , view = view
         , update = update
-        , subscriptions = \model -> Sub.batch [ onAnimationFrameDelta Frame, onKeyUp keyDecoder ]
+        , subscriptions = \_ -> Sub.batch [ onAnimationFrameDelta Frame, onKeyUp keyDecoder ]
         }
 
 
+width : number
 width =
     400
 
 
+height : number
 height =
     400
 
 
+centerX : Float
 centerX =
     width / 2
 
 
+centerY : Float
 centerY =
     height / 2
 
 
 view : Model -> Html Msg
-view { count, area } =
+view { area } =
     div
         [ style "display" "flex"
         , style "justify-content" "center"
@@ -542,7 +546,7 @@ view { count, area } =
             ( width, height )
             [ style "border" "10px solid rgba(0,0,0,0.1)" ]
             (clearScreen
-                :: render (count / 25) area
+                :: render area
             )
         ]
 
@@ -597,30 +601,7 @@ viewArea h w area =
         |> Array.toList
 
 
-render count area =
-    let
-        size =
-            width / 3
-
-        x =
-            -(size / 2)
-
-        y =
-            -(size / 2)
-
-        iCount =
-            floor count
-
-        -- currentC =
-        --     if modBy 3 iCount == 0 then
-        --         Blue
-        --     else if modBy 3 iCount == 1 then
-        --         Red
-        --     else
-        --         Yellow
-        currentC =
-            Blue
-    in
+render area =
     viewArea width height area
 
 
