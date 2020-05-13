@@ -63,5 +63,18 @@ suite =
                             |> Main.setToArea (Main.Pill Main.Red) ( 0, 6 )
                             |> Main.pos4InColumn 0
                         )
+            , test "4 reds in a different column" <|
+                \_ ->
+                    Expect.equal Nothing
+                        (Main.emptyArea
+                            |> Main.setToArea (Main.Pill Main.Red) ( 0, 0 )
+                            |> Main.setToArea (Main.Pill Main.Blue) ( 0, 1 )
+                            |> Main.setToArea (Main.Pill Main.Red) ( 0, 2 )
+                            |> Main.setToArea (Main.Pill Main.Red) ( 0, 3 )
+                            |> Main.setToArea (Main.Pill Main.Red) ( 0, 4 )
+                            |> Main.setToArea (Main.Pill Main.Red) ( 0, 5 )
+                            |> Main.setToArea (Main.Pill Main.Red) ( 0, 6 )
+                            |> Main.pos4InColumn 1
+                        )
             ]
         ]
