@@ -2,6 +2,8 @@
 
 $keys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
 
+mkdir('/tmp');
+mkdir('/tmp/hex2rgb');
 mkdir('/tmp/hex2rgb/output');
 foreach ($keys as $i0) {
   foreach ($keys as $i1) {
