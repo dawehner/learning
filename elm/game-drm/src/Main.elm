@@ -338,6 +338,38 @@ generateNewActivePills =
     Random.generate NewActivePills (Random.map2 (\x y -> ( x, y )) randomColour randomColour)
 
 
+moveMultipleToRight : List Pos -> Area -> Area
+moveMultipleToRight poss area =
+    List.map
+        (\pos ->
+            getFromArea pos area
+        )
+        poss
+        |> Maybe.Extra.combine
+        |> Maybe.map
+            (\els ->
+                let
+                    elPosPair =
+                        List.map2 Tuple.pair els poss
+
+                    area__ =
+                        List.foldl
+                            (\( _, pos ) area_ ->
+                                removeFromArea pos area_
+                            )
+                            area
+                            elPosPair
+                in
+                List.foldl
+                    (\( el, pos ) area_ ->
+                        setToArea el pos area_
+                    )
+                    area__
+                    elPosPair
+            )
+        |> Maybe.withDefault area
+
+
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
@@ -439,11 +471,7 @@ update msg model =
                                                 ( pos1_
                                                 , pos2_
                                                 )
-                                        , area =
-                                            removeFromArea pos1 model.area
-                                                |> removeFromArea pos2
-                                                |> setToArea el1 pos1_
-                                                |> setToArea el2 pos2_
+                                        , area = moveMultipleToRight [ pos1_, pos2 ] model.area
                                     }
                                 )
                                 (getFromArea pos1 model.area)

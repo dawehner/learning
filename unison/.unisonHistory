@@ -1,3 +1,57 @@
+summary
+update
+view rest.tests.prop1
+test rest.tests
+test
+ls
+namespace .nonEmptyList
+move.term NonEmptyList.NonEmptyList nonEmptyList.NonEmptyList
+list NonEmptyList
+move.term fst .nonEmptyList.fst
+list
+move.term fromList .nonEmptyList.fromList
+list
+namespace .
+list
+test
+add
+add
+update
+edit
+find : (a -> b) -> [a] -> [b]
+list
+add
+find : [a] -> .base.Nat
+find : [a] -> .base.Nat.
+add
+test
+tests
+add
+test
+sample 3 (!nat)
+sample 3 (natIn 0 10)
+update
+edit fst
+test
+find
+move.namespace .fst.tests fst.tests
+find
+move.type .NonEmptyList NonEmptyList
+move.term .fst fst
+namespace nonEmptyList
+add
+view base.List.foldl
+view base.List.foldL
+undo
+view base.List.reverse
+move.term base.List.foldl base.List.foldLeft
+view base.List.foldl
+view 3
+find : [a] -> [a]
+.> find : [a] -> [a]
+exit
+pull https://github.com/unisonweb/base:.releases._M1l base
+exit
 exec base.IO.printLine (withColour blue "test")
 ls print
 exec base.IO.print (withColour blue "test")

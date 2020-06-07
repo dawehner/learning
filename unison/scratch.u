@@ -1,96 +1,66 @@
----- Anything below this line is ignored by Unison.
+map : (a -> b) -> NonEmptyList a -> NonEmptyList b
+map f xs = match xs with
+  NonEmptyList x xs_ -> NonEmptyList (f x) (.base.List.map f xs_)
 
-NonEmptyList.filter f ns = 
-  NonEmptyList.fromList (NonEmptyList.listFilter f (NonEmptyList.toList ns))
+test> map.tests.prop1 = runs 100 'let
+  x = !(natIn 0 1000)
+  xs = !(listOf (natIn 0 100))
+  nE = .fromList x xs
+  f = (+) 1
+  expect (map f nE == (.fromList (f x) (.base.List.map f xs)))
 
-NonEmptyList.listFilter f xs =
-  base.List.foldl (agg x -> if f x then (x +: agg) else agg) [] xs
+size : NonEmptyList a -> .base.Nat
+size xs =
+  match xs with
+    NonEmptyList x xs_ -> 1 + (.base.List.size xs_)
 
-NonEmptyList.map func ns = NonEmptyList (func (NonEmptyList.fst ns)) (base.List.map func (NonEmptyList.rst ns))
+test> size.tests.prop1 = runs 100 'let
+    x = !(natIn 0 1000)
+    xs = !(listOf (natIn 0 100))
+    nE = .fromList x xs
+    expect (size nE == (base.List.size xs + 1))
+  
+rest : NonEmptyList a -> [a]
+rest xs =
+  match xs with
+    NonEmptyList x xs_ -> xs_
 
-NonEmptyList.toList ns = (NonEmptyList.fst ns) base.List.+: (NonEmptyList.rst ns)
+test> rest.tests.prop1 = runs 100 'let
+  x = !(natIn 0 1000)
+  xs = !(listOf (natIn 0 100))
+  nE = .fromList x xs
+  expect (rest nE == xs)
 
-NonEmptyList.foldl f b ns = 
-  NonEmptyList.fromList (base.List.foldl f b (NonEmptyList.toList ns))
+append : NonEmptyList a -> NonEmptyList a -> NonEmptyList a
+append xs ys =
+  fromList (fst xs) (rest xs ++ [fst ys] ++ (rest ys))
 
-NonEmptyList.size ns = 1 + base.List.size (NonEmptyList.rst ns)
-
-test.NonEmptyList.sizeEmpty = run (expect (NonEmptyList.size (NonEmptyList 1 []) == 1))
-test.NonEmptyList.size = run (expect (NonEmptyList.size (NonEmptyList 1 [2, 3]) == 3))
-
-
-NonEmptyList.concat :
-  NonEmptyList.NonEmptyList a
-  -> NonEmptyList.NonEmptyList a
-  -> NonEmptyList.NonEmptyList a
-NonEmptyList.concat ns1 ns2 =
-  use NonEmptyList fst
-  use NonEmptyList.releases.v1 rst
-  use base.List ++ +:
-  base.id (NonEmptyList.NonEmptyList (fst ns1) (rst ns1 ++ (fst ns2 +: rst ns2)))
-
-
-
-type NonEmptyList.NonEmptyList a = NonEmptyList.NonEmptyList a [a]
-
-
----- Anything below this line is ignored by Unison.
-
-
----- Anything below this line is ignored by Unison.
-type .NonEmptyList a = NonEmptyList a [a]
-
-isSingleton ns =
-  case rst ns of
-    [] -> true
-    _ -> false
-
-test> test.NonEmptyList.isSingletonEmpty = run (expect (isSingleton (NonEmptyList 1 []) == true))
-test> test.NonEmptyList.isSingleton = run (expect (isSingleton (NonEmptyList 1 [2, 3]) == false))
-
-toList ns =
-  fst ns +: rst ns
-
-test> test.NonEmptyList.toListEmpty = run (expect (toList (NonEmptyList 1 []) == [1]))
-test> test.NonEmptyList.toList = run (expect (toList (NonEmptyList 1 [2, 3]) == [1, 2, 3]))
-
-tail ns = rst ns
-
-test> test.NonEmptyList.tailEmpty = run(expect(tail (NonEmptyList 1 []) == []))
-test> test.NonEmptyList.tail = run(expect(tail (NonEmptyList 1 [2, 3]) == [2, 3]))
-
-fromList xs = 
-  case xs of
-    [] -> base.Optional.None
-    (x +: xs) -> base.Optional.Some (NonEmptyList x xs)
-
-test> test.NonEmptyList.fromListEmpty = run (expect (fromList [] == base.Optional.None))
-test> test.NonEmptyList.fromList = run (expect (fromList [1, 2, 3] == base.Optional.Some (NonEmptyList 1 [2, 3])))
-
+tet> append.tests.prop1 = runs 100 'let
+  x = !(natIn 0 1000)
+  xs = !(listOf (natIn 0 100))
+  nE = .fromList x xs
+  y = !(natIn 0 1000)
+  ys = !(listOf (natIn 0 100))
+  nE2 = .fromList y ys
+  expect (size (append nE nE2) == (size nE .base.Nat.+ size nE2))
 
 ---- Anything below this line is ignored by Unison.
 
-type .NonEmptyList a = NonEmptyList a [a]
+type NonEmptyList a = NonEmptyList a [a]
 
+fromList : a -> [a] -> NonEmptyList a
+fromList x xs = NonEmptyList x xs
 
-reverse ns1 = 
-  case base.List.reverse (rst ns1) of
-    [] -> ns1
-    (x +: xs) -> NonEmptyList x (xs :+ fst ns1)
+fst : NonEmptyList a -> a
+fst xs =
+  match xs with
+    NonEmptyList.NonEmptyList x ys -> x
 
-test> test.NonEmptyList.reverseSingle = run (expect (reverse (NonEmptyList 1 []) == NonEmptyList 1 []))
-test> test.NonEmptyList.reverseLonger = run (expect (reverse (NonEmptyList 1 [2, 3]) == NonEmptyList 3 [2, 1]))
-    
+use test
 
----- Anything below this line is ignored by Unison.
-
-type .NonEmptyList a = NonEmptyList a [a]
-
-(.++) : .NonEmptyList a -> .NonEmptyList a -> .NonEmptyList a
-ns1 .++ ns2 =
-  use .base.List ++ +:
-  use releases.v1 rst
-  NonEmptyList (fst ns1) (rst ns1 ++ (fst ns2 +: rst ns2))
-
----- Anything below this line is ignored by Unison.
+test> fst.tests.prop1 =
+  go _ = a = !nat
+         b = !nat
+         expect (fst (fromList a [b]) == a)
+  runs 100 go
 
