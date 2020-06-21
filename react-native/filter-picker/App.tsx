@@ -7,23 +7,19 @@ import { createStackNavigator } from '@react-navigation/stack';
 import PickImageScreen from './PickImageScreen';
 import PickFilterScreen from './PickFilterScreen';
 
-interface ImageSource {
-  uri: String
-};
-
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName="PickImage">
         <Stack.Screen
-          name="ImagePick"
+          name="PickImage"
           component={PickImageScreen}
           options={{ title: 'Pick image' }}
         />
         <Stack.Screen
-          name="FilterPick"
+          name="PickFilter"
           component={PickFilterScreen}
           options={{ title: 'Pick filter' }}
         />
