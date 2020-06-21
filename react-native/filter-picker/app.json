@@ -22,7 +22,13 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "todo",
+        "NSCameraUsageDescription": "todo",
+        "NSPhotoLibraryAddUsageDescription": "todo",
+        "NSMicrophoneUsageDescription": "todo"
+      }
     }
   }
 }
