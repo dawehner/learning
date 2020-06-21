@@ -6,6 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import PickImageScreen from './PickImageScreen';
 import PickFilterScreen from './PickFilterScreen';
+import ImageViewScreen from './ImageViewScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -22,6 +23,11 @@ export default function App() {
           name="PickFilter"
           component={PickFilterScreen}
           options={{ title: 'Pick filter' }}
+        />
+        <Stack.Screen
+          name="ImageView"
+          component={ImageViewScreen}
+          options={{ title: 'View Image' }}
         />
       </Stack.Navigator>
     </NavigationContainer>

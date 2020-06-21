@@ -37,7 +37,7 @@ export default function PickImageScreen({ navigation }) {
         // You can also display the image using data:
         // const source = { uri: 'data:image/jpeg;base64,' + response.data };
 
-        navigation.navigate('FilterPick', { uri: source.uri })
+        navigation.navigate('PickFilter', { uri: source.uri })
       }
     });
   }
