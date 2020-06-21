@@ -28,7 +28,12 @@
         "NSCameraUsageDescription": "todo",
         "NSPhotoLibraryAddUsageDescription": "todo",
         "NSMicrophoneUsageDescription": "todo"
-      }
-    }
+      },
+      "bundleIdentifier": "filter-picker"
+    },
+    "android": {
+      "package": "filter-picker"
+    },
+    "entryPoint": "node_modules/expo/AppEntry.js"
   }
 }
