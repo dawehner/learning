@@ -1,15 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Text, ScrollView, View, Button, Image } from 'react-native'
+import React from 'react';
+import { View, Button, Image } from 'react-native'
 import { RouteProp } from '@react-navigation/native';
-import { ToasterCompat } from 'react-native-image-filter-kit'
 import Share from 'react-native-share';
 import Effect from './Effect';
 
-// import { CssGram, ImageFilter } from 'react-native-image-filter-kit';
-
-// type Props = {
-//   uri: string
-// }
 
 type ImageViewScreenRouteProps = RouteProp<
   RootStackParamList,
@@ -20,24 +14,8 @@ type Props = {
   route: ImageViewScreenRouteProps;
 }
 
-// {/* image=
-//           <Image
-//           style={{ width: 320, height: 320 }}
-//           source={{
-//             uri: <CssGram>
-
-//             </CssGram>
-//           }}
-//           resizeMode={'contain'}
-//         /> */}
-
 export default function ImageViewScreen({ route }: Props) {
-
-
   const { uri, filterName } = route.params;
-
-  const imageStyle = { width: 320, height: 320 }
-  const image = (<Image source={{ uri: uri }} style={imageStyle} resizeMode={'contain'} />);
 
   const shareOptions = {
     title: 'Share image',
@@ -50,12 +28,16 @@ export default function ImageViewScreen({ route }: Props) {
   };
 
   return (
-    <View>
-      <Effect effect={filterName}>
-        {image}
+    <View style={{ flex: 1, padding: 10, justifyContent: 'center', alignItems: 'center' }}>
+      <Effect effect={filterName} style={{ flex: 1 }}>
+        <Image
+          source={{ uri: uri }}
+          style={{ height: 320, width: 320, resizeMode: 'contain' }}
+          resizeMode="contain"
+          resizeMethod="resize"
+        />
       </Effect>
       <Button onPress={shareImage} title="Share image" />
     </View>
-
   );
 }

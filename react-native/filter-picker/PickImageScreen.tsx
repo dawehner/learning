@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
+import ImageResizer from 'react-native-image-resizer';
 
 interface ImageSource {
   uri: String
@@ -32,12 +33,15 @@ export default function PickImageScreen({ navigation }) {
       } else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
       } else {
-        const source = { uri: response.uri };
+        console.log({ ImageResizer })
+        ImageResizer.createResizedImage(response.uri, 320, 320, 'JPEG', 100)
+          .then(response2 => {
+            // You can also display the image using data:
+            // const source = { uri: 'data:image/jpeg;base64,' + response.data };
 
-        // You can also display the image using data:
-        // const source = { uri: 'data:image/jpeg;base64,' + response.data };
-
-        navigation.navigate('PickFilter', { uri: source.uri })
+            navigation.navigate('PickFilter', { uri: response2.uri, fullUri: response.uri })
+          })
+          .catch(console.error)
       }
     });
   }
