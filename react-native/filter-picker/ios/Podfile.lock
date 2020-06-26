@@ -1,4 +1,9 @@
 PODS:
+  - Bolts (1.9.0):
+    - Bolts/AppLinks (= 1.9.0)
+    - Bolts/Tasks (= 1.9.0)
+  - Bolts/AppLinks (1.9.0):
+    - Bolts/Tasks
   - Bolts/Tasks (1.9.0)
   - boost-for-react-native (1.63.0)
   - DoubleConversion (1.1.6)
@@ -293,6 +298,7 @@ PODS:
   - Yoga (1.14.0)
 
 DEPENDENCIES:
+  - Bolts
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - EXConstants (from `../node_modules/expo-constants/ios`)
   - EXErrorRecovery (from `../node_modules/expo-error-recovery/ios`)
@@ -548,6 +554,6 @@ SPEC CHECKSUMS:
   UMTaskManagerInterface: cb890c79c63885504ddc0efd7a7d01481760aca2
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: 9d50c8ef0687b82efa299e3e8d6eabc7fbc53963
+PODFILE CHECKSUM: ccabfbc5a897c3140f8a16962cff20d056d9266c
 
 COCOAPODS: 1.9.3

@@ -15,11 +15,11 @@ type Props = {
 }
 
 export default function ImageViewScreen({ route }: Props) {
-  const { uri, filterName } = route.params;
+  const { uri, fullUri, filterName } = route.params;
 
   const shareOptions = {
     title: 'Share image',
-    url: uri,
+    url: fullUri,
   };
   const shareImage = () => {
     Share.open(shareOptions)
@@ -32,7 +32,7 @@ export default function ImageViewScreen({ route }: Props) {
       <Effect effect={filterName} style={{ flex: 1 }}>
         <Image
           source={{ uri: uri }}
-          style={{ height: 320, width: 320, resizeMode: 'contain' }}
+          style={{ height: 400, width: 400, resizeMode: 'contain' }}
           resizeMode="contain"
           resizeMethod="resize"
         />

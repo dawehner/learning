@@ -33,11 +33,12 @@ export default function PickFilterScreen({ route, navigation }: Props) {
   const [effect1, setEffect1] = useState(getRandomItem(EFFECT_OPTIONS).filter)
   const [effect2, setEffect2] = useState(getRandomItem(EFFECT_OPTIONS).filter)
 
-  const pickFilter = (name: string) => {
-    const nextRemainingFilters = remainingFilters.filter(a => a.filter !== name);
+  const favourFilter = (name: string) => {
+    const filterToRemove = name === effect1 ? effect2 : effect1;
+    const nextRemainingFilters = remainingFilters.filter(a => a.filter !== filterToRemove);
 
     if (nextRemainingFilters.length === 0) {
-      navigation.navigate('ImageView', { uri: route.params.fullUri, filterName: name })
+      navigation.navigate('ImageView', { fullUri: route.params.fullUri, uri: route.params.uri, filterName: name })
     }
     else {
       setRemainingFilters(nextRemainingFilters);
@@ -67,7 +68,7 @@ export default function PickFilterScreen({ route, navigation }: Props) {
       <EffectSplit
         effect1={effect1}
         effect2={effect2}
-        pickFilter={pickFilter}
+        pickFilter={e => favourFilter(e)}
         uri={uri}
       >
       </EffectSplit>

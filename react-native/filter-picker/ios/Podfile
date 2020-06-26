@@ -35,8 +35,9 @@ target 'filterpicker' do
   pod 'DoubleConversion', :podspec => "#{rnPrefix}/third-party-podspecs/DoubleConversion.podspec"
   pod 'glog', :podspec => "#{rnPrefix}/third-party-podspecs/glog.podspec"
   pod 'Folly', :podspec => "#{rnPrefix}/third-party-podspecs/Folly.podspec"
-
+  
   # Other native modules
+  pod 'Bolts'
 
   # Automatically detect installed unimodules
   use_unimodules!
