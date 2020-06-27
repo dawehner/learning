@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "filter-picker",
-    "slug": "filter-picker",
+    "name": "filterpicker",
+    "slug": "filterpicker",
     "platforms": [
       "ios",
       "android",
@@ -29,10 +29,10 @@
         "NSPhotoLibraryAddUsageDescription": "todo",
         "NSMicrophoneUsageDescription": "todo"
       },
-      "bundleIdentifier": "filter-picker"
+      "bundleIdentifier": "filterpicker"
     },
     "android": {
-      "package": "filter-picker"
+      "package": "filter.picker"
     },
     "entryPoint": "node_modules/expo/AppEntry.js"
   }

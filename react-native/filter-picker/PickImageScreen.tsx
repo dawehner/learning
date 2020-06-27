@@ -33,7 +33,6 @@ export default function PickImageScreen({ navigation }) {
       } else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
       } else {
-        console.log({ ImageResizer })
         ImageResizer.createResizedImage(response.uri, 320, 320, 'JPEG', 100)
           .then(response2 => {
             // You can also display the image using data:

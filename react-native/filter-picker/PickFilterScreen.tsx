@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Button, Text } from 'react-native'
 import { RouteProp } from '@react-navigation/native';
+import AsyncStorage from '@react-native-community/async-storage';
 import EffectSplit from './EffectSplit';
 import { EFFECT_OPTIONS } from './DataEffect'
 
@@ -15,6 +16,19 @@ type Props = {
 
 function getRandomItem<a>(items: Array<a>) {
   return items[Math.floor(Math.random() * items.length)];
+}
+
+const storeChosenFilter = async (name: string) => {
+  try {
+    const key = '@fp/chosen-filters';
+    let chosenFiltersJson = await AsyncStorage.getItem(key);
+    let chosenFilters = (chosenFiltersJson ? JSON.parse(chosenFiltersJson) : []) || [];
+    chosenFilters.push(name);
+
+    await AsyncStorage.setItem(key, JSON.stringify(chosenFilters))
+  } catch (e) {
+    console.error({ e });
+  }
 }
 
 function shuffleArray<T>(array: Array<T>): Array<T> {
@@ -38,6 +52,7 @@ export default function PickFilterScreen({ route, navigation }: Props) {
     const nextRemainingFilters = remainingFilters.filter(a => a.filter !== filterToRemove);
 
     if (nextRemainingFilters.length === 0) {
+      storeChosenFilter(name);
       navigation.navigate('ImageView', { fullUri: route.params.fullUri, uri: route.params.uri, filterName: name })
     }
     else {

@@ -1,4 +1,4 @@
-package filter-picker;
+package filter.picker;
 
 import android.os.Bundle;
 
