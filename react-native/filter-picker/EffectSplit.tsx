@@ -17,29 +17,35 @@ export default function EffectSplit({ effect1, effect2, uri, pickFilter }: Props
   const image = (<Image source={{ uri: uri }} style={imageStyle} resizeMode={'contain'} />);
   return (
     <View style={{
-      flex: 1,
+      flex: 6,
       flexDirection: 'column',
-      justifyContent: "space-around",
+      // justifyContent: "space-around",
       height: '100%',
     }}>
-      <Text>{effect1}</Text>
-      <TouchableHighlight
-        activeOpacity={0.6}
-        underlayColor="#DDDDDD"
-        onPress={() => pickFilter(effect1)}
-      >
-        <Effect effect={effect1}>{image}</Effect>
-      </TouchableHighlight>
+      <View style={{ flex: 3.5, justifyContent: 'center' }}>
+        <Text style={{ flex: 0.5 }}>{effect1}</Text>
+        <TouchableHighlight
+          style={{ flex: 3 }}
+          activeOpacity={0.6}
+          underlayColor="#DDDDDD"
+          onPress={() => pickFilter(effect1)}
+        >
+          <Effect effect={effect1}>{image}</Effect>
+        </TouchableHighlight>
+      </View>
 
-      <Text>{effect2}</Text>
-      <TouchableHighlight
-        activeOpacity={0.6}
-        underlayColor="#DDDDDD"
-        onPress={() => pickFilter(effect2)}
-      >
-        <Effect effect={effect2}>{image}</Effect>
-      </TouchableHighlight>
 
+      <View style={{ flex: 3.5, justifyContent: 'flex-end' }}>
+        <Text style={{ flex: 0.5 }}>{effect2}</Text>
+        <TouchableHighlight
+          style={{ flex: 3 }}
+          activeOpacity={0.6}
+          underlayColor="#DDDDDD"
+          onPress={() => pickFilter(effect2)}
+        >
+          <Effect effect={effect2}>{image}</Effect>
+        </TouchableHighlight>
+      </View>
     </View>
   )
 }

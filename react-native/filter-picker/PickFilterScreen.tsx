@@ -74,9 +74,9 @@ export default function PickFilterScreen({ route, navigation }: Props) {
   const { uri } = route.params;
 
   return (
-    <View style={{ flex: 1, padding: 10 }}>
-      <Text>{remainingFilters.length} | {EFFECT_OPTIONS.length}</Text>
-      <Button
+    <View style={{ flex: 8, padding: 10 }}>
+      <Text style={{ flex: 0.5 }}>{remainingFilters.length} | {EFFECT_OPTIONS.length}</Text>
+      <Button style={{ flex: 0.5 }}
         title="Shuffle"
         onPress={() => shuffle()}
       />
