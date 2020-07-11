@@ -1,0 +1,21 @@
+{
+  "description": "Allows to look at json, search it etc.",
+  "manifest_version": 2,
+  "name": "Json Search",
+  "version": "1.0",
+  "homepage_url": "https://example.com",
+  "icons": {
+    "48": "icons/border-48.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.local/*"
+      ],
+      "js": [
+        "elm.js",
+        "json-search.js"
+      ]
+    }
+  ]
+}
