@@ -80,21 +80,21 @@ mkNode value =
     }
 
 
-jsonValueDecoder : JD.Decoder Node
-jsonValueDecoder =
+nodeDecoder : JD.Decoder Node
+nodeDecoder =
     JD.oneOf
         [ JD.map (JString >> mkNode) JD.string
         , JD.map (JInt >> mkNode) JD.int
-        , JD.map (addFalseToDict >> JDict >> mkNode) (JD.dict (JD.lazy (\_ -> jsonValueDecoder)))
-        , JD.map (addFalseToArray >> JArray >> mkNode) (JD.array (JD.lazy (\_ -> jsonValueDecoder)))
+        , JD.map (addFalseToDict >> JDict >> mkNode) (JD.dict (JD.lazy (\_ -> nodeDecoder)))
+        , JD.map (addFalseToArray >> JArray >> mkNode) (JD.array (JD.lazy (\_ -> nodeDecoder)))
         ]
 
 
-viewJsonValue : Node -> Html.Html msg
-viewJsonValue json =
+viewNode : Node -> Html.Html msg
+viewNode json =
     Html.table []
         [ Html.tbody []
-            (doViewJsonValue 1 json
+            (doViewNode 1 json
                 |> List.map (\( k, v ) -> Html.tr [] [ Html.td [] k, Html.td [] [ v ] ])
             )
         ]
@@ -127,8 +127,8 @@ viewToggle open =
         []
 
 
-doViewJsonValue : Int -> Node -> List ( List (Html.Html msg), Html.Html msg )
-doViewJsonValue depth json =
+doViewNode : Int -> Node -> List ( List (Html.Html msg), Html.Html msg )
+doViewNode depth json =
     case json.value of
         JString x ->
             [ ( [], Html.text x ) ]
@@ -149,7 +149,7 @@ doViewJsonValue depth json =
 
                         else
                             [ ( [ viewToggle open, key ], Html.text "" ) ]
-                                ++ doViewJsonValue (depth + 1) v
+                                ++ doViewNode (depth + 1) v
                     )
                 |> List.foldl List.append []
 
@@ -166,15 +166,15 @@ doViewJsonValue depth json =
 
                         else
                             [ ( [ viewToggle open, key ], Html.text "" ) ]
-                                ++ doViewJsonValue (depth + 1) v
+                                ++ doViewNode (depth + 1) v
                     )
                 |> List.foldl List.append []
 
 
 main =
-    case JD.decodeString jsonValueDecoder testJson of
+    case JD.decodeString nodeDecoder testJson of
         Ok res ->
-            viewJsonValue res
+            viewNode res
 
         Err _ ->
             Html.text "error"
