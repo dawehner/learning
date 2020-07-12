@@ -3,6 +3,7 @@ module Main exposing (main)
 import Array
 import Dict
 import Html
+import Html.Attributes as HA
 import Json.Decode as JD
 
 
@@ -35,8 +36,8 @@ testJson =
 type JsonValue
     = JString String
     | JInt Int
-    | JArray (Array.Array JsonValue)
-    | JDict (Dict.Dict String JsonValue)
+    | JArray (Array.Array ( Bool, JsonValue ))
+    | JDict (Dict.Dict String ( Bool, JsonValue ))
 
 
 isScalar : JsonValue -> Bool
@@ -52,13 +53,23 @@ isScalar json =
             False
 
 
+addFalseToDict : Dict.Dict a b -> Dict.Dict a ( Bool, b )
+addFalseToDict dict =
+    Dict.map (\_ v -> ( False, v )) dict
+
+
+addFalseToArray : Array.Array b -> Array.Array ( Bool, b )
+addFalseToArray array =
+    Array.map (\v -> ( False, v )) array
+
+
 jsonValueDecoder : JD.Decoder JsonValue
 jsonValueDecoder =
     JD.oneOf
         [ JD.map JString JD.string
         , JD.map JInt JD.int
-        , JD.map JDict (JD.dict (JD.lazy (\_ -> jsonValueDecoder)))
-        , JD.map JArray (JD.array (JD.lazy (\_ -> jsonValueDecoder)))
+        , JD.map (addFalseToDict >> JDict) (JD.dict (JD.lazy (\_ -> jsonValueDecoder)))
+        , JD.map (addFalseToArray >> JArray) (JD.array (JD.lazy (\_ -> jsonValueDecoder)))
         ]
 
 
@@ -67,7 +78,7 @@ viewJsonValue json =
     Html.table []
         [ Html.tbody []
             (doViewJsonValue 1 json
-                |> List.map (\( k, v ) -> Html.tr [] [ Html.td [] [ k ], Html.td [] [ v ] ])
+                |> List.map (\( k, v ) -> Html.tr [] [ Html.td [] k, Html.td [] [ v ] ])
             )
         ]
 
@@ -85,22 +96,36 @@ viewScalar json =
             Html.text ""
 
 
-doViewJsonValue : Int -> JsonValue -> List ( Html.Html msg, Html.Html msg )
+viewToggle : Bool -> Html.Html msg
+viewToggle open =
+    Html.span
+        [ HA.style "background-image" "url('icons/arrow.svg')"
+        , HA.style "background-position" "center"
+        , HA.style "background-size" "10px"
+        , HA.style "height" "14px"
+        , HA.style "width" "14px"
+        , HA.style "line-height" "14px"
+        , HA.style "display" "inline-block"
+        ]
+        []
+
+
+doViewJsonValue : Int -> JsonValue -> List ( List (Html.Html msg), Html.Html msg )
 doViewJsonValue depth json =
     case json of
         JString x ->
-            [ ( Html.text "string", Html.text x ) ]
+            [ ( [], Html.text x ) ]
 
         JInt x ->
-            [ ( Html.text "int", Html.text (String.fromInt x) ) ]
+            [ ( [], Html.text (String.fromInt x) ) ]
 
         JDict dict ->
             Dict.toList dict
                 |> List.map
-                    (\( k, v ) ->
+                    (\( k, ( open, v ) ) ->
                         let
                             key =
-                                Html.text (String.repeat depth " " ++ k)
+                                [ viewToggle open, Html.text k ]
                         in
                         if isScalar v then
                             [ ( key, viewScalar v ) ]
@@ -114,10 +139,10 @@ doViewJsonValue depth json =
         JArray array ->
             Array.toIndexedList array
                 |> List.map
-                    (\( k, v ) ->
+                    (\( k, ( open, v ) ) ->
                         let
                             key =
-                                Html.text (String.repeat depth " " ++ String.fromInt k)
+                                [ viewToggle open, Html.text (String.fromInt k) ]
                         in
                         if isScalar v then
                             [ ( key, viewScalar v ) ]
