@@ -228,7 +228,12 @@ doViewNode json =
 
                         else
                             [ ( td [ indentFromPath v.path ] [ viewToggle v.path open, key ], Html.text "" ) ]
-                                ++ doViewNode v
+                                ++ (if open then
+                                        doViewNode v
+
+                                    else
+                                        []
+                                   )
                     )
                 |> List.foldl List.append []
 
@@ -245,7 +250,12 @@ doViewNode json =
 
                         else
                             [ ( td [ indentFromPath v.path ] [ viewToggle v.path open, key ], Html.text "" ) ]
-                                ++ doViewNode v
+                                ++ (if open then
+                                        doViewNode v
+
+                                    else
+                                        []
+                                   )
                     )
                 |> List.foldl List.append []
 
