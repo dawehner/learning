@@ -1,9 +1,11 @@
 module Main exposing (main)
 
 import Array
+import Browser
 import Dict
-import Html
+import Html exposing (div, td, tr)
 import Html.Attributes as HA
+import Html.Events as HE
 import Json.Decode as JD
 
 
@@ -31,6 +33,10 @@ testJson =
   ]
 }
 """
+
+
+type alias Model =
+    Node
 
 
 type alias Path =
@@ -79,7 +85,13 @@ addPathToNode parent node =
                         (\k ( b, v ) ->
                             let
                                 path =
-                                    parent ++ "." ++ String.fromInt k
+                                    (if parent == "" then
+                                        ""
+
+                                     else
+                                        parent ++ "."
+                                    )
+                                        ++ String.fromInt k
                             in
                             ( b
                             , addPathToNode path v
@@ -96,7 +108,13 @@ addPathToNode parent node =
                         (\k ( b, v ) ->
                             let
                                 path =
-                                    parent ++ "." ++ k
+                                    (if parent == "" then
+                                        ""
+
+                                     else
+                                        parent ++ "."
+                                    )
+                                        ++ k
                             in
                             ( b
                             , addPathToNode path v
@@ -134,12 +152,12 @@ nodeDecoder =
         ]
 
 
-viewNode : Node -> Html.Html msg
+viewNode : Node -> Html.Html Msg
 viewNode json =
     Html.table []
         [ Html.tbody []
-            (doViewNode 1 json
-                |> List.map (\( k, v ) -> Html.tr [] [ Html.td [] k, Html.td [] [ v ] ])
+            (doViewNode json
+                |> List.map (\( k, v ) -> Html.tr [] [ k, td [] [ v ] ])
             )
         ]
 
@@ -157,28 +175,45 @@ viewScalar json =
             Html.text ""
 
 
-viewToggle : Bool -> Html.Html msg
-viewToggle open =
+viewToggle : Path -> Bool -> Html.Html Msg
+viewToggle path open =
     Html.span
-        [ HA.style "background-image" "url('icons/arrow.svg')"
-        , HA.style "background-position" "center"
-        , HA.style "background-size" "10px"
-        , HA.style "height" "14px"
-        , HA.style "width" "14px"
-        , HA.style "line-height" "14px"
-        , HA.style "display" "inline-block"
-        ]
+        ([ HA.style "background-image" "url('icons/arrow.svg')"
+         , HA.style "background-position" "center"
+         , HA.style "background-size" "10px"
+         , HA.style "height" "14px"
+         , HA.style "width" "14px"
+         , HA.style "line-height" "14px"
+         , HA.style "display" "inline-block"
+         , HE.onClick (TogglePath path (not open))
+         ]
+            ++ (if open then
+                    [ HA.style "transform" "rotate(-90deg)" ]
+
+                else
+                    []
+               )
+        )
         []
 
 
-doViewNode : Int -> Node -> List ( List (Html.Html msg), Html.Html msg )
-doViewNode depth json =
+indentFromPath : Path -> Html.Attribute msg
+indentFromPath path =
+    let
+        depth =
+            String.split "." path |> List.length
+    in
+    HA.style "padding-inline-start" ((8 * depth |> String.fromInt) ++ "px")
+
+
+doViewNode : Node -> List ( Html.Html Msg, Html.Html msg )
+doViewNode json =
     case json.value of
         JString x ->
-            [ ( [], Html.text x ) ]
+            [ ( div [] [], Html.text x ) ]
 
         JInt x ->
-            [ ( [], Html.text (String.fromInt x) ) ]
+            [ ( div [] [], Html.text (String.fromInt x) ) ]
 
         JDict dict ->
             Dict.toList dict
@@ -189,11 +224,11 @@ doViewNode depth json =
                                 Html.text k
                         in
                         if isScalar v.value then
-                            [ ( [ key ], viewScalar v.value ) ]
+                            [ ( td [ indentFromPath v.path ] [ key ], viewScalar v.value ) ]
 
                         else
-                            [ ( [ viewToggle open, key ], Html.text "" ) ]
-                                ++ doViewNode (depth + 1) v
+                            [ ( td [ indentFromPath v.path ] [ viewToggle v.path open, key ], Html.text "" ) ]
+                                ++ doViewNode v
                     )
                 |> List.foldl List.append []
 
@@ -206,20 +241,86 @@ doViewNode depth json =
                                 Html.text (String.fromInt k)
                         in
                         if isScalar v.value then
-                            [ ( [ key ], viewScalar v.value ) ]
+                            [ ( td [ indentFromPath v.path ] [ key ], viewScalar v.value ) ]
 
                         else
-                            [ ( [ viewToggle open, key ], Html.text "" ) ]
-                                ++ doViewNode (depth + 1) v
+                            [ ( td [ indentFromPath v.path ] [ viewToggle v.path open, key ], Html.text "" ) ]
+                                ++ doViewNode v
                     )
                 |> List.foldl List.append []
 
 
+type Msg
+    = Noop
+    | TogglePath Path Bool
+
+
+update : Msg -> Model -> Model
+update msg model =
+    case msg of
+        Noop ->
+            model
+
+        TogglePath path open ->
+            updateOpenNode path open model
+
+
+updateOpenNode : Path -> Bool -> Node -> Node
+updateOpenNode path open node =
+    case node.value of
+        JArray xs ->
+            { node
+                | value =
+                    JArray <|
+                        Array.indexedMap
+                            (\k ( b, v ) ->
+                                if v.path == path then
+                                    ( open, v )
+
+                                else
+                                    ( b, updateOpenNode path open v )
+                            )
+                            xs
+            }
+
+        JDict ds ->
+            { node
+                | value =
+                    JDict <|
+                        Dict.map
+                            (\k ( b, v ) ->
+                                if v.path == path then
+                                    ( open, v )
+
+                                else
+                                    ( b, updateOpenNode path open v )
+                            )
+                            ds
+            }
+
+        _ ->
+            node
+
+
+view : Model -> Html.Html Msg
+view =
+    viewNode
+
+
+main : Program () Model Msg
 main =
     case JD.decodeString nodeDecoder testJson of
         Ok res ->
-            addPathToNode "" res
-                |> viewNode
+            Browser.sandbox
+                { init =
+                    addPathToNode "" res
+                , update = update
+                , view = view
+                }
 
         Err _ ->
-            Html.text "error"
+            Browser.sandbox
+                { init = JString "" |> mkNode
+                , update = \a b -> b
+                , view = \x -> Html.text "error"
+                }
