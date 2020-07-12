@@ -39,7 +39,7 @@ type alias Path =
 
 type alias Node =
     { value : JsonValue
-    , keyPath : Path
+    , path : Path
     }
 
 
@@ -62,23 +62,50 @@ isScalar json =
         _ ->
             False
 
-addPathToNode : KeyPath -> Node -> Node
+
+addPathToNode : Path -> Node -> Node
 addPathToNode parent node =
-  case node.value of
-    JString s -> node
-    JInt i -> node
-    JArray xs -> Array.indexedMap (\k v -> 
-      let keyPath = parent ++ '.' ++ (String.fromInt k)
-      { v | keyPath = keyPath
-      , value = addPathToNode keyPath v
-      }
-      )
-    JDict ds -> Dict.map (\k v -> 
-      let keyPath = parent ++ '.' ++ k
-      { v | keyPath = keyPath
-      , value = addPathToNode keyPath v
-      }
-      
+    case node.value of
+        JString s ->
+            { node | path = parent }
+
+        JInt i ->
+            { node | path = parent }
+
+        JArray xs ->
+            { value =
+                JArray <|
+                    Array.indexedMap
+                        (\k ( b, v ) ->
+                            let
+                                path =
+                                    parent ++ "." ++ String.fromInt k
+                            in
+                            ( b
+                            , addPathToNode path v
+                            )
+                        )
+                        xs
+            , path = parent
+            }
+
+        JDict ds ->
+            { value =
+                JDict <|
+                    Dict.map
+                        (\k ( b, v ) ->
+                            let
+                                path =
+                                    parent ++ "." ++ k
+                            in
+                            ( b
+                            , addPathToNode path v
+                            )
+                        )
+                        ds
+            , path = parent
+            }
+
 
 addFalseToDict : Dict.Dict a b -> Dict.Dict a ( Bool, b )
 addFalseToDict dict =
@@ -93,7 +120,7 @@ addFalseToArray array =
 mkNode : JsonValue -> Node
 mkNode value =
     { value = value
-    , keyPath = ""
+    , path = ""
     }
 
 
@@ -191,7 +218,8 @@ doViewNode depth json =
 main =
     case JD.decodeString nodeDecoder testJson of
         Ok res ->
-            viewNode res
+            addPathToNode "" res
+                |> viewNode
 
         Err _ ->
             Html.text "error"
