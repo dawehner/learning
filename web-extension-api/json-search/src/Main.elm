@@ -36,7 +36,9 @@ testJson =
 
 
 type alias Model =
-    Node
+    { node : Node
+    , search : String
+    }
 
 
 type alias Path =
@@ -272,7 +274,7 @@ update msg model =
             model
 
         TogglePath path open ->
-            updateOpenNode path open model
+            { model | node = updateOpenNode path open model.node }
 
 
 updateOpenNode : Path -> Bool -> Node -> Node
@@ -313,8 +315,8 @@ updateOpenNode path open node =
 
 
 view : Model -> Html.Html Msg
-view =
-    viewNode
+view { node } =
+    viewNode node
 
 
 main : Program () Model Msg
@@ -323,14 +325,14 @@ main =
         Ok res ->
             Browser.sandbox
                 { init =
-                    addPathToNode "" res
+                    { node = addPathToNode "" res, search = "" }
                 , update = update
                 , view = view
                 }
 
         Err _ ->
             Browser.sandbox
-                { init = JString "" |> mkNode
+                { init = { node = JString "" |> mkNode, search = "" }
                 , update = \a b -> b
                 , view = \x -> Html.text "error"
                 }
