@@ -33,11 +33,21 @@ testJson =
 """
 
 
+type alias Path =
+    String
+
+
+type alias Node =
+    { value : JsonValue
+    , keyPath : Path
+    }
+
+
 type JsonValue
     = JString String
     | JInt Int
-    | JArray (Array.Array ( Bool, JsonValue ))
-    | JDict (Dict.Dict String ( Bool, JsonValue ))
+    | JArray (Array.Array ( Bool, Node ))
+    | JDict (Dict.Dict String ( Bool, Node ))
 
 
 isScalar : JsonValue -> Bool
@@ -63,17 +73,24 @@ addFalseToArray array =
     Array.map (\v -> ( False, v )) array
 
 
-jsonValueDecoder : JD.Decoder JsonValue
+mkNode : JsonValue -> Node
+mkNode value =
+    { value = value
+    , keyPath = ""
+    }
+
+
+jsonValueDecoder : JD.Decoder Node
 jsonValueDecoder =
     JD.oneOf
-        [ JD.map JString JD.string
-        , JD.map JInt JD.int
-        , JD.map (addFalseToDict >> JDict) (JD.dict (JD.lazy (\_ -> jsonValueDecoder)))
-        , JD.map (addFalseToArray >> JArray) (JD.array (JD.lazy (\_ -> jsonValueDecoder)))
+        [ JD.map (JString >> mkNode) JD.string
+        , JD.map (JInt >> mkNode) JD.int
+        , JD.map (addFalseToDict >> JDict >> mkNode) (JD.dict (JD.lazy (\_ -> jsonValueDecoder)))
+        , JD.map (addFalseToArray >> JArray >> mkNode) (JD.array (JD.lazy (\_ -> jsonValueDecoder)))
         ]
 
 
-viewJsonValue : JsonValue -> Html.Html msg
+viewJsonValue : Node -> Html.Html msg
 viewJsonValue json =
     Html.table []
         [ Html.tbody []
@@ -110,9 +127,9 @@ viewToggle open =
         []
 
 
-doViewJsonValue : Int -> JsonValue -> List ( List (Html.Html msg), Html.Html msg )
+doViewJsonValue : Int -> Node -> List ( List (Html.Html msg), Html.Html msg )
 doViewJsonValue depth json =
-    case json of
+    case json.value of
         JString x ->
             [ ( [], Html.text x ) ]
 
@@ -125,13 +142,13 @@ doViewJsonValue depth json =
                     (\( k, ( open, v ) ) ->
                         let
                             key =
-                                [ viewToggle open, Html.text k ]
+                                Html.text k
                         in
-                        if isScalar v then
-                            [ ( key, viewScalar v ) ]
+                        if isScalar v.value then
+                            [ ( [ key ], viewScalar v.value ) ]
 
                         else
-                            [ ( key, Html.text "" ) ]
+                            [ ( [ viewToggle open, key ], Html.text "" ) ]
                                 ++ doViewJsonValue (depth + 1) v
                     )
                 |> List.foldl List.append []
@@ -142,13 +159,13 @@ doViewJsonValue depth json =
                     (\( k, ( open, v ) ) ->
                         let
                             key =
-                                [ viewToggle open, Html.text (String.fromInt k) ]
+                                Html.text (String.fromInt k)
                         in
-                        if isScalar v then
-                            [ ( key, viewScalar v ) ]
+                        if isScalar v.value then
+                            [ ( [ key ], viewScalar v.value ) ]
 
                         else
-                            [ ( key, Html.text "" ) ]
+                            [ ( [ viewToggle open, key ], Html.text "" ) ]
                                 ++ doViewJsonValue (depth + 1) v
                     )
                 |> List.foldl List.append []
