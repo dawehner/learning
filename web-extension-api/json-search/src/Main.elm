@@ -62,6 +62,23 @@ isScalar json =
         _ ->
             False
 
+addPathToNode : KeyPath -> Node -> Node
+addPathToNode parent node =
+  case node.value of
+    JString s -> node
+    JInt i -> node
+    JArray xs -> Array.indexedMap (\k v -> 
+      let keyPath = parent ++ '.' ++ (String.fromInt k)
+      { v | keyPath = keyPath
+      , value = addPathToNode keyPath v
+      }
+      )
+    JDict ds -> Dict.map (\k v -> 
+      let keyPath = parent ++ '.' ++ k
+      { v | keyPath = keyPath
+      , value = addPathToNode keyPath v
+      }
+      
 
 addFalseToDict : Dict.Dict a b -> Dict.Dict a ( Bool, b )
 addFalseToDict dict =
