@@ -265,6 +265,9 @@ doViewNode json =
 type Msg
     = Noop
     | TogglePath Path Bool
+    | SearchPath String
+    | ExpandAll
+    | CollapseAll
 
 
 update : Msg -> Model -> Model
@@ -274,11 +277,31 @@ update msg model =
             model
 
         TogglePath path open ->
-            { model | node = updateOpenNode path open model.node }
+            { model
+                | node =
+                    updateOpenNode
+                        (\path_ open_ ->
+                            if path_ == path then
+                                open
+
+                            else
+                                open_
+                        )
+                        model.node
+            }
+
+        SearchPath search ->
+            { model | search = search }
+
+        ExpandAll ->
+            { model | node = updateOpenNode (\_ _ -> True) model.node }
+
+        CollapseAll ->
+            { model | node = updateOpenNode (\_ _ -> False) model.node }
 
 
-updateOpenNode : Path -> Bool -> Node -> Node
-updateOpenNode path open node =
+updateOpenNode : (Path -> Bool -> Bool) -> Node -> Node
+updateOpenNode func node =
     case node.value of
         JArray xs ->
             { node
@@ -286,11 +309,7 @@ updateOpenNode path open node =
                     JArray <|
                         Array.indexedMap
                             (\k ( b, v ) ->
-                                if v.path == path then
-                                    ( open, v )
-
-                                else
-                                    ( b, updateOpenNode path open v )
+                                ( func v.path b, updateOpenNode func v )
                             )
                             xs
             }
@@ -301,11 +320,7 @@ updateOpenNode path open node =
                     JDict <|
                         Dict.map
                             (\k ( b, v ) ->
-                                if v.path == path then
-                                    ( open, v )
-
-                                else
-                                    ( b, updateOpenNode path open v )
+                                ( func v.path b, updateOpenNode func v )
                             )
                             ds
             }
@@ -314,9 +329,23 @@ updateOpenNode path open node =
             node
 
 
+viewBar : String -> Html.Html Msg
+viewBar search =
+    Html.div []
+        [ Html.span [ HE.onClick ExpandAll ] [ Html.text "Expand all" ]
+        , Html.span [ HE.onClick CollapseAll ] [ Html.text "Collapse all" ]
+        , Html.span []
+            [ Html.input [ HA.type_ "textfield", HA.value search, HE.onInput SearchPath ] []
+            ]
+        ]
+
+
 view : Model -> Html.Html Msg
-view { node } =
-    viewNode node
+view { node, search } =
+    div []
+        [ viewBar search
+        , viewNode node
+        ]
 
 
 main : Program () Model Msg
