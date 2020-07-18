@@ -171,20 +171,27 @@ viewScalar : JsonValue -> Html.Html msg
 viewScalar json =
     case json of
         JInt x ->
-            Html.span [class "tree-number"] [Html.text (String.fromInt x)]
+            Html.span [ class "tree-number" ] [ Html.text (String.fromInt x) ]
 
         JString x ->
-            Html.span[class "tree-string"] [Html.text ("\"" ++ x ++ "\"")]
+            Html.span [ class "tree-string" ] [ Html.text ("\"" ++ x ++ "\"") ]
 
         _ ->
             Html.text ""
 
+
 viewClosedIndicator : JsonValue -> Html.Html msg
 viewClosedIndicator json =
     case json of
-        JArray _ -> Html.text "[…]"
-        JDict _ -> Html.text "{…}"
-        _ -> Html.text ""
+        JArray _ ->
+            Html.text "[…]"
+
+        JDict _ ->
+            Html.text "{…}"
+
+        _ ->
+            Html.text ""
+
 
 viewToggle : Path -> Bool -> Html.Html Msg
 viewToggle path open =
@@ -216,17 +223,30 @@ indentFromPath path hasToggle =
         depth =
             (String.split "." path |> List.length) - 1
     in
-    HA.style "padding-inline-start" ((16 * (depth + if hasToggle then 0 else 1) |> String.fromInt) ++ "px")
+    HA.style "padding-inline-start"
+        ((16
+            * (depth
+                + (if hasToggle then
+                    0
+
+                   else
+                    1
+                  )
+              )
+            |> String.fromInt
+         )
+            ++ "px"
+        )
 
 
 doViewNode : Node -> List ( Html.Html Msg, Html.Html msg )
 doViewNode json =
     case json.value of
         JString x ->
-            [ ( div [ ] [], Html.text ("\"" ++ x ++ "\"") ) ]
+            [ ( div [] [], Html.text ("\"" ++ x ++ "\"") ) ]
 
         JInt x ->
-            [ ( div [ ] [], Html.text (String.fromInt x) ) ]
+            [ ( div [] [], Html.text (String.fromInt x) ) ]
 
         JDict dict ->
             Dict.toList dict
@@ -234,13 +254,20 @@ doViewNode json =
                     (\( k, ( open, v ) ) ->
                         let
                             key =
-                                Html.span [class "tree-key"] [Html.text k]
+                                Html.span [ class "tree-key" ] [ Html.text k ]
                         in
                         if isScalar v.value then
                             [ ( td [ indentFromPath v.path False ] [ key ], viewScalar v.value ) ]
 
                         else
-                            [ ( td [ indentFromPath v.path True ] [ viewToggle v.path open, key ], (if not open then viewClosedIndicator v.value else Html.text "") ) ]
+                            [ ( td [ indentFromPath v.path True ] [ viewToggle v.path open, key ]
+                              , if not open then
+                                    viewClosedIndicator v.value
+
+                                else
+                                    Html.text ""
+                              )
+                            ]
                                 ++ (if open then
                                         doViewNode v
 
@@ -256,13 +283,20 @@ doViewNode json =
                     (\( k, ( open, v ) ) ->
                         let
                             key =
-                                 Html.span [class "tree-key"][Html.text (String.fromInt k)]
+                                Html.span [ class "tree-key" ] [ Html.text (String.fromInt k) ]
                         in
                         if isScalar v.value then
                             [ ( td [ indentFromPath v.path False ] [ key ], viewScalar v.value ) ]
 
                         else
-                            [ ( td [ indentFromPath v.path True ] [ viewToggle v.path open, key ], (if not open then viewClosedIndicator v.value else Html.text "") ) ]
+                            [ ( td [ indentFromPath v.path True ] [ viewToggle v.path open, key ]
+                              , if not open then
+                                    viewClosedIndicator v.value
+
+                                else
+                                    Html.text ""
+                              )
+                            ]
                                 ++ (if open then
                                         doViewNode v
 
@@ -271,6 +305,48 @@ doViewNode json =
                                    )
                     )
                 |> List.foldl List.append []
+
+
+prettyPrint : Int -> Node -> String
+prettyPrint indent node =
+    case node.value of
+        JString s ->
+            "\"" ++ s ++ "\","
+
+        JInt int ->
+            String.fromInt int ++ ","
+
+        JArray xs ->
+            let
+                indent_ =
+                    indent + 1
+            in
+            "[\n"
+                ++ (Array.toIndexedList xs
+                        |> List.map (\( k, (_, v) ) -> 
+                            String.repeat indent_ "  " 
+                            ++ "\"" ++ (String.fromInt k) ++ "\": "
+                            ++ prettyPrint indent_ v
+                            )
+                        |> String.join "\n"
+                   )
+                ++ "\n" ++ String.repeat indent "  " ++ "],"
+
+        JDict ds ->
+            let
+                indent_ =
+                    indent + 1
+            in
+            "{\n"
+                ++ (Dict.toList ds
+                        |> List.map (\( k, (_, v) ) -> 
+                            String.repeat indent_ "  " 
+                            ++ "\"" ++ k ++ "\": "
+                            ++ prettyPrint indent_ v
+                            )
+                        |> String.join "\n"
+                   )
+                ++ "\n" ++ String.repeat indent "  " ++ "},"
 
 
 type Msg
@@ -436,6 +512,7 @@ view : Model -> Html.Html Msg
 view { node, search, searchedNode } =
     div []
         [ viewBar search
+        , prettyPrint 0 node |> Html.text |> List.singleton |> Html.pre [] |> List.singleton |> Html.code []
         , Maybe.withDefault node searchedNode
             |> viewNode
         ]
