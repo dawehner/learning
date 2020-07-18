@@ -1,8 +1,10 @@
 module Main exposing (main)
 
 import Array
+import Array.Extra
 import Browser
 import Dict
+import Dict.Extra
 import Html exposing (div, td, tr)
 import Html.Attributes as HA
 import Html.Events as HE
@@ -38,6 +40,7 @@ testJson =
 type alias Model =
     { node : Node
     , search : String
+    , searchedNode : Maybe Node
     }
 
 
@@ -288,10 +291,21 @@ update msg model =
                                 open_
                         )
                         model.node
+                  , searchedNode = Maybe.map (\node -> updateOpenNode (\path_ open_ ->
+                            if path_ == path then
+                                open
+
+                            else
+                                open_
+                        ) node) model.searchedNode
             }
 
         SearchPath search ->
-            { model | search = search }
+            if String.length search > 0 then
+                { model | search = search, searchedNode = searchNode search model.node }
+
+            else
+                { model | search = search, searchedNode = Nothing }
 
         ExpandAll ->
             { model | node = updateOpenNode (\_ _ -> True) model.node }
@@ -329,22 +343,86 @@ updateOpenNode func node =
             node
 
 
+searchNode : String -> Node -> Maybe Node
+searchNode search node =
+    case node.value of
+        JString x ->
+            if String.contains search x then
+                Just node
+
+            else
+                Nothing
+
+        JInt x ->
+            if String.contains search (String.fromInt x) then
+                Just node
+
+            else
+                Nothing
+
+        JDict dict ->
+            let
+                res =
+                    Dict.Extra.filterMap
+                        (\k ( b, v ) ->
+                            if String.contains search k then
+                                Just (b, v)
+
+                            else
+                                searchNode search v
+                                |> Maybe.map (\x -> (b, x))
+                        )
+                        dict
+            in
+            if Dict.size res > 0 then
+                Just { node | value = JDict res }
+
+            else
+                Nothing
+
+        JArray array ->
+            let
+                res =
+                    Array.Extra.zip (List.range 0 (Array.length array) |> Array.fromList) array
+                        |> Array.Extra.filterMap
+                            (\( k, ( b, v ) ) ->
+                                if String.contains search (String.fromInt k) then
+                                    Just (b, v)
+
+                                else
+                                    searchNode search v
+                                    |> Maybe.map (\x -> (b, x))
+                            )
+            in
+            if Array.length res > 0 then
+                Just { node | value = JArray res }
+
+            else
+                Nothing
+
+
 viewBar : String -> Html.Html Msg
 viewBar search =
-    Html.div []
-        [ Html.span [ HE.onClick ExpandAll ] [ Html.text "Expand all" ]
-        , Html.span [ HE.onClick CollapseAll ] [ Html.text "Collapse all" ]
-        , Html.span []
-            [ Html.input [ HA.type_ "textfield", HA.value search, HE.onInput SearchPath ] []
+    Html.div [ HA.style "display" "flex" ]
+        [ Html.button [ HE.onClick ExpandAll ] [ Html.text "Expand all" ]
+        , Html.button [ HE.onClick CollapseAll ] [ Html.text "Collapse all" ]
+        , Html.span [ HA.style "flex-grow" "8" ]
+            [ Html.input
+                [ HA.type_ "textfield"
+                , HA.value search
+                , HE.onInput SearchPath
+                ]
+                []
             ]
         ]
 
 
 view : Model -> Html.Html Msg
-view { node, search } =
+view { node, search, searchedNode } =
     div []
         [ viewBar search
-        , viewNode node
+        , Maybe.withDefault node searchedNode
+        |> viewNode
         ]
 
 
@@ -354,14 +432,14 @@ main =
         Ok res ->
             Browser.sandbox
                 { init =
-                    { node = addPathToNode "" res, search = "" }
+                    { node = addPathToNode "" res, search = "", searchedNode = Nothing }
                 , update = update
                 , view = view
                 }
 
         Err _ ->
             Browser.sandbox
-                { init = { node = JString "" |> mkNode, search = "" }
+                { init = { node = JString "" |> mkNode, search = "", searchedNode = Nothing }
                 , update = \a b -> b
                 , view = \x -> Html.text "error"
                 }
