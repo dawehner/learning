@@ -1,4 +1,4 @@
-module Main exposing (main)
+port module Main exposing (main)
 
 import Array
 import Array.Extra
@@ -372,19 +372,23 @@ type Msg
     | ExpandAll
     | CollapseAll
     | ChooseTab Tab
+    | CopyJson
 
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         Noop ->
-            model
+            ( model, Cmd.none )
 
         ChooseTab tab ->
-            { model | tab = tab }
+            ( { model | tab = tab }, Cmd.none )
+
+        CopyJson ->
+            ( model, copyJson (prettyPrint 0 model.node) )
 
         TogglePath path open ->
-            { model
+            ( { model
                 | node =
                     updateOpenNode
                         (\path_ open_ ->
@@ -409,20 +413,22 @@ update msg model =
                                 node
                         )
                         model.searchedNode
-            }
+              }
+            , Cmd.none
+            )
 
         SearchPath search ->
             if String.length search > 0 then
-                { model | search = search, searchedNode = searchNode search model.node }
+                ( { model | search = search, searchedNode = searchNode search model.node }, Cmd.none )
 
             else
-                { model | search = search, searchedNode = Nothing }
+                ( { model | search = search, searchedNode = Nothing }, Cmd.none )
 
         ExpandAll ->
-            { model | node = updateOpenNode (\_ _ -> True) model.node }
+            ( { model | node = updateOpenNode (\_ _ -> True) model.node }, Cmd.none )
 
         CollapseAll ->
-            { model | node = updateOpenNode (\_ _ -> False) model.node }
+            ( { model | node = updateOpenNode (\_ _ -> False) model.node }, Cmd.none )
 
 
 updateOpenNode : (Path -> Bool -> Bool) -> Node -> Node
@@ -512,6 +518,9 @@ searchNode search node =
                 Nothing
 
 
+port copyJson : String -> Cmd msg
+
+
 viewBar : String -> Html.Html Msg
 viewBar search =
     Html.div [ HA.style "display" "flex" ]
@@ -525,6 +534,13 @@ viewBar search =
                 ]
                 []
             ]
+        ]
+
+
+viewRawBar : Html.Html Msg
+viewRawBar =
+    Html.div [ HA.style "display" "flex" ]
+        [ Html.button [ HE.onClick CopyJson ] [ Html.text "copy" ]
         ]
 
 
@@ -569,7 +585,8 @@ view { node, search, searchedNode, tab } =
                         ]
 
                     RawTab ->
-                        [ prettyPrint 0 node
+                        [ viewRawBar
+                        , prettyPrint 0 node
                             |> Html.text
                             |> List.singleton
                             |> Html.pre []
@@ -584,25 +601,33 @@ main : Program () Model Msg
 main =
     case JD.decodeString nodeDecoder testJson of
         Ok res ->
-            Browser.sandbox
+            Browser.element
                 { init =
-                    { node = addPathToNode "" res
-                    , search = ""
-                    , searchedNode = Nothing
-                    , tab = TreeTab
-                    }
+                    always
+                        ( { node = addPathToNode "" res
+                          , search = ""
+                          , searchedNode = Nothing
+                          , tab = TreeTab
+                          }
+                        , Cmd.none
+                        )
                 , update = update
                 , view = view
+                , subscriptions = always Sub.none
                 }
 
         Err _ ->
-            Browser.sandbox
+            Browser.element
                 { init =
-                    { node = JString "" |> mkNode
-                    , search = ""
-                    , searchedNode = Nothing
-                    , tab = TreeTab
-                    }
-                , update = \a b -> b
+                    always
+                        ( { node = JString "" |> mkNode
+                          , search = ""
+                          , searchedNode = Nothing
+                          , tab = TreeTab
+                          }
+                        , Cmd.none
+                        )
+                , update = \a b -> ( b, Cmd.none )
                 , view = \x -> Html.text "error"
+                , subscriptions = always Sub.none
                 }

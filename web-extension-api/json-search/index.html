@@ -9,6 +9,9 @@
 <body>
   <script>
     const app = Elm.Main.init({ node: document.body });
+    app.ports.copyJson.subscribe(function (event) {
+      navigator.clipboard.writeText(event);
+    });
   </script>
 </body>
 
