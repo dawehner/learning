@@ -6,8 +6,7 @@ import Browser
 import Dict
 import Dict.Extra
 import Html exposing (div, td, tr)
-import Html.Attributes as HA
-import Html.Attributes exposing (class)
+import Html.Attributes as HA exposing (class)
 import Html.Events as HE
 import Json.Decode as JD
 
@@ -163,7 +162,7 @@ viewNode json =
     Html.table []
         [ Html.tbody []
             (doViewNode json
-                |> List.map (\( k, v ) -> Html.tr [class "tree-element"] [ k, td [] [ v ] ])
+                |> List.map (\( k, v ) -> Html.tr [ class "tree-element tree-row" ] [ k, td [] [ v ] ])
             )
         ]
 
@@ -172,25 +171,33 @@ viewScalar : JsonValue -> Html.Html msg
 viewScalar json =
     case json of
         JInt x ->
-            Html.text (String.fromInt x)
+            Html.span [class "tree-number"] [Html.text (String.fromInt x)]
 
         JString x ->
-            Html.text x
+            Html.span[class "tree-string"] [Html.text ("\"" ++ x ++ "\"")]
 
         _ ->
             Html.text ""
 
+viewClosedIndicator : JsonValue -> Html.Html msg
+viewClosedIndicator json =
+    case json of
+        JArray _ -> Html.text "[…]"
+        JDict _ -> Html.text "{…}"
+        _ -> Html.text ""
 
 viewToggle : Path -> Bool -> Html.Html Msg
 viewToggle path open =
     Html.span
         ([ HA.style "background-image" "url('icons/arrow.svg')"
          , HA.style "background-position" "center"
+         , HA.style "background-repeat" "no-repeat"
          , HA.style "background-size" "10px"
-         , HA.style "height" "14px"
-         , HA.style "width" "14px"
-         , HA.style "line-height" "14px"
+         , HA.style "height" "16px"
+         , HA.style "width" "16px"
+         , HA.style "line-height" "16px"
          , HA.style "display" "inline-block"
+         , HA.style "cursor" "pointer"
          , HE.onClick (TogglePath path (not open))
          ]
             ++ (if open then
@@ -203,23 +210,23 @@ viewToggle path open =
         []
 
 
-indentFromPath : Path -> Html.Attribute msg
-indentFromPath path =
+indentFromPath : Path -> Bool -> Html.Attribute msg
+indentFromPath path hasToggle =
     let
         depth =
-            String.split "." path |> List.length
+            (String.split "." path |> List.length) - 1
     in
-    HA.style "padding-inline-start" ((8 * depth |> String.fromInt) ++ "px")
+    HA.style "padding-inline-start" ((16 * (depth + if hasToggle then 0 else 1) |> String.fromInt) ++ "px")
 
 
 doViewNode : Node -> List ( Html.Html Msg, Html.Html msg )
 doViewNode json =
     case json.value of
         JString x ->
-            [ ( div [class "tree-element"] [], Html.text x ) ]
+            [ ( div [ ] [], Html.text ("\"" ++ x ++ "\"") ) ]
 
         JInt x ->
-            [ ( div [class "tree-element"] [], Html.text (String.fromInt x) ) ]
+            [ ( div [ ] [], Html.text (String.fromInt x) ) ]
 
         JDict dict ->
             Dict.toList dict
@@ -227,13 +234,13 @@ doViewNode json =
                     (\( k, ( open, v ) ) ->
                         let
                             key =
-                                Html.text k
+                                Html.span [class "tree-key"] [Html.text k]
                         in
                         if isScalar v.value then
-                            [ ( td [ indentFromPath v.path ] [ key ], viewScalar v.value ) ]
+                            [ ( td [ indentFromPath v.path False ] [ key ], viewScalar v.value ) ]
 
                         else
-                            [ ( td [ indentFromPath v.path ] [ viewToggle v.path open, key ], Html.text "" ) ]
+                            [ ( td [ indentFromPath v.path True ] [ viewToggle v.path open, key ], (if not open then viewClosedIndicator v.value else Html.text "") ) ]
                                 ++ (if open then
                                         doViewNode v
 
@@ -249,13 +256,13 @@ doViewNode json =
                     (\( k, ( open, v ) ) ->
                         let
                             key =
-                                Html.text (String.fromInt k)
+                                 Html.span [class "tree-key"][Html.text (String.fromInt k)]
                         in
                         if isScalar v.value then
-                            [ ( td [ indentFromPath v.path ] [ key ], viewScalar v.value ) ]
+                            [ ( td [ indentFromPath v.path False ] [ key ], viewScalar v.value ) ]
 
                         else
-                            [ ( td [ indentFromPath v.path ] [ viewToggle v.path open, key ], Html.text "" ) ]
+                            [ ( td [ indentFromPath v.path True ] [ viewToggle v.path open, key ], (if not open then viewClosedIndicator v.value else Html.text "") ) ]
                                 ++ (if open then
                                         doViewNode v
 
