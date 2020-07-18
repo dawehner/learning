@@ -6,7 +6,7 @@ import Browser
 import Dict
 import Dict.Extra
 import Html exposing (div, td, tr)
-import Html.Attributes as HA exposing (class)
+import Html.Attributes as HA exposing (class, style)
 import Html.Events as HE
 import Json.Decode as JD
 
@@ -37,8 +37,14 @@ testJson =
 """
 
 
+type Tab
+    = TreeTab
+    | RawTab
+
+
 type alias Model =
-    { node : Node
+    { tab : Tab
+    , node : Node
     , search : String
     , searchedNode : Maybe Node
     }
@@ -323,14 +329,19 @@ prettyPrint indent node =
             in
             "[\n"
                 ++ (Array.toIndexedList xs
-                        |> List.map (\( k, (_, v) ) -> 
-                            String.repeat indent_ "  " 
-                            ++ "\"" ++ (String.fromInt k) ++ "\": "
-                            ++ prettyPrint indent_ v
+                        |> List.map
+                            (\( k, ( _, v ) ) ->
+                                String.repeat indent_ "  "
+                                    ++ "\""
+                                    ++ String.fromInt k
+                                    ++ "\": "
+                                    ++ prettyPrint indent_ v
                             )
                         |> String.join "\n"
                    )
-                ++ "\n" ++ String.repeat indent "  " ++ "],"
+                ++ "\n"
+                ++ String.repeat indent "  "
+                ++ "],"
 
         JDict ds ->
             let
@@ -339,14 +350,19 @@ prettyPrint indent node =
             in
             "{\n"
                 ++ (Dict.toList ds
-                        |> List.map (\( k, (_, v) ) -> 
-                            String.repeat indent_ "  " 
-                            ++ "\"" ++ k ++ "\": "
-                            ++ prettyPrint indent_ v
+                        |> List.map
+                            (\( k, ( _, v ) ) ->
+                                String.repeat indent_ "  "
+                                    ++ "\""
+                                    ++ k
+                                    ++ "\": "
+                                    ++ prettyPrint indent_ v
                             )
                         |> String.join "\n"
                    )
-                ++ "\n" ++ String.repeat indent "  " ++ "},"
+                ++ "\n"
+                ++ String.repeat indent "  "
+                ++ "},"
 
 
 type Msg
@@ -355,6 +371,7 @@ type Msg
     | SearchPath String
     | ExpandAll
     | CollapseAll
+    | ChooseTab Tab
 
 
 update : Msg -> Model -> Model
@@ -362,6 +379,9 @@ update msg model =
     case msg of
         Noop ->
             model
+
+        ChooseTab tab ->
+            { model | tab = tab }
 
         TogglePath path open ->
             { model
@@ -508,14 +528,56 @@ viewBar search =
         ]
 
 
-view : Model -> Html.Html Msg
-view { node, search, searchedNode } =
-    div []
-        [ viewBar search
-        , prettyPrint 0 node |> Html.text |> List.singleton |> Html.pre [] |> List.singleton |> Html.code []
-        , Maybe.withDefault node searchedNode
-            |> viewNode
+viewTabBar : Tab -> Html.Html Msg
+viewTabBar tab =
+    Html.ul [ class "tab-bar" ]
+        [ Html.li
+            [ HE.onClick (ChooseTab TreeTab)
+            , class
+                (if tab == TreeTab then
+                    "active"
+
+                 else
+                    ""
+                )
+            ]
+            [ Html.text "Json" ]
+        , Html.li
+            [ HE.onClick (ChooseTab RawTab)
+            , class
+                (if tab == RawTab then
+                    "active"
+
+                 else
+                    ""
+                )
+            ]
+            [ Html.text "Raw" ]
         ]
+
+
+view : Model -> Html.Html Msg
+view { node, search, searchedNode, tab } =
+    div []
+        ([ viewTabBar tab
+         ]
+            ++ (case tab of
+                    TreeTab ->
+                        [ viewBar search
+                        , Maybe.withDefault node searchedNode
+                            |> viewNode
+                        ]
+
+                    RawTab ->
+                        [ prettyPrint 0 node
+                            |> Html.text
+                            |> List.singleton
+                            |> Html.pre []
+                            |> List.singleton
+                            |> Html.code []
+                        ]
+               )
+        )
 
 
 main : Program () Model Msg
@@ -524,14 +586,23 @@ main =
         Ok res ->
             Browser.sandbox
                 { init =
-                    { node = addPathToNode "" res, search = "", searchedNode = Nothing }
+                    { node = addPathToNode "" res
+                    , search = ""
+                    , searchedNode = Nothing
+                    , tab = TreeTab
+                    }
                 , update = update
                 , view = view
                 }
 
         Err _ ->
             Browser.sandbox
-                { init = { node = JString "" |> mkNode, search = "", searchedNode = Nothing }
+                { init =
+                    { node = JString "" |> mkNode
+                    , search = ""
+                    , searchedNode = Nothing
+                    , tab = TreeTab
+                    }
                 , update = \a b -> b
                 , view = \x -> Html.text "error"
                 }
