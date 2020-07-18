@@ -7,6 +7,7 @@ import Dict
 import Dict.Extra
 import Html exposing (div, td, tr)
 import Html.Attributes as HA
+import Html.Attributes exposing (class)
 import Html.Events as HE
 import Json.Decode as JD
 
@@ -162,7 +163,7 @@ viewNode json =
     Html.table []
         [ Html.tbody []
             (doViewNode json
-                |> List.map (\( k, v ) -> Html.tr [] [ k, td [] [ v ] ])
+                |> List.map (\( k, v ) -> Html.tr [class "tree-element"] [ k, td [] [ v ] ])
             )
         ]
 
@@ -215,10 +216,10 @@ doViewNode : Node -> List ( Html.Html Msg, Html.Html msg )
 doViewNode json =
     case json.value of
         JString x ->
-            [ ( div [] [], Html.text x ) ]
+            [ ( div [class "tree-element"] [], Html.text x ) ]
 
         JInt x ->
-            [ ( div [] [], Html.text (String.fromInt x) ) ]
+            [ ( div [class "tree-element"] [], Html.text (String.fromInt x) ) ]
 
         JDict dict ->
             Dict.toList dict
