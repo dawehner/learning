@@ -291,13 +291,20 @@ update msg model =
                                 open_
                         )
                         model.node
-                  , searchedNode = Maybe.map (\node -> updateOpenNode (\path_ open_ ->
-                            if path_ == path then
-                                open
+                , searchedNode =
+                    Maybe.map
+                        (\node ->
+                            updateOpenNode
+                                (\path_ open_ ->
+                                    if path_ == path then
+                                        open
 
-                            else
-                                open_
-                        ) node) model.searchedNode
+                                    else
+                                        open_
+                                )
+                                node
+                        )
+                        model.searchedNode
             }
 
         SearchPath search ->
@@ -366,11 +373,11 @@ searchNode search node =
                     Dict.Extra.filterMap
                         (\k ( b, v ) ->
                             if String.contains search k then
-                                Just (b, v)
+                                Just ( b, v )
 
                             else
                                 searchNode search v
-                                |> Maybe.map (\x -> (b, x))
+                                    |> Maybe.map (\x -> ( b, x ))
                         )
                         dict
             in
@@ -387,11 +394,11 @@ searchNode search node =
                         |> Array.Extra.filterMap
                             (\( k, ( b, v ) ) ->
                                 if String.contains search (String.fromInt k) then
-                                    Just (b, v)
+                                    Just ( b, v )
 
                                 else
                                     searchNode search v
-                                    |> Maybe.map (\x -> (b, x))
+                                        |> Maybe.map (\x -> ( b, x ))
                             )
             in
             if Array.length res > 0 then
@@ -422,7 +429,7 @@ view { node, search, searchedNode } =
     div []
         [ viewBar search
         , Maybe.withDefault node searchedNode
-        |> viewNode
+            |> viewNode
         ]
 
 
