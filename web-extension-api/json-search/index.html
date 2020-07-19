@@ -9,8 +9,32 @@
 <body>
   <script>
     const app = Elm.Main.init({ node: document.body });
+
+    async function getNewFileHandle() {
+      const opts = {
+        type: 'save-file',
+        accepts: [{
+          description: 'Json',
+          extensions: ['json'],
+          mimeTypes: ['application/json'],
+        }],
+      };
+      const handle = await window.chooseFileSystemEntries(opts);
+      return handle;
+    }
+
     app.ports.copyJson.subscribe(function (event) {
       navigator.clipboard.writeText(event);
+    });
+
+    app.ports.saveJson.subscribe(async function (event) {
+      const fileHandle = await getNewFileHandle();
+      // Create a FileSystemWritableFileStream to write to.
+      const writable = await fileHandle.createWritable();
+      // Write the contents of the file to the stream.
+      await writable.write(event);
+      // Close the file and write the contents to disk.
+      await writable.close();
     });
   </script>
 </body>

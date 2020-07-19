@@ -373,6 +373,7 @@ type Msg
     | CollapseAll
     | ChooseTab Tab
     | CopyJson
+    | SaveJson
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -386,6 +387,9 @@ update msg model =
 
         CopyJson ->
             ( model, copyJson (prettyPrint 0 model.node) )
+
+        SaveJson ->
+            ( model, saveJson (prettyPrint 0 model.node) )
 
         TogglePath path open ->
             ( { model
@@ -521,6 +525,9 @@ searchNode search node =
 port copyJson : String -> Cmd msg
 
 
+port saveJson : String -> Cmd msg
+
+
 viewBar : String -> Html.Html Msg
 viewBar search =
     Html.div [ HA.style "display" "flex" ]
@@ -540,7 +547,8 @@ viewBar search =
 viewRawBar : Html.Html Msg
 viewRawBar =
     Html.div [ HA.style "display" "flex" ]
-        [ Html.button [ HE.onClick CopyJson ] [ Html.text "copy" ]
+        [ Html.button [ HE.onClick SaveJson ] [ Html.text "Save" ]
+        , Html.button [ HE.onClick CopyJson ] [ Html.text "Copy" ]
         ]
 
 
