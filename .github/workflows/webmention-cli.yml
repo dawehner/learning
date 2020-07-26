@@ -12,7 +12,5 @@ jobs:
       - uses: cachix/install-nix-action@v10
         name: Install nix
       - name: Build package
-        # working-directory: ./rust/webmention-cli
-        run: ls rust
-          # ls rust
-        # cd rust/webmention-cli/ && make build
+        working-directory: ./rust/webmention-cli
+        run: make build
