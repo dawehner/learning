@@ -1,13 +1,13 @@
 name: "Build webmention-cli"
+defaults:
+  run:
+    shell: bash
+    working-directory: rust/webmention-cli
 on:
   pull_request:
   push:
 jobs:
   build:
-    defaults:
-      run:
-        shell: bash
-        working-directory: rust/webmention-cli
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
