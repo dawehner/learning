@@ -6,8 +6,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name : Install sudo
-        run: apt update && apt install sudo xz
+      # - name : Install sudo
+      #   run: apt update && apt install sudo xz
       - uses: actions/checkout@v1
       - uses: cachix/install-nix-action@v10
         name: Install nix
