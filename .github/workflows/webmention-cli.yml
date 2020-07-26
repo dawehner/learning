@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name : Install packages
-        run: apt update && apt install libssl-dev
+        run: sudo apt update && sudo apt install libssl-dev
       - uses: actions/checkout@v1
       - uses: cachix/install-nix-action@v10
         name: Install nix
