@@ -13,5 +13,4 @@ jobs:
         name: Install nix
       - name: Build package
         # working-directory: ./rust/webmention-cli
-        run: ls
-        # make -C ./rust/webmention-cli build
+        run: make -C ./rust/webmention-cli build
