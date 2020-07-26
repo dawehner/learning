@@ -1,4 +1,4 @@
-name: "Deploy blog"
+name: "Build hex2rgb"
 on:
   pull_request:
   push:
