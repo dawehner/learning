@@ -13,4 +13,7 @@ jobs:
       - uses: actions/checkout@v1
       - uses: cachix/install-nix-action@v10
         name: Install nix
-      - run: 'pwd && ls && cd rust/webmention-cli && make build'
+      - name: Run lint
+        working-directory: ./rust/webmention-cli
+        run: |
+          make build
