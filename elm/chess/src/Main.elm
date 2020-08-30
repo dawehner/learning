@@ -5,6 +5,7 @@ import GraphicSVG as G
 import GraphicSVG.App
 import Html
 import Html.Attributes
+import List.Extra
 
 
 type PColor
@@ -50,8 +51,24 @@ type alias Model =
 type alias Board =
     Array.Array Piece
 
+
 emptyBoard : Board
-emptyBoard = Array.repeat 64 ( None, PNone )
+emptyBoard =
+    Array.repeat 64 ( None, PNone )
+
+
+exampleBoard : Board
+exampleBoard =
+    emptyBoard
+        |> addPiece ( 4, 3 ) White Rug
+        |> addPiece ( 1, 0 ) White Pawn
+        |> addPiece ( 6, 1 ) Black Pawn
+
+
+
+--|> addPiece ( 6, 3 ) Black Pawn
+--|> addPiece ( 3, 1 ) Black Pawn
+
 
 initBoard : Board
 initBoard =
@@ -89,10 +106,12 @@ initBoard =
         |> Array.set 62 ( Black, Horse )
         |> Array.set 63 ( Black, Tower )
 
+
 addPiece : Pos -> PColor -> PType -> Board -> Board
 addPiece pos color piece board =
     board
-    |> Array.set (posToIndex pos) (color, piece)
+        |> Array.set (posToIndex pos) ( color, piece )
+
 
 type alias Pos =
     ( Int, Int )
@@ -102,8 +121,17 @@ indexToPos : Int -> Pos
 indexToPos i =
     ( modBy 8 i, i // 8 )
 
+
 posToIndex : Pos -> Int
-posToIndex (x, y) = x + 8 * y
+posToIndex ( x, y ) =
+    x + 8 * y
+
+
+getAtPos : Pos -> Board -> Piece
+getAtPos pos board =
+    Array.get (posToIndex pos) board
+        |> Maybe.withDefault ( None, PNone )
+
 
 type Msg
     = Tick Float GraphicSVG.App.GetKeyState
@@ -112,13 +140,15 @@ type Msg
 
 init : Model
 init =
-    { board = initBoard
+    { board = exampleBoard -- initBoard
     , currentPiece = Nothing
     , currentPlayer = White
     }
 
+
 checkPosIsMate : PColor -> Board -> Bool
-checkPosIsMate color board = False
+checkPosIsMate color board =
+    False
 
 
 checkAllowedMove : Int -> Int -> Board -> Bool
@@ -138,16 +168,33 @@ checkAllowedMove prev next board =
             case pt of
                 Pawn ->
                     if pc == White then
-                        if y1 >= y2 then False
-                        else if y2 - y1 == 1 then True
-                        else if y1 == 1 && y2 == 3 then True
-                        else False
+                        if y1 >= y2 then
+                            False
+
+                        else if y2 - y1 == 1 then
+                            True
+
+                        else if y1 == 1 && y2 == 3 then
+                            True
+
+                        else
+                            False
+
                     else if pc == Black then
-                        if y2 >= y1 then False
-                        else if y1 - y2 == 1 then True
-                        else if y1 == 6 && y2 == 4 then True
-                        else False
-                    else True
+                        if y2 >= y1 then
+                            False
+
+                        else if y1 - y2 == 1 then
+                            True
+
+                        else if y1 == 6 && y2 == 4 then
+                            True
+
+                        else
+                            False
+
+                    else
+                        True
 
                 Tower ->
                     False
@@ -166,6 +213,164 @@ checkAllowedMove prev next board =
 
                 PNone ->
                     False
+
+
+sortPos : List Pos -> List Pos
+sortPos xs =
+    List.sortWith
+        (\( x1, y1 ) ( x2, y2 ) ->
+            if x1 < x2 then
+                LT
+
+            else if x1 > x2 then
+                GT
+
+            else if y1 < y2 then
+                LT
+
+            else if y1 > y2 then
+                GT
+
+            else
+                EQ
+        )
+        xs
+
+
+filterOutsideBoard : List Pos -> List Pos
+filterOutsideBoard =
+    List.filter (\( x, y ) -> x >= 0 && x <= 7 && y >= 0 && y <= 7)
+
+
+revertColor : PColor -> PColor
+revertColor c =
+    case c of
+        None ->
+            None
+
+        White ->
+            Black
+
+        Black ->
+            White
+
+
+emptyOrEqual : PColor -> Board -> Pos -> Bool
+emptyOrEqual color board pos =
+    let
+        ( c2, p2 ) =
+            Debug.log "piece" <| getAtPos (Debug.log "pos" pos) board
+    in
+    if c2 == None || c2 == color then
+        True
+
+    else
+        False
+
+
+filterCollison : PColor -> Board -> List Pos -> List Pos
+filterCollison c board ps =
+    let
+        collisionMemo list memo =
+            case list of
+                [] ->
+                    List.reverse memo
+
+                x :: xs ->
+                    let
+                        ( c2, _ ) =
+                            getAtPos x board
+                    in
+                    if c2 == c then
+                        -- same colour
+                        List.reverse memo
+
+                    else if c2 == None then
+                        -- nothing
+                        collisionMemo xs (x :: memo)
+
+                    else
+                        -- different colour
+                        List.reverse (x :: memo)
+    in
+    collisionMemo ps []
+
+
+possibleMovesPos : Pos -> Board -> List Pos
+possibleMovesPos pos board =
+    let
+        ( x1, y1 ) =
+            pos
+
+        possiblePos =
+            case Array.get (posToIndex pos) board of
+                Nothing ->
+                    []
+
+                Just ( c, Pawn ) ->
+                    if c == White then
+                        if y1 == 1 then
+                            [ ( x1, y1 + 1 ), ( x1, y1 + 2 ) ]
+
+                        else
+                            [ ( x1, y1 + 1 ) ]
+
+                    else if c == Black then
+                        if y1 == 6 then
+                            [ ( x1, y1 - 1 ), ( x1, y1 - 2 ) ]
+
+                        else
+                            [ ( x1, y1 - 1 ) ]
+
+                    else
+                        []
+
+                Just ( c, Tower ) ->
+                    (List.range (x1 + 1) 7
+                        |> List.map (\x -> ( x, y1 ))
+                        |> filterCollison c board
+                    )
+                        ++ (List.range 0 (x1 - 1)
+                                |> List.reverse
+                                |> List.map (\x -> ( x, y1 ))
+                                |> filterCollison c board
+                           )
+                        ++ (List.range (y1 + 1) 7
+                                |> List.map (\y -> ( x1, y ))
+                                |> filterCollison c board
+                           )
+                        ++ (List.range 0 (y1 - 1)
+                                |> List.reverse
+                                |> List.map (\y -> ( x1, y ))
+                                |> filterCollison c board
+                           )
+
+                Just ( c, Rug ) ->
+                    -- x+,y+
+                    (List.range (x1 + 1) 7
+                        |> List.map (\x -> ( x1 + (x - x1), y1 + (x - x1) ))
+                        |> filterCollison c board
+                    )
+                        -- x-,y-
+                        ++ (List.range 0 (x1 - 1)
+                                |> List.reverse
+                                |> List.map (\x -> ( x1 - (x1 - x), y1 - (x1 - x) ))
+                                |> filterCollison c board
+                           )
+                        ++ (List.range (x1 + 1) 7
+                                |> List.map (\x -> ( x1 + (x - x1), y1 - (x - x1) ))
+                                |> filterCollison c board
+                           )
+                        ++ (List.range 0 (x1 - 1)
+                                |> List.reverse
+                                |> List.map (\x -> ( x1 - (x1 - x), y1 + (x1 - x) ))
+                                |> filterCollison c board
+                           )
+
+                _ ->
+                    []
+    in
+    possiblePos |> filterOutsideBoard
 
 
 update : Msg -> Model -> Model
@@ -202,6 +407,7 @@ update msg model =
                                             , currentPiece = Nothing
                                             , currentPlayer = nextPlayer
                                         }
+
                                     else
                                         model
 
@@ -240,8 +446,12 @@ update msg model =
 
                 Nothing ->
                     case Array.get next model.board of
-                        Nothing -> model
-                        Just (None, PNone) -> model
+                        Nothing ->
+                            model
+
+                        Just ( None, PNone ) ->
+                            model
+
                         Just _ ->
                             { model
                                 | currentPiece = Just next
@@ -487,18 +697,29 @@ view model =
                     model.board
                     |> Array.toList
                )
-           ++ (
-                case model.currentPiece of
+            ++ (case model.currentPiece of
                     Just i ->
                         let
-                            ( x, y ) = indexToPos i
+                            ( x, y ) =
+                                indexToPos i
                         in
-                            [G.square 30
-                                |> G.outlined (G.solid 1) (G.red)
-                                |> drawPieceAt ( toFloat x + 0.5, toFloat y + 0.5 )
-                            ]
-                    Nothing -> []
-           )
+                        [ G.square 30
+                            |> G.outlined (G.solid 1) G.red
+                            |> drawPieceAt ( toFloat x + 0.5, toFloat y + 0.5 )
+                        ]
+                            ++ (possibleMovesPos ( x, y ) model.board
+                                    |> Debug.log "possibleMoves"
+                                    |> List.map
+                                        (\( x2, y2 ) ->
+                                            G.circle 3
+                                                |> G.outlined (G.solid 4) G.lightGreen
+                                                |> drawPieceAt ( toFloat x2 + 0.5, toFloat y2 + 0.5 )
+                                        )
+                               )
+
+                    Nothing ->
+                        []
+               )
         )
 
 

@@ -1,2 +1,2 @@
 dev:
-	elm-live src/Main.elm -- --debug
+	elm-live src/Main.elm --open -- --debug

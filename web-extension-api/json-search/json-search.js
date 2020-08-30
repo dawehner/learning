@@ -2,7 +2,7 @@
 Just draw a border round the document.body.
 */
 
-
+debugger;
 console.log(document.body);
 
 try {
