@@ -140,9 +140,8 @@ type Msg
 init : Model
 init =
     { board =
-        exampleBoard
-
-    --initBoard
+        --exampleBoard
+        initBoard
     , currentPiece = Nothing
     , currentPlayer = White
     }
@@ -728,12 +727,12 @@ view model =
                             |> drawPieceAt ( toFloat x + 0.5, toFloat y + 0.5 )
                         ]
                             ++ (possibleMovesPos ( x, y ) model.board
-                                    |> Debug.log "possibleMoves"
                                     |> List.map
                                         (\( x2, y2 ) ->
                                             G.circle 3
                                                 |> G.outlined (G.solid 4) G.lightGreen
                                                 |> drawPieceAt ( toFloat x2 + 0.5, toFloat y2 + 0.5 )
+                                                |> G.notifyTap (ClickPiece (posToIndex ( x2, y2 )))
                                         )
                                )
 
