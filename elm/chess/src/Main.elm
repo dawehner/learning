@@ -471,11 +471,14 @@ update msg model =
                         Just ( None, PNone ) ->
                             model
 
-                        Just _ ->
-                            { model
-                                | currentPiece = Just next
-                                , currentPlayer = nextPlayer
-                            }
+                        Just ( c, _ ) ->
+                            if c == model.currentPlayer then
+                                { model
+                                    | currentPiece = Just next
+                                }
+
+                            else
+                                model
 
 
 drawPawn : PColor -> G.Shape userMsg
