@@ -60,15 +60,8 @@ emptyBoard =
 exampleBoard : Board
 exampleBoard =
     emptyBoard
-        |> addPiece ( 4, 3 ) White Queen
-        |> addPiece ( 6, 3 ) White Pawn
-        |> addPiece ( 2, 3 ) Black Pawn
-        |> addPiece ( 0, 3 ) Black Pawn
-        |> addPiece ( 1, 6 ) White Pawn
-        |> addPiece ( 6, 1 ) Black Pawn
-        |> addPiece ( 7, 0 ) White Pawn
-        |> addPiece ( 6, 5 ) White Pawn
-        |> addPiece ( 7, 6 ) Black Pawn
+        |> addPiece ( 5, 6 ) Black Pawn
+        |> addPiece ( 4, 5 ) White Pawn
 
 
 
@@ -146,7 +139,10 @@ type Msg
 
 init : Model
 init =
-    { board = exampleBoard -- initBoard
+    { board =
+        exampleBoard
+
+    --initBoard
     , currentPiece = Nothing
     , currentPlayer = White
     }
@@ -327,18 +323,44 @@ possibleMovesPos pos board =
 
                 Just ( c, Pawn ) ->
                     if c == White then
-                        if y1 == 1 then
+                        (if y1 == 1 then
                             [ ( x1, y1 + 1 ), ( x1, y1 + 2 ) ]
 
-                        else
+                         else
                             [ ( x1, y1 + 1 ) ]
+                        )
+                            ++ (if Tuple.first (getAtPos ( x1 - 1, y1 + 1 ) board) == Black then
+                                    [ ( x1 - 1, y1 + 1 ) ]
+
+                                else
+                                    []
+                               )
+                            ++ (if Tuple.first (getAtPos ( x1 + 1, y1 + 1 ) board) == Black then
+                                    [ ( x1 + 1, y1 + 1 ) ]
+
+                                else
+                                    []
+                               )
 
                     else if c == Black then
-                        if y1 == 6 then
+                        (if y1 == 6 then
                             [ ( x1, y1 - 1 ), ( x1, y1 - 2 ) ]
 
-                        else
+                         else
                             [ ( x1, y1 - 1 ) ]
+                        )
+                            ++ (if Tuple.first (getAtPos ( x1 - 1, y1 - 1 ) board) == White then
+                                    [ ( x1 - 1, y1 - 1 ) ]
+
+                                else
+                                    []
+                               )
+                            ++ (if Tuple.first (getAtPos ( x1 + 1, y1 - 1 ) board) == White then
+                                    [ ( x1 + 1, y1 - 1 ) ]
+
+                                else
+                                    []
+                               )
 
                     else
                         []

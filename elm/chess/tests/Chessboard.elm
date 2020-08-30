@@ -24,16 +24,66 @@ suitePossibleMovesPos =
         [ describe "Pawns"
             [ test "White Pawns" <|
                 \_ ->
-                    Expect.equal [ ( 0, 2 ), ( 0, 3 ) ] <| possibleMovesPos ( 0, 1 ) initBoard
+                    Expect.equal
+                        [ ( 0, 2 )
+                        , ( 0, 3 )
+                        ]
+                    <|
+                        possibleMovesPos ( 0, 1 ) initBoard
             , test "Black Pawns" <|
                 \_ ->
-                    Expect.equal [ ( 0, 5 ), ( 0, 4 ) ] <| possibleMovesPos ( 0, 6 ) initBoard
+                    Expect.equal
+                        [ ( 0, 5 )
+                        , ( 0, 4 )
+                        ]
+                    <|
+                        possibleMovesPos ( 0, 6 ) initBoard
             , test "Upper edge" <|
                 \_ ->
-                    Expect.equal [] <| possibleMovesPos ( 0, 7 ) (initBoard |> addPiece ( 0, 7 ) White Pawn)
+                    Expect.equal [] <|
+                        possibleMovesPos ( 0, 7 )
+                            (initBoard
+                                |> addPiece
+                                    ( 0, 7 )
+                                    White
+                                    Pawn
+                            )
             , test "Lower edge" <|
                 \_ ->
-                    Expect.equal [] <| possibleMovesPos ( 0, 0 ) (initBoard |> addPiece ( 0, 0 ) Black Pawn)
+                    Expect.equal [] <|
+                        possibleMovesPos
+                            ( 0, 0 )
+                            (initBoard
+                                |> addPiece ( 0, 0 ) Black Pawn
+                            )
+            , test "Beat diagonal white" <|
+                \_ ->
+                    Expect.equal
+                        [ ( 0, 2 )
+                        , ( 0, 3 )
+                        , ( 1, 2 )
+                        ]
+                    <|
+                        possibleMovesPos
+                            ( 0, 1 )
+                            (emptyBoard
+                                |> addPiece ( 0, 1 ) White Pawn
+                                |> addPiece ( 1, 2 ) Black Pawn
+                            )
+            , test "Beat diagonal black" <|
+                \_ ->
+                    Expect.equal
+                        [ ( 5, 5 )
+                        , ( 5, 4 )
+                        , ( 4, 5 )
+                        ]
+                    <|
+                        possibleMovesPos
+                            ( 5, 6 )
+                            (emptyBoard
+                                |> addPiece ( 5, 6 ) Black Pawn
+                                |> addPiece ( 4, 5 ) White Pawn
+                            )
             ]
         , describe "Towers"
             [ test "empty Board" <|
