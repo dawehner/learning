@@ -154,65 +154,19 @@ checkPosIsMate color board =
 checkAllowedMove : Int -> Int -> Board -> Bool
 checkAllowedMove prev next board =
     let
-        ( x1, y1 ) =
+        pos1 =
             indexToPos prev
 
-        ( x2, y2 ) =
+        ( x1, y1 ) =
+            pos1
+
+        pos2 =
             indexToPos next
+
+        moves =
+            possibleMovesPos pos1 board
     in
-    case Array.get prev board of
-        Nothing ->
-            False
-
-        Just ( pc, pt ) ->
-            case pt of
-                Pawn ->
-                    if pc == White then
-                        if y1 >= y2 then
-                            False
-
-                        else if y2 - y1 == 1 then
-                            True
-
-                        else if y1 == 1 && y2 == 3 then
-                            True
-
-                        else
-                            False
-
-                    else if pc == Black then
-                        if y2 >= y1 then
-                            False
-
-                        else if y1 - y2 == 1 then
-                            True
-
-                        else if y1 == 6 && y2 == 4 then
-                            True
-
-                        else
-                            False
-
-                    else
-                        True
-
-                Tower ->
-                    False
-
-                Horse ->
-                    False
-
-                Rug ->
-                    False
-
-                Queen ->
-                    False
-
-                King ->
-                    False
-
-                PNone ->
-                    False
+    List.member pos2 moves
 
 
 sortPos : List Pos -> List Pos
