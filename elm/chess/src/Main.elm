@@ -60,9 +60,15 @@ emptyBoard =
 exampleBoard : Board
 exampleBoard =
     emptyBoard
-        |> addPiece ( 4, 3 ) White Horse
-        |> addPiece ( 5, 5 ) Black Pawn
-        |> addPiece ( 3, 5 ) White Pawn
+        |> addPiece ( 4, 3 ) White Queen
+        |> addPiece ( 6, 3 ) White Pawn
+        |> addPiece ( 2, 3 ) Black Pawn
+        |> addPiece ( 0, 3 ) Black Pawn
+        |> addPiece ( 1, 6 ) White Pawn
+        |> addPiece ( 6, 1 ) Black Pawn
+        |> addPiece ( 7, 0 ) White Pawn
+        |> addPiece ( 6, 5 ) White Pawn
+        |> addPiece ( 7, 6 ) Black Pawn
 
 
 
@@ -355,6 +361,9 @@ possibleMovesPos pos board =
                     , ( x1 + 2, y1 - 1 )
                     ]
                         |> filterCollisonHorse c board
+
+                Just ( c, Queen ) ->
+                    movesTower c ++ movesRug c
 
                 _ ->
                     []

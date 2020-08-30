@@ -260,6 +260,85 @@ suitePossibleMovesPos =
                                     )
                             )
                 ]
+            , describe "Queen"
+                [ test "empty board" <|
+                    \_ ->
+                        Expect.equal
+                            (sortPos
+                                [ ( 3, 3 )
+                                , ( 2, 3 )
+                                , ( 1, 3 )
+                                , ( 0, 3 )
+                                , ( 5, 3 )
+                                , ( 6, 3 )
+                                , ( 7, 3 )
+                                , ( 4, 4 )
+                                , ( 4, 5 )
+                                , ( 4, 6 )
+                                , ( 4, 7 )
+                                , ( 4, 2 )
+                                , ( 4, 1 )
+                                , ( 4, 0 )
+                                , ( 5, 4 )
+                                , ( 6, 5 )
+                                , ( 7, 6 )
+                                , ( 3, 2 )
+                                , ( 2, 1 )
+                                , ( 1, 0 )
+                                , ( 5, 2 )
+                                , ( 6, 1 )
+                                , ( 7, 0 )
+                                , ( 3, 4 )
+                                , ( 2, 5 )
+                                , ( 1, 6 )
+                                , ( 0, 7 )
+                                ]
+                            )
+                            (sortPos <|
+                                possibleMovesPos ( 4, 3 )
+                                    (emptyBoard
+                                        |> addPiece ( 4, 3 ) White Queen
+                                    )
+                            )
+                , test "board with pieces in the way" <|
+                    \_ ->
+                        Expect.equal
+                            (sortPos
+                                [ ( 2, 3 )
+                                , ( 3, 3 )
+                                , ( 5, 3 )
+                                , ( 4, 4 )
+                                , ( 4, 5 )
+                                , ( 4, 6 )
+                                , ( 4, 7 )
+                                , ( 4, 2 )
+                                , ( 4, 1 )
+                                , ( 4, 0 )
+                                , ( 5, 4 )
+                                , ( 3, 2 )
+                                , ( 2, 1 )
+                                , ( 1, 0 )
+                                , ( 5, 2 )
+                                , ( 6, 1 )
+                                , ( 3, 4 )
+                                , ( 2, 5 )
+                                ]
+                            )
+                            (sortPos <|
+                                possibleMovesPos ( 4, 3 )
+                                    (emptyBoard
+                                        |> addPiece ( 4, 3 ) White Queen
+                                        |> addPiece ( 6, 3 ) White Pawn
+                                        |> addPiece ( 2, 3 ) Black Pawn
+                                        |> addPiece ( 0, 3 ) Black Pawn
+                                        |> addPiece ( 1, 6 ) White Pawn
+                                        |> addPiece ( 6, 1 ) Black Pawn
+                                        |> addPiece ( 7, 0 ) White Pawn
+                                        |> addPiece ( 6, 5 ) White Pawn
+                                        |> addPiece ( 7, 6 ) Black Pawn
+                                    )
+                            )
+                ]
             ]
         ]
 
