@@ -60,9 +60,9 @@ emptyBoard =
 exampleBoard : Board
 exampleBoard =
     emptyBoard
-        |> addPiece ( 4, 3 ) White Rug
-        |> addPiece ( 1, 0 ) White Pawn
-        |> addPiece ( 6, 1 ) Black Pawn
+        |> addPiece ( 4, 3 ) White Horse
+        |> addPiece ( 5, 5 ) Black Pawn
+        |> addPiece ( 3, 5 ) White Pawn
 
 
 
@@ -250,11 +250,69 @@ filterCollison c board ps =
     collisionMemo ps []
 
 
+filterCollisonHorse : PColor -> Board -> List Pos -> List Pos
+filterCollisonHorse c board ps =
+    List.filter
+        (\p ->
+            let
+                ( c2, _ ) =
+                    getAtPos p board
+            in
+            if c == c2 then
+                False
+
+            else
+                True
+        )
+        ps
+
+
 possibleMovesPos : Pos -> Board -> List Pos
 possibleMovesPos pos board =
     let
         ( x1, y1 ) =
             pos
+
+        movesTower c =
+            (List.range (x1 + 1) 7
+                |> List.map (\x -> ( x, y1 ))
+                |> filterCollison c board
+            )
+                ++ (List.range 0 (x1 - 1)
+                        |> List.reverse
+                        |> List.map (\x -> ( x, y1 ))
+                        |> filterCollison c board
+                   )
+                ++ (List.range (y1 + 1) 7
+                        |> List.map (\y -> ( x1, y ))
+                        |> filterCollison c board
+                   )
+                ++ (List.range 0 (y1 - 1)
+                        |> List.reverse
+                        |> List.map (\y -> ( x1, y ))
+                        |> filterCollison c board
+                   )
+
+        movesRug c =
+            (List.range (x1 + 1) 7
+                |> List.map (\x -> ( x1 + (x - x1), y1 + (x - x1) ))
+                |> filterCollison c board
+            )
+                -- x-,y-
+                ++ (List.range 0 (x1 - 1)
+                        |> List.reverse
+                        |> List.map (\x -> ( x1 - (x1 - x), y1 - (x1 - x) ))
+                        |> filterCollison c board
+                   )
+                ++ (List.range (x1 + 1) 7
+                        |> List.map (\x -> ( x1 + (x - x1), y1 - (x - x1) ))
+                        |> filterCollison c board
+                   )
+                ++ (List.range 0 (x1 - 1)
+                        |> List.reverse
+                        |> List.map (\x -> ( x1 - (x1 - x), y1 + (x1 - x) ))
+                        |> filterCollison c board
+                   )
 
         possiblePos =
             case Array.get (posToIndex pos) board of
@@ -280,46 +338,23 @@ possibleMovesPos pos board =
                         []
 
                 Just ( c, Tower ) ->
-                    (List.range (x1 + 1) 7
-                        |> List.map (\x -> ( x, y1 ))
-                        |> filterCollison c board
-                    )
-                        ++ (List.range 0 (x1 - 1)
-                                |> List.reverse
-                                |> List.map (\x -> ( x, y1 ))
-                                |> filterCollison c board
-                           )
-                        ++ (List.range (y1 + 1) 7
-                                |> List.map (\y -> ( x1, y ))
-                                |> filterCollison c board
-                           )
-                        ++ (List.range 0 (y1 - 1)
-                                |> List.reverse
-                                |> List.map (\y -> ( x1, y ))
-                                |> filterCollison c board
-                           )
+                    movesTower c
 
                 Just ( c, Rug ) ->
                     -- x+,y+
-                    (List.range (x1 + 1) 7
-                        |> List.map (\x -> ( x1 + (x - x1), y1 + (x - x1) ))
-                        |> filterCollison c board
-                    )
-                        -- x-,y-
-                        ++ (List.range 0 (x1 - 1)
-                                |> List.reverse
-                                |> List.map (\x -> ( x1 - (x1 - x), y1 - (x1 - x) ))
-                                |> filterCollison c board
-                           )
-                        ++ (List.range (x1 + 1) 7
-                                |> List.map (\x -> ( x1 + (x - x1), y1 - (x - x1) ))
-                                |> filterCollison c board
-                           )
-                        ++ (List.range 0 (x1 - 1)
-                                |> List.reverse
-                                |> List.map (\x -> ( x1 - (x1 - x), y1 + (x1 - x) ))
-                                |> filterCollison c board
-                           )
+                    movesRug c
+
+                Just ( c, Horse ) ->
+                    [ ( x1 - 1, y1 + 2 )
+                    , ( x1 - 2, y1 + 1 )
+                    , ( x1 + 1, y1 + 2 )
+                    , ( x1 + 2, y1 + 1 )
+                    , ( x1 - 1, y1 - 2 )
+                    , ( x1 - 2, y1 - 1 )
+                    , ( x1 + 1, y1 - 2 )
+                    , ( x1 + 2, y1 - 1 )
+                    ]
+                        |> filterCollisonHorse c board
 
                 _ ->
                     []

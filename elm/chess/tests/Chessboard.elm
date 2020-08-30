@@ -202,6 +202,64 @@ suitePossibleMovesPos =
                                     |> addPiece ( 1, 0 ) White Pawn
                                     |> addPiece ( 6, 1 ) Black Pawn
                                 )
+            , describe "Horse"
+                [ test "empty board" <|
+                    \_ ->
+                        Expect.equal
+                            (sortPos
+                                [ ( 0, 2 )
+                                , ( 2, 2 )
+                                , ( 3, 1 )
+                                ]
+                            )
+                        <|
+                            sortPos <|
+                                possibleMovesPos ( 1, 0 )
+                                    (emptyBoard
+                                        |> addPiece ( 1, 0 ) White Horse
+                                    )
+                , test "empty board center" <|
+                    \_ ->
+                        Expect.equal
+                            (sortPos
+                                [ ( 3, 5 )
+                                , ( 2, 4 )
+                                , ( 2, 2 )
+                                , ( 3, 1 )
+                                , ( 5, 1 )
+                                , ( 6, 2 )
+                                , ( 6, 4 )
+                                , ( 5, 5 )
+                                ]
+                            )
+                        <|
+                            sortPos <|
+                                possibleMovesPos ( 4, 3 )
+                                    (emptyBoard
+                                        |> addPiece ( 4, 3 ) White Horse
+                                    )
+                , test "center with pieces in the way" <|
+                    \_ ->
+                        Expect.equal
+                            (sortPos
+                                [ ( 2, 4 )
+                                , ( 2, 2 )
+                                , ( 3, 1 )
+                                , ( 5, 1 )
+                                , ( 6, 2 )
+                                , ( 6, 4 )
+                                , ( 5, 5 )
+                                ]
+                            )
+                            (sortPos <|
+                                possibleMovesPos ( 4, 3 )
+                                    (emptyBoard
+                                        |> addPiece ( 4, 3 ) White Horse
+                                        |> addPiece ( 5, 5 ) Black Pawn
+                                        |> addPiece ( 3, 5 ) White Pawn
+                                    )
+                            )
+                ]
             ]
         ]
 
