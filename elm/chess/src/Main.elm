@@ -60,13 +60,8 @@ emptyBoard =
 exampleBoard : Board
 exampleBoard =
     emptyBoard
-        |> addPiece ( 5, 6 ) Black Pawn
-        |> addPiece ( 4, 5 ) White Pawn
-
-
-
---|> addPiece ( 6, 3 ) Black Pawn
---|> addPiece ( 3, 1 ) Black Pawn
+        |> addPiece ( 0, 1 ) White Pawn
+        |> addPiece ( 1, 2 ) Black Pawn
 
 
 initBoard : Board
@@ -140,8 +135,9 @@ type Msg
 init : Model
 init =
     { board =
-        --exampleBoard
-        initBoard
+        exampleBoard
+
+    --initBoard
     , currentPiece = Nothing
     , currentPlayer = White
     }
@@ -251,6 +247,43 @@ filterCollison c board ps =
     collisionMemo ps []
 
 
+filterCollisonPawn : PColor -> Pos -> Board -> List Pos -> List Pos
+filterCollisonPawn c pos board moves =
+    let
+        ( x1, y1 ) =
+            pos
+
+        collisionMemo list memo =
+            case list of
+                [] ->
+                    List.reverse memo
+
+                p :: ps ->
+                    let
+                        ( c2, _ ) =
+                            getAtPos p board
+
+                        ( x2, y2 ) =
+                            p
+                    in
+                    if c2 == None then
+                        -- nothing
+                        collisionMemo ps (p :: memo)
+
+                    else if c /= c2 then
+                        if abs (x1 - x2) == 1 then
+                            collisionMemo ps (p :: memo)
+
+                        else
+                            List.reverse memo
+
+                    else
+                        -- same colour
+                        List.reverse memo
+    in
+    collisionMemo moves []
+
+
 filterCollisonHorse : PColor -> Board -> List Pos -> List Pos
 filterCollisonHorse c board ps =
     List.filter
@@ -340,6 +373,7 @@ possibleMovesPos pos board =
                                 else
                                     []
                                )
+                            |> filterCollisonPawn c ( x1, y1 ) board
 
                     else if c == Black then
                         (if y1 == 6 then
@@ -360,6 +394,7 @@ possibleMovesPos pos board =
                                 else
                                     []
                                )
+                            |> filterCollisonPawn c ( x1, y1 ) board
 
                     else
                         []

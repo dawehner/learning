@@ -70,6 +70,28 @@ suitePossibleMovesPos =
                                 |> addPiece ( 0, 1 ) White Pawn
                                 |> addPiece ( 1, 2 ) Black Pawn
                             )
+            , test "Pawn of same colour" <|
+                \_ ->
+                    Expect.equal
+                        []
+                    <|
+                        possibleMovesPos
+                            ( 0, 1 )
+                            (emptyBoard
+                                |> addPiece ( 0, 1 ) White Pawn
+                                |> addPiece ( 0, 2 ) White Pawn
+                            )
+            , test "Pawn of different colour" <|
+                \_ ->
+                    Expect.equal
+                        []
+                    <|
+                        possibleMovesPos
+                            ( 0, 1 )
+                            (emptyBoard
+                                |> addPiece ( 0, 1 ) White Pawn
+                                |> addPiece ( 0, 2 ) Black Pawn
+                            )
             , test "Beat diagonal black" <|
                 \_ ->
                     Expect.equal
