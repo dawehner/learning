@@ -694,6 +694,12 @@ chessBoard =
            , G.line ( 0, 240 ) ( 240, 240 )
                 |> G.outlined (G.solid 1) G.black
            ]
+        ++ ([ "A", "B", "C", "D", "E", "F", "G", "H" ]
+                |> List.indexedMap (\i s -> G.text s |> G.filled G.black |> G.move ( 30 * toFloat i + 8, -10 ))
+           )
+        ++ (List.range 1 8
+                |> List.map (\i -> G.text (String.fromInt i) |> G.filled G.black |> G.move ( -10, 30 * toFloat (i - 1) + 8 ))
+           )
 
 
 drawPiece : Int -> Piece -> G.Shape Msg
