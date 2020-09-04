@@ -5,7 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "parcel-bundler": "^1.12.4",
-    "react": "^0.0.0-experimental-b53ea6ca0",
+    "react": "^0.14.0",
     "react-dom": "^0.0.0-experimental-b53ea6ca0"
   }
 }
