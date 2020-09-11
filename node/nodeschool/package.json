@@ -4,7 +4,7 @@
     "async": "^2.1.2",
     "fetch": "^1.1.0",
     "learnyounode": "^3.5.8",
-    "node-fetch": "^1.6.3",
+    "node-fetch": "^2.6.1",
     "through2-map": "^3.0.0"
   }
 }
