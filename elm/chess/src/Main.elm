@@ -454,11 +454,6 @@ update msg model =
                     in
                     case Array.get prev model.board of
                         Just ( color1, pType1 ) ->
-                            --if color2 /= color then
-                            --    -- handle errors?
-                            --    model
-                            --
-                            --else
                             case Array.get next model.board of
                                 Just ( None, _ ) ->
                                     if checkAllowedMove prev next model.board then
@@ -476,21 +471,25 @@ update msg model =
 
                                 Just ( color2, pType2 ) ->
                                     -- Beat someone
-                                    if color1 /= color2 then
-                                        { model
-                                            | board =
-                                                Array.set prev ( None, PNone ) model.board
-                                                    |> Array.set next ( color1, pType1 )
-                                            , currentPiece = Nothing
-                                            , currentPlayer = nextPlayer
-                                            , history = nextHistory :: model.history
-                                        }
+                                    if checkAllowedMove prev next model.board then
+                                        if color1 /= color2 then
+                                            { model
+                                                | board =
+                                                    Array.set prev ( None, PNone ) model.board
+                                                        |> Array.set next ( color1, pType1 )
+                                                , currentPiece = Nothing
+                                                , currentPlayer = nextPlayer
+                                                , history = nextHistory :: model.history
+                                            }
+
+                                        else
+                                            { model
+                                                | currentPiece = Nothing
+                                                , currentPlayer = nextPlayer
+                                            }
 
                                     else
-                                        { model
-                                            | currentPiece = Nothing
-                                            , currentPlayer = nextPlayer
-                                        }
+                                        model
 
                                 -- move to empty pos
                                 Nothing ->
