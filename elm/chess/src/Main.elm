@@ -45,7 +45,12 @@ type alias Model =
     { board : Board
     , currentPiece : Maybe Int
     , currentPlayer : PColor
+    , history : List HistoryEntry
     }
+
+
+type HistoryEntry
+    = HistoryEntry Pos Pos
 
 
 type alias Board =
@@ -135,11 +140,10 @@ type Msg
 init : Model
 init =
     { board =
-        exampleBoard
-
-    --initBoard
+        initBoard
     , currentPiece = Nothing
     , currentPlayer = White
+    , history = []
     }
 
 
@@ -444,6 +448,10 @@ update msg model =
             in
             case model.currentPiece of
                 Just prev ->
+                    let
+                        nextHistory =
+                            HistoryEntry (indexToPos prev) (indexToPos next)
+                    in
                     case Array.get prev model.board of
                         Just ( color1, pType1 ) ->
                             --if color2 /= color then
@@ -460,6 +468,7 @@ update msg model =
                                                     |> Array.set next ( color1, pType1 )
                                             , currentPiece = Nothing
                                             , currentPlayer = nextPlayer
+                                            , history = nextHistory :: model.history
                                         }
 
                                     else
@@ -474,6 +483,7 @@ update msg model =
                                                     |> Array.set next ( color1, pType1 )
                                             , currentPiece = Nothing
                                             , currentPlayer = nextPlayer
+                                            , history = nextHistory :: model.history
                                         }
 
                                     else
@@ -490,6 +500,7 @@ update msg model =
                                                 |> Array.set next ( color1, pType1 )
                                         , currentPiece = Nothing
                                         , currentPlayer = nextPlayer
+                                        , history = nextHistory :: model.history
                                     }
 
                         Nothing ->
@@ -658,6 +669,54 @@ drawPieceAt ( x, y ) piece =
     piece |> G.move ( 30 * x, 30 * y )
 
 
+historyEntryToLabel : HistoryEntry -> ( ( String, String ), ( String, String ) )
+historyEntryToLabel (HistoryEntry p1 p2) =
+    ( posToPosLabel p1, posToPosLabel p2 )
+
+
+posToPosLabel : Pos -> ( String, String )
+posToPosLabel ( x, y ) =
+    ( case x of
+        0 ->
+            "A"
+
+        1 ->
+            "B"
+
+        2 ->
+            "C"
+
+        3 ->
+            "D"
+
+        4 ->
+            "E"
+
+        5 ->
+            "F"
+
+        6 ->
+            "G"
+
+        7 ->
+            "H"
+
+        _ ->
+            "_"
+    , String.fromInt (y + 1)
+    )
+
+
+historyLog : List HistoryEntry -> List (G.Shape userMsg)
+historyLog hs =
+    List.map historyEntryToLabel hs
+        |> List.map
+            (\( ( x1, y1 ), ( x2, y2 ) ) ->
+                G.text (x1 ++ y1 ++ "-" ++ x2 ++ y2) |> G.filled G.black
+            )
+        |> List.indexedMap (\i x -> G.move ( 40 * toFloat i, -50 ) x)
+
+
 chessBoard : List (G.Shape userMsg)
 chessBoard =
     (List.range 0 7
@@ -760,6 +819,7 @@ view model =
                     model.board
                     |> Array.toList
                )
+            ++ historyLog model.history
             ++ (case model.currentPiece of
                     Just i ->
                         let
