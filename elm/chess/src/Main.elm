@@ -1,11 +1,12 @@
 module Main exposing (..)
 
 import Array
+import Array.Extra
 import GraphicSVG as G
 import GraphicSVG.App
 import Html
 import Html.Attributes
-import List.Extra
+import Utility exposing (elemIndex)
 
 
 type PColor
@@ -147,9 +148,34 @@ init =
     }
 
 
-checkPosIsMate : PColor -> Board -> Bool
+checkPosIsMate : PColor -> Board -> Maybe Pos
 checkPosIsMate color board =
-    False
+    let
+        posKing =
+            elemIndex ( revertColor color, King ) board
+            |> Maybe.map indexToPos
+    in
+        Maybe.andThen
+            (\pos ->
+                -- For each position on the board get the possible moves
+                Array.indexedMap
+                    (\i ( c, p ) ->
+                        if c == color then
+                            possibleMovesPos (indexToPos i) board
+
+                        else
+                            []
+                    )
+                    board
+                    -- Now for each piece we have their moves so we can
+                    -- see whether they can hit the king.
+                    |> Array.map
+                        (\possibleMoves ->
+                            List.member pos possibleMoves
+                        )
+                    |> elemIndex True
+                    |> Maybe.map indexToPos
+            ) posKing
 
 
 checkAllowedMove : Int -> Int -> Board -> Bool
@@ -214,7 +240,7 @@ emptyOrEqual : PColor -> Board -> Pos -> Bool
 emptyOrEqual color board pos =
     let
         ( c2, p2 ) =
-            Debug.log "piece" <| getAtPos (Debug.log "pos" pos) board
+            getAtPos pos board
     in
     if c2 == None || c2 == color then
         True
@@ -819,6 +845,7 @@ view model =
                     |> Array.toList
                )
             ++ historyLog model.history
+            ++ showCheckMate model
             ++ (case model.currentPiece of
                     Just i ->
                         let
@@ -843,6 +870,21 @@ view model =
                         []
                )
         )
+
+
+showCheckMate : Model -> List (G.Shape Msg)
+showCheckMate { board } =
+    [ Maybe.map (\pos ->
+        let
+            (s1, s2) = posToPosLabel pos
+        in
+            G.text ("Checkmate: " ++ s1 ++ "-" ++ s2)
+    ) (checkPosIsMate White board)
+        |> Maybe.withDefault (G.text "")
+        |> G.bold
+        |> G.filled G.black
+        |> G.move ( 0, -70 )
+    ]
 
 
 main : GraphicSVG.App.NotificationsApp Model Msg
