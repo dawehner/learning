@@ -873,18 +873,20 @@ view model =
 
 
 showCheckMate : Model -> List (G.Shape Msg)
-showCheckMate { board } =
-    [ Maybe.map (\pos ->
-        let
-            (s1, s2) = posToPosLabel pos
-        in
-            G.text ("Checkmate: " ++ s1 ++ "-" ++ s2)
-    ) (checkPosIsMate White board)
-        |> Maybe.withDefault (G.text "")
-        |> G.bold
-        |> G.filled G.black
-        |> G.move ( 0, -70 )
-    ]
+showCheckMate { board, currentPlayer } =
+    if currentPlayer /= None then
+        [ Maybe.map (\pos ->
+            let
+                (s1, s2) = posToPosLabel pos
+            in
+                G.text ("Checkmate: " ++ s1 ++ "-" ++ s2)
+        ) (checkPosIsMate currentPlayer board)
+            |> Maybe.withDefault (G.text "")
+            |> G.bold
+            |> G.filled G.black
+            |> G.move ( 0, -70 )
+        ]
+        else []
 
 
 main : GraphicSVG.App.NotificationsApp Model Msg
