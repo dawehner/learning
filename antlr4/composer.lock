@@ -1,0 +1,58 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "9233c325a30c6240331595ffc1ac17ad",
+    "packages": [
+        {
+            "name": "antlr4/antlr4",
+            "version": "4.7.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yar3333/antlr4-php-runtime.git",
+                "reference": "dca322a566efb735c3f75d03993ec464b228b358"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yar3333/antlr4-php-runtime/zipball/dca322a566efb735c3f75d03993ec464b228b358",
+                "reference": "dca322a566efb735c3f75d03993ec464b228b358",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Antlr4\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Yaroslav Sivakov",
+                    "email": "yar3333@gmail.com"
+                }
+            ],
+            "description": "antlr4 runtime",
+            "keywords": [
+                "antlr4"
+            ],
+            "time": "2019-08-06T08:38:56+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
+}

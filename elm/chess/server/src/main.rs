@@ -1,5 +1,10 @@
 use serde::{Deserialize, Serialize};
+use std::net::TcpListener;
 use std::thread;
+
+use tungstenite::accept_hdr;
+use tungstenite::handshake::server::{Request, Response};
+
 use websocket::sync::Server;
 use websocket::OwnedMessage;
 
@@ -42,7 +47,22 @@ struct Move {
 fn main() {
     // let exampleMove : Move = Move { color : PieceColor::White, from : (Column::A, 2), to : (Column::A, 3) };
 
-    let server = Server::bind("127.0.0.1:2794").unwrap();
+    let server = TcpListener::bind("127.0.0.1:2794").unwrap();
+
+    for stream in server.incoming() {
+        thread::spawn(move || {
+            let callback = |req : &Request, mut response : Response| {
+                println!("Recieved a new ws handshake");
+                println!("The request's path is: {}", req.uri().path());
+                println!("The request's headers are:");
+                for (ref header, _value) in req.headers() {
+                    println!("* {}", header);
+                }
+
+                
+            }
+        });
+    }
 
     for request in server.filter_map(Result::ok) {
         // New thread for each connction for now.

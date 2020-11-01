@@ -1,0 +1,40 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+
+/**
+ * Simple script for running Soong operations using Symfony Console.
+ */
+
+date_default_timezone_set('America/Chicago');
+
+set_time_limit(0);
+
+// Find the autoloader in our parent (if we're in our own project) or way up
+// high (if required by an application).
+foreach ([__DIR__ . '/../vendor/autoload.php', __DIR__ . '/../../../../vendor/autoload.php'] as $file) {
+    if (file_exists($file)) {
+        require $file;
+
+        break;
+    }
+}
+
+use Symfony\Component\Console\Application;
+use Soong\Console\Command\MigrateCommand;
+use Soong\Console\Command\RollbackCommand;
+use Soong\Console\Command\StatusCommand;
+
+$app = new Application('Soong POC', '0.1.0');
+$app->addCommands([
+    new MigrateCommand(),
+    new RollbackCommand(),
+    new StatusCommand(),
+]);
+
+try {
+    $app->run();
+}
+catch (\Exception $e) {
+    print $e->getMessage();
+}

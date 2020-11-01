@@ -1,0 +1,27 @@
+{
+  "headers": {
+    "date": "Sat, 13 Jun 2020 20:47:47 GMT",
+    "source-age": "0",
+    "via": "1.1 varnish (Varnish/6.0),1.1 varnish",
+    "access-control-allow-origin": "*",
+    "x-cache": "MISS, MISS",
+    "accept-ranges": "bytes",
+    "strict-transport-security": "max-age=31536000",
+    "x-fastly-request-id": "dd916dfc1818d401000b9fc137230335cec49390",
+    "x-xss-protection": "1; mode=block",
+    "connection": "keep-alive",
+    "etag": "W/\"be85adb9523261caa7ee972447b33de5bf265fa094fb67e77eab2165bbd8c1aa\"",
+    "x-served-by": "cache-lon4241-LON",
+    "content-security-policy": "default-src 'none'; style-src 'unsafe-inline'; sandbox",
+    "expires": "Sat, 13 Jun 2020 20:52:47 GMT",
+    "x-frame-options": "deny",
+    "vary": "Authorization,Accept-Encoding",
+    "content-type": "text/plain; charset=utf-8",
+    "x-cache-hits": "0, 0",
+    "x-timer": "S1592081267.189679,VS0,VE147",
+    "x-content-type-options": "nosniff",
+    "x-github-request-id": "838C:1EFD:72C5F:940F4:5EE539D6",
+    "cache-control": "max-age=300"
+  },
+  "url": "https://raw.githubusercontent.com/nekobato/deno-xml-parser/master/index.ts"
+}

@@ -1,0 +1,29 @@
+# Select what we should cache between builds
+cache:
+    paths:
+        - vendor/
+
+before_script:
+- apt-get update -yqq
+- apt-get install -yqq git libmcrypt-dev libcurl4-gnutls-dev libxml2-dev
+# Install PHP extensions
+- docker-php-ext-install mbstring json xml
+# Install & enable Xdebug for code coverage reports
+#- pecl install xdebug
+#- docker-php-ext-enable xdebug
+# Install and run Composer
+- curl -sS https://getcomposer.org/installer | php
+- php composer.phar install
+
+test:7.2:
+    # Select image from https://hub.docker.com/_/php/
+    image: php:7.2
+    script:
+    - vendor/bin/phpcs --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1
+    - vendor/bin/phpunit --configuration phpunit.xml.dist # --coverage-text --colors=never
+
+test:7.3:
+    # Select image from https://hub.docker.com/_/php/
+    image: php:7.3
+    script:
+        - vendor/bin/phpunit --configuration phpunit.xml.dist # --coverage-text --colors=never

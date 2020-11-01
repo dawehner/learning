@@ -1,0 +1,43 @@
+[
+    {
+        "name": "antlr4/antlr4",
+        "version": "4.7.4",
+        "version_normalized": "4.7.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/yar3333/antlr4-php-runtime.git",
+            "reference": "dca322a566efb735c3f75d03993ec464b228b358"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/yar3333/antlr4-php-runtime/zipball/dca322a566efb735c3f75d03993ec464b228b358",
+            "reference": "dca322a566efb735c3f75d03993ec464b228b358",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=7.1"
+        },
+        "time": "2019-08-06T08:38:56+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Antlr4\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Yaroslav Sivakov",
+                "email": "yar3333@gmail.com"
+            }
+        ],
+        "description": "antlr4 runtime",
+        "keywords": [
+            "antlr4"
+        ]
+    }
+]

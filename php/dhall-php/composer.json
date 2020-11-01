@@ -1,0 +1,15 @@
+{
+    "name": "dawehner/dhall-php",
+    "authors": [
+        {
+            "name": "Daniel Wehner",
+            "email": "dawehner@googlemail.com"
+        }
+    ],
+    "autoload": {
+        "dawehner\\DhallPhp": "src",
+    },
+    "require": {
+        "vektah/parser-combinator": "^0.2.4"
+    }
+}

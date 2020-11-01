@@ -1,0 +1,54 @@
+beeraccounts:
+    class: Soong\Task\EtlTask
+    configuration:
+        key_map:
+            class: Soong\KeyMap\DBAL
+            configuration:
+                connection:
+                    # Replace with your test database credentials.
+                    dbname: etltemp
+                    user: root
+                    host: 127.0.0.1
+                    port: 3306
+                    driver: pdo_mysql
+                table: map_beeraccounts
+        extract:
+            class: Soong\Extractor\Csv
+            configuration:
+                csv_file_path: data/migrate_example_beer_account.csv
+                key_properties:
+                    aid:
+                        type: integer
+        transform:
+            -
+                class: Soong\Transformer\Record\PropertyMapper
+                configuration:
+                    property_map:
+                        published: status
+                        registration_date: registered
+                        username: username
+                        display_name: nickname
+                        pass: password
+                        email: email
+                        taster:
+                            -
+                                class: Soong\Transformer\Property\ValueLookup
+                                source_property: pro
+                                configuration:
+                                    lookup_table:
+                                        0: Consumer
+                                        1: Professional Taster
+        load:
+            class: Soong\Loader\DBAL
+            configuration:
+                connection:
+                    # Replace with your test database credentials.
+                    dbname: etltemp
+                    user: root
+                    host: 127.0.0.1
+                    port: 3306
+                    driver: pdo_mysql
+                table: beer_users
+                key_properties:
+                    id:
+                        type: integer

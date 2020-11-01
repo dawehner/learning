@@ -1,0 +1,6 @@
+cid,bid,cid_parent,subject,body,aid
+1,99999998,,First comment,full body,0
+2,99999998,,Second comment,aromatic,0
+3,99999999,,Parent comment,malty,0
+4,99999999,1,Child comment,cold body,1
+5,99999999,4,Grandchild comment ,bitter body,1

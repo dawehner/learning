@@ -1,0 +1,51 @@
+beertopics:
+    class: Soong\Task\EtlTask
+    configuration:
+        key_map:
+            class: Soong\KeyMap\DBAL
+            configuration:
+                connection:
+                    # Replace with your test database credentials.
+                    dbname: etltemp
+                    user: root
+                    host: 127.0.0.1
+                    port: 3306
+                    driver: pdo_mysql
+                table: map_beertopics
+        extract:
+            class: Soong\Extractor\Csv
+            configuration:
+                csv_file_path: data/migrate_example_beer_topic.csv
+                key_properties:
+                    style:
+                        type: string
+        transform:
+            -
+                class: Soong\Transformer\Record\PropertyMapper
+                configuration:
+                    property_map:
+                        name: style
+                        description: details
+                        parent:
+                            -
+                                class: Soong\Transformer\Property\KeyMapLookup
+                                source_property: style_parent
+                                configuration:
+                                    key_map:
+                                        task_id: beertopics
+                        region: region
+                        hoppiness: hoppiness
+        load:
+            class: Soong\Loader\DBAL
+            configuration:
+                connection:
+                    # Replace with your test database credentials.
+                    dbname: etltemp
+                    user: root
+                    host: 127.0.0.1
+                    port: 3306
+                    driver: pdo_mysql
+                table: beer_terms
+                key_properties:
+                    id:
+                        type: integer

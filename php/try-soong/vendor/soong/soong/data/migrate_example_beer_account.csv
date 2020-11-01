@@ -1,0 +1,5 @@
+aid,status,registered,username,nickname,password,email,pro,beers
+1,1,2010-03-30 10:31:05,alice,alice in beerland,alicepass,alice@example.com,1,99999999|99999998|99999997
+2,1,2010-04-04 10:31:05,alice,alice in aleland,alicepass,alice2@example.com,0,99999999|99999998|99999997
+3,0,2007-03-15 10:31:05,bob,rebob,bobpass,bob@example.com,1,99999999|99999997
+4,1,2004-02-29 10:31:05,charlie,charlie chocolate,mykids,charlie@example.com,0,99999999|99999998

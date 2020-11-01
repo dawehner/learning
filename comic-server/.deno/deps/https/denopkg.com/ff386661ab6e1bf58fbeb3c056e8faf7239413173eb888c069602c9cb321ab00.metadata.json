@@ -1,0 +1,15 @@
+{
+  "headers": {
+    "date": "Sat, 13 Jun 2020 20:47:46 GMT",
+    "location": "https://raw.githubusercontent.com/nekobato/deno-xml-parser/master/index.ts",
+    "strict-transport-security": "max-age=63072000",
+    "server": "Vercel",
+    "content-length": "0",
+    "x-vercel-id": "lhr1::sfo1::56fmk-1592081266803-4cfbf7bac9b1",
+    "cache-control": "public, max-age=0, must-revalidate",
+    "age": "0",
+    "x-vercel-cache": "MISS",
+    "x-vercel-trace": "lhr1"
+  },
+  "url": "https://denopkg.com/nekobato/deno-xml-parser/index.ts"
+}

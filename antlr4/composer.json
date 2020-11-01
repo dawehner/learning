@@ -1,0 +1,12 @@
+{
+    "name": "dawehner/antlr4",
+    "require": {
+        "antlr4/antlr4": "^4.7"
+    },
+    "authors": [
+        {
+            "name": "Daniel Wehner",
+            "email": "dawehner@googlemail.com"
+        }
+    ]
+}

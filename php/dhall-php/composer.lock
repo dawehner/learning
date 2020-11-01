@@ -1,0 +1,68 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "883afbf17bc5900162e2caa02a628833",
+    "packages": [
+        {
+            "name": "vektah/parser-combinator",
+            "version": "0.2.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Vektah/parser-combinator.git",
+                "reference": "da7abe686184350eea446235c5c78d06c64cba80"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Vektah/parser-combinator/zipball/da7abe686184350eea446235c5c78d06c64cba80",
+                "reference": "da7abe686184350eea446235c5c78d06c64cba80",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.21",
+                "squizlabs/php_codesniffer": "1.4.5",
+                "vektah/bugfree-dangerzone": "0.3.*",
+                "vektah/psr2": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "vektah\\parser_combinator": "src/main/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Adam Scarr",
+                    "email": "scarr.adam@gmail.com",
+                    "homepage": "http://github.com/Vektah",
+                    "role": "Developer"
+                }
+            ],
+            "homepage": "https://github.com/Vektah/parser-combinator",
+            "keywords": [
+                "combinator",
+                "lexer",
+                "parser",
+                "parser combinator"
+            ],
+            "time": "2014-02-12T06:49:49+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

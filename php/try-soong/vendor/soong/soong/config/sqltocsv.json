@@ -1,0 +1,68 @@
+{
+  "sqltocsv_json": {
+    "class": "Soong\\Task\\EtlTask",
+    "configuration": {
+      "extract": {
+        "class": "Soong\\Extractor\\DBAL",
+        "configuration": {
+          "connection": {
+            "dbname": "etltemp",
+            "user": "root",
+            "host": "127.0.0.1",
+            "port": 3306,
+            "driver": "pdo_mysql"
+          },
+          "query": "SELECT * FROM extractsource",
+          "key_properties": {
+            "uniqueid": {
+              "type": "integer"
+            }
+          }
+        }
+      },
+      "transform": [
+        {
+          "class": "Soong\\Transformer\\Record\\PropertyMapper",
+          "configuration": {
+            "property_map": {
+              "foo": "foo",
+              "bar": [
+                {
+                  "class": "Soong\\Transformer\\Property\\UcFirst",
+                  "source_property": "bar"
+                }
+              ],
+              "num": [
+                {
+                  "class": "Soong\\Transformer\\Property\\Increment",
+                  "source_property": "num"
+                },
+                {
+                  "class": "Soong\\Transformer\\Property\\Double"
+                }
+              ],
+              "relation": "related"
+            }
+          }
+        }
+      ],
+      "load": {
+        "class": "Soong\\Loader\\Csv",
+        "configuration": {
+          "key_properties": {
+            "id": {
+              "type": "integer"
+            }
+          },
+          "properties": [
+            "foo",
+            "bar",
+            "num",
+            "relation",
+            "id"
+          ]
+        }
+      }
+    }
+  }
+}

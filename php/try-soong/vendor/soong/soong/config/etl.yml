@@ -1,0 +1,198 @@
+# Name of the task, used to reference it in commands.
+arraytosql:
+    # Concrete Task class to instantiate and invoke.
+    class: Soong\Task\EtlTask
+    # Configuration passed to the Task class at creation time.
+    configuration:
+        # The KeyMap component stores the mappings from source record keys to
+        # result record keys.
+        key_map:
+            class: Soong\KeyMap\DBAL
+            # Configuration for this KeyMap class - since we're using a SQL-based
+            # KeyMap, this contains DB connection into and a table name to use.
+            configuration:
+                connection:
+                    # Replace with your test database credentials.
+                    dbname: etltemp
+                    user: root
+                    host: 127.0.0.1
+                    port: 3306
+                    driver: pdo_mysql
+                table: map_arraytosql
+        # The Extractor which will provide the data.
+        extract:
+            # The specific Extractor we use accepts the source data as a keyed
+            # array within its configuration.
+            class: Soong\Extractor\ArrayExtractor
+            configuration:
+                # Within the source data, the unique key is named "id" and is an integer.
+                # The KeyMap uses this information to create a map table and populate it.
+                key_properties:
+                    id:
+                        type: integer
+                # The data we're importing - an array of keyed arrays. The keys of
+                # each record array are the source property names.
+                data:
+                    -
+                        id: 1
+                        sourcefoo: first record
+                        bar: description of first record
+                        num: 1
+                    -
+                        id: 5
+                        sourcefoo: second record
+                        bar: description of second record
+                        num: 2
+                        related: 0
+                    -
+                        id: 8
+                        sourcefoo: third record
+                        bar: description of third record
+                        num: 38
+                        related: 1
+                    -
+                        id: 12
+                        sourcefoo: bogus
+                        bar: we should skip this
+                        num: -5
+                # Filters can be used to narrow down the raw data. In this example, we
+                # use a Select filter to skip bogus records.
+                filters:
+                    -
+                        class: Soong\Filter\Select
+                        configuration:
+                            criteria:
+                                -
+                                    - sourcefoo
+                                    - <>
+                                    - bogus
+        # The transformation stage passes each extracted Record through a series
+        # of record transformers to build a result Record to pass to the Loader.
+        transform:
+            -
+                # The Copy record transformer copies properties as-is from the
+                # extracted Record to the result record. With no configuration,
+                # it copies all properties.
+                class: Soong\Transformer\Record\Copy
+                configuration:
+                    # Use the include option to copy specific properties.
+                    include:
+                        - bar
+                        - num
+                    # Use the exclude option to copy all properties except those
+                    # specified.
+                    # This 'exclude' definition has exactly the same effect as
+                    # the above 'include':
+#                    exclude:
+#                        - id
+#                        - sourcefoo
+#                        - related
+            -
+                # This is the most important record transformer - it populates
+                # each of the result properties (the keys in the property_map).
+                class: Soong\Transformer\Record\PropertyMapper
+                configuration:
+                    property_map:
+                        # The canonical form for a property mapping is for each
+                        # result property name to contain an array of property
+                        # transformer definitions, each specifying at least the
+                        # property transformer class, and usually the name of a
+                        # source property to pass to the transformer.
+                        foo:
+                            -
+                                # This transformer simply returns its source
+                                # value as-is. Think of it as being equivalent
+                                # to the PHP statement
+                                # $result['foo'] = $source['sourcefoo'];
+                                class: Soong\Transformer\Property\Copy
+                                source_property: sourcefoo
+                        # The Copy transformer is so common, it's the default
+                        # when we simply map a result property from a source
+                        # property. In this case, we don't actually need to map
+                        # these properties here because the Copy record
+                        # transformer above has already done it.
+#                        bar: bar
+#                        num: num
+                        # The related property is the ID of a related record in
+                        # the same data set. The IDs are changing in this
+                        # migration, so to maintain the relationship we need to
+                        # rewrite ID references.
+                        related:
+                            -
+                                # The KeyMapLookup transformer accepts a key value from the source
+                                # data, looks that up in the specified KeyMap to see what the ID of
+                                # the corresponding destination data record is, and returns that ID.
+                                # Note: This works for our dataset where the related values only reference
+                                # already-migrated keys - handling chicken-and-egg problems is not yet
+                                # implemented.
+                                class: Soong\Transformer\Property\KeyMapLookup
+                                source_property: related
+                                configuration:
+                                    key_map:
+                                        task_id: arraytosql
+        # The DBAL Loader class loads the resulting data records into a DB table.
+        load:
+            class: Soong\Loader\DBAL
+            configuration:
+                connection:
+                    # Replace with your test database credentials.
+                    dbname: etltemp
+                    user: root
+                    host: 127.0.0.1
+                    port: 3306
+                    driver: pdo_mysql
+                # Name of the table to populate.
+                table: extractsource
+                # The destination table's primary key column is "uniqueid". In
+                # our scenario, it's an auto-increment column - the task will
+                # retrieve the newly-created key to stored in the KeyMap.
+                key_properties:
+                    uniqueid:
+                        type: integer
+sqltocsv:
+    class: Soong\Task\EtlTask
+    configuration:
+        # Note we have no key_map - we are using this migration as an exporter.
+        extract:
+            class: Soong\Extractor\DBAL
+            configuration:
+                connection:
+                    # Replace with your test database credentials.
+                    dbname: etltemp
+                    user: root
+                    host: 127.0.0.1
+                    port: 3306
+                    driver: pdo_mysql
+                query: "SELECT * FROM extractsource"
+                key_properties:
+                    uniqueid:
+                        type: integer
+        transform:
+            -
+                class: Soong\Transformer\Record\PropertyMapper
+                configuration:
+                    property_map:
+                        foo: foo
+                        bar:
+                            -
+                                class: Soong\Transformer\Property\UcFirst
+                                source_property: bar
+                        num:
+                            -
+                                class: Soong\Transformer\Property\Increment
+                                source_property: num
+                            -
+                                class: Soong\Transformer\Property\Double
+                        relation: related
+        load:
+            class: Soong\Loader\Csv
+            configuration:
+                key_properties:
+                    id:
+                        type: integer
+                properties:
+                    - foo
+                    - bar
+                    - num
+                    - relation
+                    - id

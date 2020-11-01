@@ -1,0 +1,55 @@
+beercontent:
+    class: Soong\Task\EtlTask
+    configuration:
+        key_map:
+            class: Soong\KeyMap\DBAL
+            configuration:
+                connection:
+                    # Replace with your test database credentials.
+                    dbname: etltemp
+                    user: root
+                    host: 127.0.0.1
+                    port: 3306
+                    driver: pdo_mysql
+                table: map_beercontent
+        extract:
+            class: Soong\Extractor\Csv
+            configuration:
+                csv_file_path: data/migrate_example_beer_content.csv
+                key_properties:
+                    bid:
+                        type: integer
+        transform:
+            -
+                class: Soong\Transformer\Record\PropertyMapper
+                configuration:
+                    property_map:
+                        name: name
+                        body: body
+                        excerpt: excerpt
+                        userid:
+                            -
+                                class: Soong\Transformer\Property\KeyMapLookup
+                                source_property: aid
+                                configuration:
+                                    key_map:
+                                        task_id: beeraccounts
+                        image_path: image
+                        image_alt: image_alt
+                        image_title: image_title
+                        image_description: image_description
+                        # topics: topic_csv
+        load:
+            class: Soong\Loader\DBAL
+            configuration:
+                connection:
+                    # Replace with your test database credentials.
+                    dbname: etltemp
+                    user: root
+                    host: 127.0.0.1
+                    port: 3306
+                    driver: pdo_mysql
+                table: beer
+                key_properties:
+                    id:
+                        type: integer

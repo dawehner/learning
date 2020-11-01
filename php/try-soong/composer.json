@@ -1,0 +1,5 @@
+{
+    "require": {
+        "soong/soong": "^0.7.0"
+    }
+}
