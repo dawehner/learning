@@ -9,11 +9,15 @@ final class User: Model, Content, Authenticatable {
 
     @Field(key: "name")
     var name: String
+    
+    @Field(key: "token")
+    var token: String?
 
     init() { }
 
-    init(id: UUID? = nil, name: String) {
+    init(id: UUID? = nil, name: String, token: String? = nil) {
         self.id = id
         self.name = name
+        self.token = token
     }
 }
