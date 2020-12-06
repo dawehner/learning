@@ -1,0 +1,16 @@
+{application, server,
+ [{description, "A Gleam program"},
+  {vsn, "1.0.0"},
+  {registered, []},
+  {mod, {server_app, []}},
+  {applications,
+   [kernel,
+    stdlib,
+    gleam_stdlib
+   ]},
+  {env,[]},
+  {modules, []},
+
+  {licenses, ["Apache 2.0"]},
+  {links, []}
+]}.

@@ -40,6 +40,18 @@ struct SimpleEntry: TimelineEntry {
     let configuration: ConfigurationIntent
 }
 
+struct FlowRateEntry : TimelineEntry {
+    let date : Date
+    let flowrate : String
+}
+struct FlowRateProvider : TimelineProvider {
+    var hasFetchedFlowRate : Bool
+    var flowRateUrl : String = "http://environment.data.gov.uk/flood-monitoring/id/stations/3399TH/readings?_sorted&latest"
+    
+    
+    get
+}
+
 struct flow_rate_widgetEntryView : View {
     var entry: Provider.Entry
 
