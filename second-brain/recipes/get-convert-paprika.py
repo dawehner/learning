@@ -9,7 +9,7 @@ import re
 
 if not os.path.exists('download'):
   os.system("paprika-recipes store-password")
-  os.system("paprika-recipes download-recipes --account daniel@daniel.town download")
+  os.system("paprika-recipes download-recipes download")
 
 if not os.path.exists('markdown'):
   os.mkdir('markdown')
