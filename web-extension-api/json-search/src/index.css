@@ -1,0 +1,56 @@
+.tree-element {
+  font-family: var(--monospace-font-family);
+  line-height: 1rem;
+  font-size: 0.8rem;
+}
+
+.tree-string {
+  color: var(--theme-color-string);
+}
+
+.tree-number {
+  color: var(--theme-color-number);
+}
+
+.tree-key {
+  color: var(--theme-color-key);
+}
+
+.tree-row:hover {
+  background-color: var(--theme-selection-background-hover);
+}
+
+ul.tab-bar {
+  overflow: hidden;
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1;
+  border-bottom: 1px solid lightgray;
+}
+
+ul.tab-bar li {
+  margin: 0;
+  padding: 3px 10px;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+ul.tab-bar li.active {
+  border-top: 2px solid var(--cb-div-5);
+}
+
+:root {
+  --monospace-font-family: Menlo, monospace;
+  --theme-selection-background-hover: rgb(243, 243, 243);
+  --theme-color-string: var(--cb-div-1);
+  --theme-color-number: var(--cb-div-2);
+  --theme-color-key: var(--cb-div-5);
+
+  --cb-div-1: rgb(215 25 28);
+  --cb-div-2: rgb(253 174 97);
+  --cb-div-3: rgb(255 255 191);
+  --cb-div-4: rgb(171 217 233);
+  --cb-div-5: rgb(44 123 182);
+}
