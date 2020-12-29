@@ -1,0 +1,783 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BABB046024FD96E600FDE35D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABB045F24FD96E600FDE35D /* AppDelegate.swift */; };
+		BABB046324FD96E600FDE35D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BABB046124FD96E600FDE35D /* Main.storyboard */; };
+		BABB046524FD96E600FDE35D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABB046424FD96E600FDE35D /* ViewController.swift */; };
+		BABB046724FD96E700FDE35D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BABB046624FD96E700FDE35D /* Assets.xcassets */; };
+		BABB047224FD96E700FDE35D /* gh_tracking_filterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABB047124FD96E700FDE35D /* gh_tracking_filterTests.swift */; };
+		BABB047D24FD96E700FDE35D /* gh_tracking_filterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABB047C24FD96E700FDE35D /* gh_tracking_filterUITests.swift */; };
+		BABB048424FD96E700FDE35D /* gh-tracking-filter Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = BABB048324FD96E700FDE35D /* gh-tracking-filter Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		BABB048924FD96E700FDE35D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BABB048824FD96E700FDE35D /* Cocoa.framework */; };
+		BABB048C24FD96E700FDE35D /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABB048B24FD96E700FDE35D /* SafariWebExtensionHandler.swift */; };
+		BABB048F24FD96E700FDE35D /* _locales in Resources */ = {isa = PBXBuildFile; fileRef = BABB048E24FD96E700FDE35D /* _locales */; };
+		BABB049124FD96E700FDE35D /* images in Resources */ = {isa = PBXBuildFile; fileRef = BABB049024FD96E700FDE35D /* images */; };
+		BABB049324FD96E700FDE35D /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = BABB049224FD96E700FDE35D /* manifest.json */; };
+		BABB049524FD96E700FDE35D /* background.js in Resources */ = {isa = PBXBuildFile; fileRef = BABB049424FD96E700FDE35D /* background.js */; };
+		BABB049724FD96E700FDE35D /* content.js in Resources */ = {isa = PBXBuildFile; fileRef = BABB049624FD96E700FDE35D /* content.js */; };
+		BABB049924FD96E700FDE35D /* popup.html in Resources */ = {isa = PBXBuildFile; fileRef = BABB049824FD96E700FDE35D /* popup.html */; };
+		BABB049B24FD96E700FDE35D /* popup.css in Resources */ = {isa = PBXBuildFile; fileRef = BABB049A24FD96E700FDE35D /* popup.css */; };
+		BABB049D24FD96E700FDE35D /* popup.js in Resources */ = {isa = PBXBuildFile; fileRef = BABB049C24FD96E700FDE35D /* popup.js */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BABB046E24FD96E700FDE35D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BABB045324FD96E600FDE35D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BABB045A24FD96E600FDE35D;
+			remoteInfo = "gh-tracking-filter";
+		};
+		BABB047924FD96E700FDE35D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BABB045324FD96E600FDE35D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BABB045A24FD96E600FDE35D;
+			remoteInfo = "gh-tracking-filter";
+		};
+		BABB048524FD96E700FDE35D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BABB045324FD96E600FDE35D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BABB048224FD96E700FDE35D;
+			remoteInfo = "gh-tracking-filter Extension";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		BABB04A524FD96E700FDE35D /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				BABB048424FD96E700FDE35D /* gh-tracking-filter Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		BABB045B24FD96E600FDE35D /* gh-tracking-filter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "gh-tracking-filter.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BABB045E24FD96E600FDE35D /* gh_tracking_filter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = gh_tracking_filter.entitlements; sourceTree = "<group>"; };
+		BABB045F24FD96E600FDE35D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		BABB046224FD96E600FDE35D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		BABB046424FD96E600FDE35D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		BABB046624FD96E700FDE35D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BABB046824FD96E700FDE35D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BABB046D24FD96E700FDE35D /* gh-tracking-filterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "gh-tracking-filterTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BABB047124FD96E700FDE35D /* gh_tracking_filterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gh_tracking_filterTests.swift; sourceTree = "<group>"; };
+		BABB047324FD96E700FDE35D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BABB047824FD96E700FDE35D /* gh-tracking-filterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "gh-tracking-filterUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BABB047C24FD96E700FDE35D /* gh_tracking_filterUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gh_tracking_filterUITests.swift; sourceTree = "<group>"; };
+		BABB047E24FD96E700FDE35D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BABB048324FD96E700FDE35D /* gh-tracking-filter Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "gh-tracking-filter Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BABB048824FD96E700FDE35D /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		BABB048B24FD96E700FDE35D /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
+		BABB048E24FD96E700FDE35D /* _locales */ = {isa = PBXFileReference; lastKnownFileType = folder; path = _locales; sourceTree = "<group>"; };
+		BABB049024FD96E700FDE35D /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images; sourceTree = "<group>"; };
+		BABB049224FD96E700FDE35D /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = manifest.json; sourceTree = "<group>"; };
+		BABB049424FD96E700FDE35D /* background.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = background.js; sourceTree = "<group>"; };
+		BABB049624FD96E700FDE35D /* content.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = content.js; sourceTree = "<group>"; };
+		BABB049824FD96E700FDE35D /* popup.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = popup.html; sourceTree = "<group>"; };
+		BABB049A24FD96E700FDE35D /* popup.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = popup.css; sourceTree = "<group>"; };
+		BABB049C24FD96E700FDE35D /* popup.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = popup.js; sourceTree = "<group>"; };
+		BABB049E24FD96E700FDE35D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BABB049F24FD96E700FDE35D /* gh_tracking_filter_Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = gh_tracking_filter_Extension.entitlements; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BABB045824FD96E600FDE35D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BABB046A24FD96E700FDE35D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BABB047524FD96E700FDE35D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BABB048024FD96E700FDE35D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BABB048924FD96E700FDE35D /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BABB045224FD96E600FDE35D = {
+			isa = PBXGroup;
+			children = (
+				BABB045D24FD96E600FDE35D /* gh-tracking-filter */,
+				BABB047024FD96E700FDE35D /* gh-tracking-filterTests */,
+				BABB047B24FD96E700FDE35D /* gh-tracking-filterUITests */,
+				BABB048A24FD96E700FDE35D /* gh-tracking-filter Extension */,
+				BABB048724FD96E700FDE35D /* Frameworks */,
+				BABB045C24FD96E600FDE35D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BABB045C24FD96E600FDE35D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BABB045B24FD96E600FDE35D /* gh-tracking-filter.app */,
+				BABB046D24FD96E700FDE35D /* gh-tracking-filterTests.xctest */,
+				BABB047824FD96E700FDE35D /* gh-tracking-filterUITests.xctest */,
+				BABB048324FD96E700FDE35D /* gh-tracking-filter Extension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BABB045D24FD96E600FDE35D /* gh-tracking-filter */ = {
+			isa = PBXGroup;
+			children = (
+				BABB045E24FD96E600FDE35D /* gh_tracking_filter.entitlements */,
+				BABB045F24FD96E600FDE35D /* AppDelegate.swift */,
+				BABB046124FD96E600FDE35D /* Main.storyboard */,
+				BABB046424FD96E600FDE35D /* ViewController.swift */,
+				BABB046624FD96E700FDE35D /* Assets.xcassets */,
+				BABB046824FD96E700FDE35D /* Info.plist */,
+			);
+			path = "gh-tracking-filter";
+			sourceTree = "<group>";
+		};
+		BABB047024FD96E700FDE35D /* gh-tracking-filterTests */ = {
+			isa = PBXGroup;
+			children = (
+				BABB047124FD96E700FDE35D /* gh_tracking_filterTests.swift */,
+				BABB047324FD96E700FDE35D /* Info.plist */,
+			);
+			path = "gh-tracking-filterTests";
+			sourceTree = "<group>";
+		};
+		BABB047B24FD96E700FDE35D /* gh-tracking-filterUITests */ = {
+			isa = PBXGroup;
+			children = (
+				BABB047C24FD96E700FDE35D /* gh_tracking_filterUITests.swift */,
+				BABB047E24FD96E700FDE35D /* Info.plist */,
+			);
+			path = "gh-tracking-filterUITests";
+			sourceTree = "<group>";
+		};
+		BABB048724FD96E700FDE35D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BABB048824FD96E700FDE35D /* Cocoa.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BABB048A24FD96E700FDE35D /* gh-tracking-filter Extension */ = {
+			isa = PBXGroup;
+			children = (
+				BABB048B24FD96E700FDE35D /* SafariWebExtensionHandler.swift */,
+				BABB049E24FD96E700FDE35D /* Info.plist */,
+				BABB049F24FD96E700FDE35D /* gh_tracking_filter_Extension.entitlements */,
+				BABB048D24FD96E700FDE35D /* Resources */,
+			);
+			path = "gh-tracking-filter Extension";
+			sourceTree = "<group>";
+		};
+		BABB048D24FD96E700FDE35D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				BABB048E24FD96E700FDE35D /* _locales */,
+				BABB049024FD96E700FDE35D /* images */,
+				BABB049224FD96E700FDE35D /* manifest.json */,
+				BABB049424FD96E700FDE35D /* background.js */,
+				BABB049624FD96E700FDE35D /* content.js */,
+				BABB049824FD96E700FDE35D /* popup.html */,
+				BABB049A24FD96E700FDE35D /* popup.css */,
+				BABB049C24FD96E700FDE35D /* popup.js */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BABB045A24FD96E600FDE35D /* gh-tracking-filter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BABB04A624FD96E700FDE35D /* Build configuration list for PBXNativeTarget "gh-tracking-filter" */;
+			buildPhases = (
+				BABB045724FD96E600FDE35D /* Sources */,
+				BABB045824FD96E600FDE35D /* Frameworks */,
+				BABB045924FD96E600FDE35D /* Resources */,
+				BABB04A524FD96E700FDE35D /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BABB048624FD96E700FDE35D /* PBXTargetDependency */,
+			);
+			name = "gh-tracking-filter";
+			productName = "gh-tracking-filter";
+			productReference = BABB045B24FD96E600FDE35D /* gh-tracking-filter.app */;
+			productType = "com.apple.product-type.application";
+		};
+		BABB046C24FD96E700FDE35D /* gh-tracking-filterTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BABB04A924FD96E700FDE35D /* Build configuration list for PBXNativeTarget "gh-tracking-filterTests" */;
+			buildPhases = (
+				BABB046924FD96E700FDE35D /* Sources */,
+				BABB046A24FD96E700FDE35D /* Frameworks */,
+				BABB046B24FD96E700FDE35D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BABB046F24FD96E700FDE35D /* PBXTargetDependency */,
+			);
+			name = "gh-tracking-filterTests";
+			productName = "gh-tracking-filterTests";
+			productReference = BABB046D24FD96E700FDE35D /* gh-tracking-filterTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		BABB047724FD96E700FDE35D /* gh-tracking-filterUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BABB04AC24FD96E700FDE35D /* Build configuration list for PBXNativeTarget "gh-tracking-filterUITests" */;
+			buildPhases = (
+				BABB047424FD96E700FDE35D /* Sources */,
+				BABB047524FD96E700FDE35D /* Frameworks */,
+				BABB047624FD96E700FDE35D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BABB047A24FD96E700FDE35D /* PBXTargetDependency */,
+			);
+			name = "gh-tracking-filterUITests";
+			productName = "gh-tracking-filterUITests";
+			productReference = BABB047824FD96E700FDE35D /* gh-tracking-filterUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		BABB048224FD96E700FDE35D /* gh-tracking-filter Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BABB04A224FD96E700FDE35D /* Build configuration list for PBXNativeTarget "gh-tracking-filter Extension" */;
+			buildPhases = (
+				BABB047F24FD96E700FDE35D /* Sources */,
+				BABB048024FD96E700FDE35D /* Frameworks */,
+				BABB048124FD96E700FDE35D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "gh-tracking-filter Extension";
+			productName = "gh-tracking-filter Extension";
+			productReference = BABB048324FD96E700FDE35D /* gh-tracking-filter Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BABB045324FD96E600FDE35D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1200;
+				LastUpgradeCheck = 1200;
+				TargetAttributes = {
+					BABB045A24FD96E600FDE35D = {
+						CreatedOnToolsVersion = 12.0;
+					};
+					BABB046C24FD96E700FDE35D = {
+						CreatedOnToolsVersion = 12.0;
+						TestTargetID = BABB045A24FD96E600FDE35D;
+					};
+					BABB047724FD96E700FDE35D = {
+						CreatedOnToolsVersion = 12.0;
+						TestTargetID = BABB045A24FD96E600FDE35D;
+					};
+					BABB048224FD96E700FDE35D = {
+						CreatedOnToolsVersion = 12.0;
+					};
+				};
+			};
+			buildConfigurationList = BABB045624FD96E600FDE35D /* Build configuration list for PBXProject "gh-tracking-filter" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = BABB045224FD96E600FDE35D;
+			productRefGroup = BABB045C24FD96E600FDE35D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BABB045A24FD96E600FDE35D /* gh-tracking-filter */,
+				BABB046C24FD96E700FDE35D /* gh-tracking-filterTests */,
+				BABB047724FD96E700FDE35D /* gh-tracking-filterUITests */,
+				BABB048224FD96E700FDE35D /* gh-tracking-filter Extension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BABB045924FD96E600FDE35D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BABB046724FD96E700FDE35D /* Assets.xcassets in Resources */,
+				BABB046324FD96E600FDE35D /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BABB046B24FD96E700FDE35D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BABB047624FD96E700FDE35D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BABB048124FD96E700FDE35D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BABB049524FD96E700FDE35D /* background.js in Resources */,
+				BABB049B24FD96E700FDE35D /* popup.css in Resources */,
+				BABB049924FD96E700FDE35D /* popup.html in Resources */,
+				BABB049124FD96E700FDE35D /* images in Resources */,
+				BABB049324FD96E700FDE35D /* manifest.json in Resources */,
+				BABB048F24FD96E700FDE35D /* _locales in Resources */,
+				BABB049724FD96E700FDE35D /* content.js in Resources */,
+				BABB049D24FD96E700FDE35D /* popup.js in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BABB045724FD96E600FDE35D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BABB046524FD96E600FDE35D /* ViewController.swift in Sources */,
+				BABB046024FD96E600FDE35D /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BABB046924FD96E700FDE35D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BABB047224FD96E700FDE35D /* gh_tracking_filterTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BABB047424FD96E700FDE35D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BABB047D24FD96E700FDE35D /* gh_tracking_filterUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BABB047F24FD96E700FDE35D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BABB048C24FD96E700FDE35D /* SafariWebExtensionHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BABB046F24FD96E700FDE35D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BABB045A24FD96E600FDE35D /* gh-tracking-filter */;
+			targetProxy = BABB046E24FD96E700FDE35D /* PBXContainerItemProxy */;
+		};
+		BABB047A24FD96E700FDE35D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BABB045A24FD96E600FDE35D /* gh-tracking-filter */;
+			targetProxy = BABB047924FD96E700FDE35D /* PBXContainerItemProxy */;
+		};
+		BABB048624FD96E700FDE35D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BABB048224FD96E700FDE35D /* gh-tracking-filter Extension */;
+			targetProxy = BABB048524FD96E700FDE35D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		BABB046124FD96E600FDE35D /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BABB046224FD96E600FDE35D /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		BABB04A024FD96E700FDE35D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		BABB04A124FD96E700FDE35D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		BABB04A324FD96E700FDE35D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "gh-tracking-filter Extension/gh_tracking_filter_Extension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YTK49CAUV9;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = "gh-tracking-filter Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dawehner.gh-tracking-filter-Extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		BABB04A424FD96E700FDE35D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "gh-tracking-filter Extension/gh_tracking_filter_Extension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YTK49CAUV9;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = "gh-tracking-filter Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dawehner.gh-tracking-filter-Extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		BABB04A724FD96E700FDE35D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "gh-tracking-filter/gh_tracking_filter.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = YTK49CAUV9;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = "gh-tracking-filter/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dawehner.gh-tracking-filter";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		BABB04A824FD96E700FDE35D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "gh-tracking-filter/gh_tracking_filter.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = YTK49CAUV9;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = "gh-tracking-filter/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dawehner.gh-tracking-filter";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		BABB04AA24FD96E700FDE35D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = YTK49CAUV9;
+				INFOPLIST_FILE = "gh-tracking-filterTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dawehner.gh-tracking-filterTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/gh-tracking-filter.app/Contents/MacOS/gh-tracking-filter";
+			};
+			name = Debug;
+		};
+		BABB04AB24FD96E700FDE35D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = YTK49CAUV9;
+				INFOPLIST_FILE = "gh-tracking-filterTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dawehner.gh-tracking-filterTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/gh-tracking-filter.app/Contents/MacOS/gh-tracking-filter";
+			};
+			name = Release;
+		};
+		BABB04AD24FD96E700FDE35D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = YTK49CAUV9;
+				INFOPLIST_FILE = "gh-tracking-filterUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dawehner.gh-tracking-filterUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "gh-tracking-filter";
+			};
+			name = Debug;
+		};
+		BABB04AE24FD96E700FDE35D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = YTK49CAUV9;
+				INFOPLIST_FILE = "gh-tracking-filterUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dawehner.gh-tracking-filterUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "gh-tracking-filter";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BABB045624FD96E600FDE35D /* Build configuration list for PBXProject "gh-tracking-filter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BABB04A024FD96E700FDE35D /* Debug */,
+				BABB04A124FD96E700FDE35D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BABB04A224FD96E700FDE35D /* Build configuration list for PBXNativeTarget "gh-tracking-filter Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BABB04A324FD96E700FDE35D /* Debug */,
+				BABB04A424FD96E700FDE35D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BABB04A624FD96E700FDE35D /* Build configuration list for PBXNativeTarget "gh-tracking-filter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BABB04A724FD96E700FDE35D /* Debug */,
+				BABB04A824FD96E700FDE35D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BABB04A924FD96E700FDE35D /* Build configuration list for PBXNativeTarget "gh-tracking-filterTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BABB04AA24FD96E700FDE35D /* Debug */,
+				BABB04AB24FD96E700FDE35D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BABB04AC24FD96E700FDE35D /* Build configuration list for PBXNativeTarget "gh-tracking-filterUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BABB04AD24FD96E700FDE35D /* Debug */,
+				BABB04AE24FD96E700FDE35D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BABB045324FD96E600FDE35D /* Project object */;
+}

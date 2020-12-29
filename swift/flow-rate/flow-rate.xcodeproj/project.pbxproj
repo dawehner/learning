@@ -1,0 +1,751 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BA2ED298254D6D37001FC136 /* flow_rateApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2ED297254D6D37001FC136 /* flow_rateApp.swift */; };
+		BA2ED29A254D6D37001FC136 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2ED299254D6D37001FC136 /* ContentView.swift */; };
+		BA2ED29C254D6D38001FC136 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA2ED29B254D6D38001FC136 /* Assets.xcassets */; };
+		BA2ED29F254D6D38001FC136 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA2ED29E254D6D38001FC136 /* Preview Assets.xcassets */; };
+		BA2ED2AA254D6D38001FC136 /* flow_rateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2ED2A9254D6D38001FC136 /* flow_rateTests.swift */; };
+		BA2ED2B5254D6D38001FC136 /* flow_rateUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2ED2B4254D6D38001FC136 /* flow_rateUITests.swift */; };
+		BA2ED2CC254D6D5B001FC136 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA2ED2CB254D6D5B001FC136 /* WidgetKit.framework */; };
+		BA2ED2CE254D6D5B001FC136 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA2ED2CD254D6D5B001FC136 /* SwiftUI.framework */; };
+		BA2ED2D1254D6D5B001FC136 /* flow_rate_widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2ED2D0254D6D5B001FC136 /* flow_rate_widget.swift */; };
+		BA2ED2D4254D6D5C001FC136 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA2ED2D3254D6D5C001FC136 /* Assets.xcassets */; };
+		BA2ED2D6254D6D5C001FC136 /* flow_rate_widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = BA2ED2D2254D6D5B001FC136 /* flow_rate_widget.intentdefinition */; };
+		BA2ED2D7254D6D5C001FC136 /* flow_rate_widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = BA2ED2D2254D6D5B001FC136 /* flow_rate_widget.intentdefinition */; };
+		BA2ED2DA254D6D5C001FC136 /* flow-rate-widgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = BA2ED2C9254D6D5B001FC136 /* flow-rate-widgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BA2ED2A6254D6D38001FC136 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BA2ED28C254D6D36001FC136 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BA2ED293254D6D37001FC136;
+			remoteInfo = "flow-rate";
+		};
+		BA2ED2B1254D6D38001FC136 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BA2ED28C254D6D36001FC136 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BA2ED293254D6D37001FC136;
+			remoteInfo = "flow-rate";
+		};
+		BA2ED2D8254D6D5C001FC136 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BA2ED28C254D6D36001FC136 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BA2ED2C8254D6D5B001FC136;
+			remoteInfo = "flow-rate-widgetExtension";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		BA2ED2DE254D6D5C001FC136 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				BA2ED2DA254D6D5C001FC136 /* flow-rate-widgetExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		BA2ED294254D6D37001FC136 /* flow-rate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "flow-rate.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BA2ED297254D6D37001FC136 /* flow_rateApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = flow_rateApp.swift; sourceTree = "<group>"; };
+		BA2ED299254D6D37001FC136 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		BA2ED29B254D6D38001FC136 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BA2ED29E254D6D38001FC136 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		BA2ED2A0254D6D38001FC136 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BA2ED2A5254D6D38001FC136 /* flow-rateTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "flow-rateTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BA2ED2A9254D6D38001FC136 /* flow_rateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = flow_rateTests.swift; sourceTree = "<group>"; };
+		BA2ED2AB254D6D38001FC136 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BA2ED2B0254D6D38001FC136 /* flow-rateUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "flow-rateUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BA2ED2B4254D6D38001FC136 /* flow_rateUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = flow_rateUITests.swift; sourceTree = "<group>"; };
+		BA2ED2B6254D6D38001FC136 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BA2ED2C9254D6D5B001FC136 /* flow-rate-widgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "flow-rate-widgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BA2ED2CB254D6D5B001FC136 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		BA2ED2CD254D6D5B001FC136 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		BA2ED2D0254D6D5B001FC136 /* flow_rate_widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = flow_rate_widget.swift; sourceTree = "<group>"; };
+		BA2ED2D2254D6D5B001FC136 /* flow_rate_widget.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = flow_rate_widget.intentdefinition; sourceTree = "<group>"; };
+		BA2ED2D3254D6D5C001FC136 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BA2ED2D5254D6D5C001FC136 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BA2ED291254D6D37001FC136 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA2ED2A2254D6D38001FC136 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA2ED2AD254D6D38001FC136 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA2ED2C6254D6D5B001FC136 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA2ED2CE254D6D5B001FC136 /* SwiftUI.framework in Frameworks */,
+				BA2ED2CC254D6D5B001FC136 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BA2ED28B254D6D36001FC136 = {
+			isa = PBXGroup;
+			children = (
+				BA2ED296254D6D37001FC136 /* flow-rate */,
+				BA2ED2A8254D6D38001FC136 /* flow-rateTests */,
+				BA2ED2B3254D6D38001FC136 /* flow-rateUITests */,
+				BA2ED2CF254D6D5B001FC136 /* flow-rate-widget */,
+				BA2ED2CA254D6D5B001FC136 /* Frameworks */,
+				BA2ED295254D6D37001FC136 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BA2ED295254D6D37001FC136 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BA2ED294254D6D37001FC136 /* flow-rate.app */,
+				BA2ED2A5254D6D38001FC136 /* flow-rateTests.xctest */,
+				BA2ED2B0254D6D38001FC136 /* flow-rateUITests.xctest */,
+				BA2ED2C9254D6D5B001FC136 /* flow-rate-widgetExtension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BA2ED296254D6D37001FC136 /* flow-rate */ = {
+			isa = PBXGroup;
+			children = (
+				BA2ED297254D6D37001FC136 /* flow_rateApp.swift */,
+				BA2ED299254D6D37001FC136 /* ContentView.swift */,
+				BA2ED29B254D6D38001FC136 /* Assets.xcassets */,
+				BA2ED2A0254D6D38001FC136 /* Info.plist */,
+				BA2ED29D254D6D38001FC136 /* Preview Content */,
+			);
+			path = "flow-rate";
+			sourceTree = "<group>";
+		};
+		BA2ED29D254D6D38001FC136 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				BA2ED29E254D6D38001FC136 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		BA2ED2A8254D6D38001FC136 /* flow-rateTests */ = {
+			isa = PBXGroup;
+			children = (
+				BA2ED2A9254D6D38001FC136 /* flow_rateTests.swift */,
+				BA2ED2AB254D6D38001FC136 /* Info.plist */,
+			);
+			path = "flow-rateTests";
+			sourceTree = "<group>";
+		};
+		BA2ED2B3254D6D38001FC136 /* flow-rateUITests */ = {
+			isa = PBXGroup;
+			children = (
+				BA2ED2B4254D6D38001FC136 /* flow_rateUITests.swift */,
+				BA2ED2B6254D6D38001FC136 /* Info.plist */,
+			);
+			path = "flow-rateUITests";
+			sourceTree = "<group>";
+		};
+		BA2ED2CA254D6D5B001FC136 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BA2ED2CB254D6D5B001FC136 /* WidgetKit.framework */,
+				BA2ED2CD254D6D5B001FC136 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BA2ED2CF254D6D5B001FC136 /* flow-rate-widget */ = {
+			isa = PBXGroup;
+			children = (
+				BA2ED2D0254D6D5B001FC136 /* flow_rate_widget.swift */,
+				BA2ED2D2254D6D5B001FC136 /* flow_rate_widget.intentdefinition */,
+				BA2ED2D3254D6D5C001FC136 /* Assets.xcassets */,
+				BA2ED2D5254D6D5C001FC136 /* Info.plist */,
+			);
+			path = "flow-rate-widget";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BA2ED293254D6D37001FC136 /* flow-rate */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BA2ED2B9254D6D38001FC136 /* Build configuration list for PBXNativeTarget "flow-rate" */;
+			buildPhases = (
+				BA2ED290254D6D37001FC136 /* Sources */,
+				BA2ED291254D6D37001FC136 /* Frameworks */,
+				BA2ED292254D6D37001FC136 /* Resources */,
+				BA2ED2DE254D6D5C001FC136 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BA2ED2D9254D6D5C001FC136 /* PBXTargetDependency */,
+			);
+			name = "flow-rate";
+			productName = "flow-rate";
+			productReference = BA2ED294254D6D37001FC136 /* flow-rate.app */;
+			productType = "com.apple.product-type.application";
+		};
+		BA2ED2A4254D6D38001FC136 /* flow-rateTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BA2ED2BC254D6D38001FC136 /* Build configuration list for PBXNativeTarget "flow-rateTests" */;
+			buildPhases = (
+				BA2ED2A1254D6D38001FC136 /* Sources */,
+				BA2ED2A2254D6D38001FC136 /* Frameworks */,
+				BA2ED2A3254D6D38001FC136 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BA2ED2A7254D6D38001FC136 /* PBXTargetDependency */,
+			);
+			name = "flow-rateTests";
+			productName = "flow-rateTests";
+			productReference = BA2ED2A5254D6D38001FC136 /* flow-rateTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		BA2ED2AF254D6D38001FC136 /* flow-rateUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BA2ED2BF254D6D38001FC136 /* Build configuration list for PBXNativeTarget "flow-rateUITests" */;
+			buildPhases = (
+				BA2ED2AC254D6D38001FC136 /* Sources */,
+				BA2ED2AD254D6D38001FC136 /* Frameworks */,
+				BA2ED2AE254D6D38001FC136 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BA2ED2B2254D6D38001FC136 /* PBXTargetDependency */,
+			);
+			name = "flow-rateUITests";
+			productName = "flow-rateUITests";
+			productReference = BA2ED2B0254D6D38001FC136 /* flow-rateUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		BA2ED2C8254D6D5B001FC136 /* flow-rate-widgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BA2ED2DB254D6D5C001FC136 /* Build configuration list for PBXNativeTarget "flow-rate-widgetExtension" */;
+			buildPhases = (
+				BA2ED2C5254D6D5B001FC136 /* Sources */,
+				BA2ED2C6254D6D5B001FC136 /* Frameworks */,
+				BA2ED2C7254D6D5B001FC136 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "flow-rate-widgetExtension";
+			productName = "flow-rate-widgetExtension";
+			productReference = BA2ED2C9254D6D5B001FC136 /* flow-rate-widgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BA2ED28C254D6D36001FC136 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1200;
+				LastUpgradeCheck = 1200;
+				TargetAttributes = {
+					BA2ED293254D6D37001FC136 = {
+						CreatedOnToolsVersion = 12.0.1;
+					};
+					BA2ED2A4254D6D38001FC136 = {
+						CreatedOnToolsVersion = 12.0.1;
+						TestTargetID = BA2ED293254D6D37001FC136;
+					};
+					BA2ED2AF254D6D38001FC136 = {
+						CreatedOnToolsVersion = 12.0.1;
+						TestTargetID = BA2ED293254D6D37001FC136;
+					};
+					BA2ED2C8254D6D5B001FC136 = {
+						CreatedOnToolsVersion = 12.0.1;
+					};
+				};
+			};
+			buildConfigurationList = BA2ED28F254D6D36001FC136 /* Build configuration list for PBXProject "flow-rate" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = BA2ED28B254D6D36001FC136;
+			productRefGroup = BA2ED295254D6D37001FC136 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BA2ED293254D6D37001FC136 /* flow-rate */,
+				BA2ED2A4254D6D38001FC136 /* flow-rateTests */,
+				BA2ED2AF254D6D38001FC136 /* flow-rateUITests */,
+				BA2ED2C8254D6D5B001FC136 /* flow-rate-widgetExtension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BA2ED292254D6D37001FC136 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA2ED29F254D6D38001FC136 /* Preview Assets.xcassets in Resources */,
+				BA2ED29C254D6D38001FC136 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA2ED2A3254D6D38001FC136 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA2ED2AE254D6D38001FC136 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA2ED2C7254D6D5B001FC136 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA2ED2D4254D6D5C001FC136 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BA2ED290254D6D37001FC136 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA2ED29A254D6D37001FC136 /* ContentView.swift in Sources */,
+				BA2ED2D7254D6D5C001FC136 /* flow_rate_widget.intentdefinition in Sources */,
+				BA2ED298254D6D37001FC136 /* flow_rateApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA2ED2A1254D6D38001FC136 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA2ED2AA254D6D38001FC136 /* flow_rateTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA2ED2AC254D6D38001FC136 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA2ED2B5254D6D38001FC136 /* flow_rateUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA2ED2C5254D6D5B001FC136 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA2ED2D6254D6D5C001FC136 /* flow_rate_widget.intentdefinition in Sources */,
+				BA2ED2D1254D6D5B001FC136 /* flow_rate_widget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BA2ED2A7254D6D38001FC136 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BA2ED293254D6D37001FC136 /* flow-rate */;
+			targetProxy = BA2ED2A6254D6D38001FC136 /* PBXContainerItemProxy */;
+		};
+		BA2ED2B2254D6D38001FC136 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BA2ED293254D6D37001FC136 /* flow-rate */;
+			targetProxy = BA2ED2B1254D6D38001FC136 /* PBXContainerItemProxy */;
+		};
+		BA2ED2D9254D6D5C001FC136 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BA2ED2C8254D6D5B001FC136 /* flow-rate-widgetExtension */;
+			targetProxy = BA2ED2D8254D6D5C001FC136 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		BA2ED2B7254D6D38001FC136 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		BA2ED2B8254D6D38001FC136 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		BA2ED2BA254D6D38001FC136 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"flow-rate/Preview Content\"";
+				DEVELOPMENT_TEAM = YTK49CAUV9;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = "flow-rate/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dawehner.flow-rate";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BA2ED2BB254D6D38001FC136 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"flow-rate/Preview Content\"";
+				DEVELOPMENT_TEAM = YTK49CAUV9;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = "flow-rate/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dawehner.flow-rate";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		BA2ED2BD254D6D38001FC136 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YTK49CAUV9;
+				INFOPLIST_FILE = "flow-rateTests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dawehner.flow-rateTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/flow-rate.app/flow-rate";
+			};
+			name = Debug;
+		};
+		BA2ED2BE254D6D38001FC136 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YTK49CAUV9;
+				INFOPLIST_FILE = "flow-rateTests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dawehner.flow-rateTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/flow-rate.app/flow-rate";
+			};
+			name = Release;
+		};
+		BA2ED2C0254D6D38001FC136 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YTK49CAUV9;
+				INFOPLIST_FILE = "flow-rateUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dawehner.flow-rateUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "flow-rate";
+			};
+			name = Debug;
+		};
+		BA2ED2C1254D6D38001FC136 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YTK49CAUV9;
+				INFOPLIST_FILE = "flow-rateUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dawehner.flow-rateUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "flow-rate";
+			};
+			name = Release;
+		};
+		BA2ED2DC254D6D5C001FC136 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YTK49CAUV9;
+				INFOPLIST_FILE = "flow-rate-widget/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dawehner.flow-rate.flow-rate-widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BA2ED2DD254D6D5C001FC136 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YTK49CAUV9;
+				INFOPLIST_FILE = "flow-rate-widget/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dawehner.flow-rate.flow-rate-widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BA2ED28F254D6D36001FC136 /* Build configuration list for PBXProject "flow-rate" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BA2ED2B7254D6D38001FC136 /* Debug */,
+				BA2ED2B8254D6D38001FC136 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BA2ED2B9254D6D38001FC136 /* Build configuration list for PBXNativeTarget "flow-rate" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BA2ED2BA254D6D38001FC136 /* Debug */,
+				BA2ED2BB254D6D38001FC136 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BA2ED2BC254D6D38001FC136 /* Build configuration list for PBXNativeTarget "flow-rateTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BA2ED2BD254D6D38001FC136 /* Debug */,
+				BA2ED2BE254D6D38001FC136 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BA2ED2BF254D6D38001FC136 /* Build configuration list for PBXNativeTarget "flow-rateUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BA2ED2C0254D6D38001FC136 /* Debug */,
+				BA2ED2C1254D6D38001FC136 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BA2ED2DB254D6D5C001FC136 /* Build configuration list for PBXNativeTarget "flow-rate-widgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BA2ED2DC254D6D5C001FC136 /* Debug */,
+				BA2ED2DD254D6D5C001FC136 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BA2ED28C254D6D36001FC136 /* Project object */;
+}

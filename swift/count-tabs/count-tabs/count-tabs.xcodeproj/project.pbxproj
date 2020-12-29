@@ -1,0 +1,783 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BA7B8F76253502660034238E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7B8F75253502660034238E /* AppDelegate.swift */; };
+		BA7B8F79253502660034238E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA7B8F77253502660034238E /* Main.storyboard */; };
+		BA7B8F7B253502660034238E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7B8F7A253502660034238E /* ViewController.swift */; };
+		BA7B8F7D253502670034238E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA7B8F7C253502670034238E /* Assets.xcassets */; };
+		BA7B8F88253502670034238E /* count_tabsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7B8F87253502670034238E /* count_tabsTests.swift */; };
+		BA7B8F93253502670034238E /* count_tabsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7B8F92253502670034238E /* count_tabsUITests.swift */; };
+		BA7B8F9A253502670034238E /* count-tabs Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = BA7B8F99253502670034238E /* count-tabs Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		BA7B8F9F253502680034238E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA7B8F9E253502670034238E /* Cocoa.framework */; };
+		BA7B8FA2253502680034238E /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7B8FA1253502680034238E /* SafariWebExtensionHandler.swift */; };
+		BA7B8FA5253502680034238E /* _locales in Resources */ = {isa = PBXBuildFile; fileRef = BA7B8FA4253502680034238E /* _locales */; };
+		BA7B8FA7253502680034238E /* images in Resources */ = {isa = PBXBuildFile; fileRef = BA7B8FA6253502680034238E /* images */; };
+		BA7B8FA9253502680034238E /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = BA7B8FA8253502680034238E /* manifest.json */; };
+		BA7B8FAB253502680034238E /* background.js in Resources */ = {isa = PBXBuildFile; fileRef = BA7B8FAA253502680034238E /* background.js */; };
+		BA7B8FAD253502680034238E /* content.js in Resources */ = {isa = PBXBuildFile; fileRef = BA7B8FAC253502680034238E /* content.js */; };
+		BA7B8FAF253502680034238E /* popup.html in Resources */ = {isa = PBXBuildFile; fileRef = BA7B8FAE253502680034238E /* popup.html */; };
+		BA7B8FB1253502680034238E /* popup.css in Resources */ = {isa = PBXBuildFile; fileRef = BA7B8FB0253502680034238E /* popup.css */; };
+		BA7B8FB3253502680034238E /* popup.js in Resources */ = {isa = PBXBuildFile; fileRef = BA7B8FB2253502680034238E /* popup.js */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BA7B8F84253502670034238E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BA7B8F69253502660034238E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BA7B8F70253502660034238E;
+			remoteInfo = "count-tabs";
+		};
+		BA7B8F8F253502670034238E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BA7B8F69253502660034238E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BA7B8F70253502660034238E;
+			remoteInfo = "count-tabs";
+		};
+		BA7B8F9B253502670034238E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BA7B8F69253502660034238E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BA7B8F98253502670034238E;
+			remoteInfo = "count-tabs Extension";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		BA7B8FBB253502680034238E /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				BA7B8F9A253502670034238E /* count-tabs Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		BA7B8F71253502660034238E /* count-tabs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "count-tabs.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BA7B8F74253502660034238E /* count_tabs.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = count_tabs.entitlements; sourceTree = "<group>"; };
+		BA7B8F75253502660034238E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		BA7B8F78253502660034238E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		BA7B8F7A253502660034238E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		BA7B8F7C253502670034238E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BA7B8F7E253502670034238E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BA7B8F83253502670034238E /* count-tabsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "count-tabsTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BA7B8F87253502670034238E /* count_tabsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = count_tabsTests.swift; sourceTree = "<group>"; };
+		BA7B8F89253502670034238E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BA7B8F8E253502670034238E /* count-tabsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "count-tabsUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BA7B8F92253502670034238E /* count_tabsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = count_tabsUITests.swift; sourceTree = "<group>"; };
+		BA7B8F94253502670034238E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BA7B8F99253502670034238E /* count-tabs Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "count-tabs Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BA7B8F9E253502670034238E /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		BA7B8FA1253502680034238E /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
+		BA7B8FA4253502680034238E /* _locales */ = {isa = PBXFileReference; lastKnownFileType = folder; path = _locales; sourceTree = "<group>"; };
+		BA7B8FA6253502680034238E /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images; sourceTree = "<group>"; };
+		BA7B8FA8253502680034238E /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = manifest.json; sourceTree = "<group>"; };
+		BA7B8FAA253502680034238E /* background.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = background.js; sourceTree = "<group>"; };
+		BA7B8FAC253502680034238E /* content.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = content.js; sourceTree = "<group>"; };
+		BA7B8FAE253502680034238E /* popup.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = popup.html; sourceTree = "<group>"; };
+		BA7B8FB0253502680034238E /* popup.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = popup.css; sourceTree = "<group>"; };
+		BA7B8FB2253502680034238E /* popup.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = popup.js; sourceTree = "<group>"; };
+		BA7B8FB4253502680034238E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BA7B8FB5253502680034238E /* count_tabs_Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = count_tabs_Extension.entitlements; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BA7B8F6E253502660034238E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA7B8F80253502670034238E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA7B8F8B253502670034238E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA7B8F96253502670034238E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA7B8F9F253502680034238E /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BA7B8F68253502660034238E = {
+			isa = PBXGroup;
+			children = (
+				BA7B8F73253502660034238E /* count-tabs */,
+				BA7B8F86253502670034238E /* count-tabsTests */,
+				BA7B8F91253502670034238E /* count-tabsUITests */,
+				BA7B8FA0253502680034238E /* count-tabs Extension */,
+				BA7B8F9D253502670034238E /* Frameworks */,
+				BA7B8F72253502660034238E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BA7B8F72253502660034238E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BA7B8F71253502660034238E /* count-tabs.app */,
+				BA7B8F83253502670034238E /* count-tabsTests.xctest */,
+				BA7B8F8E253502670034238E /* count-tabsUITests.xctest */,
+				BA7B8F99253502670034238E /* count-tabs Extension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BA7B8F73253502660034238E /* count-tabs */ = {
+			isa = PBXGroup;
+			children = (
+				BA7B8F74253502660034238E /* count_tabs.entitlements */,
+				BA7B8F75253502660034238E /* AppDelegate.swift */,
+				BA7B8F77253502660034238E /* Main.storyboard */,
+				BA7B8F7A253502660034238E /* ViewController.swift */,
+				BA7B8F7C253502670034238E /* Assets.xcassets */,
+				BA7B8F7E253502670034238E /* Info.plist */,
+			);
+			path = "count-tabs";
+			sourceTree = "<group>";
+		};
+		BA7B8F86253502670034238E /* count-tabsTests */ = {
+			isa = PBXGroup;
+			children = (
+				BA7B8F87253502670034238E /* count_tabsTests.swift */,
+				BA7B8F89253502670034238E /* Info.plist */,
+			);
+			path = "count-tabsTests";
+			sourceTree = "<group>";
+		};
+		BA7B8F91253502670034238E /* count-tabsUITests */ = {
+			isa = PBXGroup;
+			children = (
+				BA7B8F92253502670034238E /* count_tabsUITests.swift */,
+				BA7B8F94253502670034238E /* Info.plist */,
+			);
+			path = "count-tabsUITests";
+			sourceTree = "<group>";
+		};
+		BA7B8F9D253502670034238E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BA7B8F9E253502670034238E /* Cocoa.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BA7B8FA0253502680034238E /* count-tabs Extension */ = {
+			isa = PBXGroup;
+			children = (
+				BA7B8FA1253502680034238E /* SafariWebExtensionHandler.swift */,
+				BA7B8FB4253502680034238E /* Info.plist */,
+				BA7B8FB5253502680034238E /* count_tabs_Extension.entitlements */,
+				BA7B8FA3253502680034238E /* Resources */,
+			);
+			path = "count-tabs Extension";
+			sourceTree = "<group>";
+		};
+		BA7B8FA3253502680034238E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				BA7B8FA4253502680034238E /* _locales */,
+				BA7B8FA6253502680034238E /* images */,
+				BA7B8FA8253502680034238E /* manifest.json */,
+				BA7B8FAA253502680034238E /* background.js */,
+				BA7B8FAC253502680034238E /* content.js */,
+				BA7B8FAE253502680034238E /* popup.html */,
+				BA7B8FB0253502680034238E /* popup.css */,
+				BA7B8FB2253502680034238E /* popup.js */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BA7B8F70253502660034238E /* count-tabs */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BA7B8FBC253502680034238E /* Build configuration list for PBXNativeTarget "count-tabs" */;
+			buildPhases = (
+				BA7B8F6D253502660034238E /* Sources */,
+				BA7B8F6E253502660034238E /* Frameworks */,
+				BA7B8F6F253502660034238E /* Resources */,
+				BA7B8FBB253502680034238E /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BA7B8F9C253502670034238E /* PBXTargetDependency */,
+			);
+			name = "count-tabs";
+			productName = "count-tabs";
+			productReference = BA7B8F71253502660034238E /* count-tabs.app */;
+			productType = "com.apple.product-type.application";
+		};
+		BA7B8F82253502670034238E /* count-tabsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BA7B8FBF253502680034238E /* Build configuration list for PBXNativeTarget "count-tabsTests" */;
+			buildPhases = (
+				BA7B8F7F253502670034238E /* Sources */,
+				BA7B8F80253502670034238E /* Frameworks */,
+				BA7B8F81253502670034238E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BA7B8F85253502670034238E /* PBXTargetDependency */,
+			);
+			name = "count-tabsTests";
+			productName = "count-tabsTests";
+			productReference = BA7B8F83253502670034238E /* count-tabsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		BA7B8F8D253502670034238E /* count-tabsUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BA7B8FC2253502680034238E /* Build configuration list for PBXNativeTarget "count-tabsUITests" */;
+			buildPhases = (
+				BA7B8F8A253502670034238E /* Sources */,
+				BA7B8F8B253502670034238E /* Frameworks */,
+				BA7B8F8C253502670034238E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BA7B8F90253502670034238E /* PBXTargetDependency */,
+			);
+			name = "count-tabsUITests";
+			productName = "count-tabsUITests";
+			productReference = BA7B8F8E253502670034238E /* count-tabsUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		BA7B8F98253502670034238E /* count-tabs Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BA7B8FB8253502680034238E /* Build configuration list for PBXNativeTarget "count-tabs Extension" */;
+			buildPhases = (
+				BA7B8F95253502670034238E /* Sources */,
+				BA7B8F96253502670034238E /* Frameworks */,
+				BA7B8F97253502670034238E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "count-tabs Extension";
+			productName = "count-tabs Extension";
+			productReference = BA7B8F99253502670034238E /* count-tabs Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BA7B8F69253502660034238E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1200;
+				LastUpgradeCheck = 1200;
+				TargetAttributes = {
+					BA7B8F70253502660034238E = {
+						CreatedOnToolsVersion = 12.0.1;
+					};
+					BA7B8F82253502670034238E = {
+						CreatedOnToolsVersion = 12.0.1;
+						TestTargetID = BA7B8F70253502660034238E;
+					};
+					BA7B8F8D253502670034238E = {
+						CreatedOnToolsVersion = 12.0.1;
+						TestTargetID = BA7B8F70253502660034238E;
+					};
+					BA7B8F98253502670034238E = {
+						CreatedOnToolsVersion = 12.0.1;
+					};
+				};
+			};
+			buildConfigurationList = BA7B8F6C253502660034238E /* Build configuration list for PBXProject "count-tabs" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = BA7B8F68253502660034238E;
+			productRefGroup = BA7B8F72253502660034238E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BA7B8F70253502660034238E /* count-tabs */,
+				BA7B8F82253502670034238E /* count-tabsTests */,
+				BA7B8F8D253502670034238E /* count-tabsUITests */,
+				BA7B8F98253502670034238E /* count-tabs Extension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BA7B8F6F253502660034238E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA7B8F7D253502670034238E /* Assets.xcassets in Resources */,
+				BA7B8F79253502660034238E /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA7B8F81253502670034238E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA7B8F8C253502670034238E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA7B8F97253502670034238E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA7B8FAB253502680034238E /* background.js in Resources */,
+				BA7B8FB1253502680034238E /* popup.css in Resources */,
+				BA7B8FAF253502680034238E /* popup.html in Resources */,
+				BA7B8FA7253502680034238E /* images in Resources */,
+				BA7B8FA9253502680034238E /* manifest.json in Resources */,
+				BA7B8FA5253502680034238E /* _locales in Resources */,
+				BA7B8FAD253502680034238E /* content.js in Resources */,
+				BA7B8FB3253502680034238E /* popup.js in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BA7B8F6D253502660034238E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA7B8F7B253502660034238E /* ViewController.swift in Sources */,
+				BA7B8F76253502660034238E /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA7B8F7F253502670034238E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA7B8F88253502670034238E /* count_tabsTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA7B8F8A253502670034238E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA7B8F93253502670034238E /* count_tabsUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA7B8F95253502670034238E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA7B8FA2253502680034238E /* SafariWebExtensionHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BA7B8F85253502670034238E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BA7B8F70253502660034238E /* count-tabs */;
+			targetProxy = BA7B8F84253502670034238E /* PBXContainerItemProxy */;
+		};
+		BA7B8F90253502670034238E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BA7B8F70253502660034238E /* count-tabs */;
+			targetProxy = BA7B8F8F253502670034238E /* PBXContainerItemProxy */;
+		};
+		BA7B8F9C253502670034238E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BA7B8F98253502670034238E /* count-tabs Extension */;
+			targetProxy = BA7B8F9B253502670034238E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		BA7B8F77253502660034238E /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BA7B8F78253502660034238E /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		BA7B8FB6253502680034238E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		BA7B8FB7253502680034238E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		BA7B8FB9253502680034238E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "count-tabs Extension/count_tabs_Extension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YTK49CAUV9;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = "count-tabs Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dawehner.count-tabs-Extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		BA7B8FBA253502680034238E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "count-tabs Extension/count_tabs_Extension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YTK49CAUV9;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = "count-tabs Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dawehner.count-tabs-Extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		BA7B8FBD253502680034238E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "count-tabs/count_tabs.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = YTK49CAUV9;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = "count-tabs/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dawehner.count-tabs";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		BA7B8FBE253502680034238E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "count-tabs/count_tabs.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = YTK49CAUV9;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = "count-tabs/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dawehner.count-tabs";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		BA7B8FC0253502680034238E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = YTK49CAUV9;
+				INFOPLIST_FILE = "count-tabsTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dawehner.count-tabsTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/count-tabs.app/Contents/MacOS/count-tabs";
+			};
+			name = Debug;
+		};
+		BA7B8FC1253502680034238E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = YTK49CAUV9;
+				INFOPLIST_FILE = "count-tabsTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dawehner.count-tabsTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/count-tabs.app/Contents/MacOS/count-tabs";
+			};
+			name = Release;
+		};
+		BA7B8FC3253502680034238E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = YTK49CAUV9;
+				INFOPLIST_FILE = "count-tabsUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dawehner.count-tabsUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "count-tabs";
+			};
+			name = Debug;
+		};
+		BA7B8FC4253502680034238E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = YTK49CAUV9;
+				INFOPLIST_FILE = "count-tabsUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dawehner.count-tabsUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "count-tabs";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BA7B8F6C253502660034238E /* Build configuration list for PBXProject "count-tabs" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BA7B8FB6253502680034238E /* Debug */,
+				BA7B8FB7253502680034238E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BA7B8FB8253502680034238E /* Build configuration list for PBXNativeTarget "count-tabs Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BA7B8FB9253502680034238E /* Debug */,
+				BA7B8FBA253502680034238E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BA7B8FBC253502680034238E /* Build configuration list for PBXNativeTarget "count-tabs" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BA7B8FBD253502680034238E /* Debug */,
+				BA7B8FBE253502680034238E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BA7B8FBF253502680034238E /* Build configuration list for PBXNativeTarget "count-tabsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BA7B8FC0253502680034238E /* Debug */,
+				BA7B8FC1253502680034238E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BA7B8FC2253502680034238E /* Build configuration list for PBXNativeTarget "count-tabsUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BA7B8FC3253502680034238E /* Debug */,
+				BA7B8FC4253502680034238E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BA7B8F69253502660034238E /* Project object */;
+}
