@@ -1,4 +1,5 @@
-#!/usr/bin/env python3
+#! /usr/bin/env nix-shell
+#! nix-shell -i python3 -p python38 python38Packages.jinja2 python38Packages.pyyaml python38Packages.tqdm pandoc
 # -*- coding: utf-8 -*-
 
 import os
@@ -6,6 +7,10 @@ import yaml
 import pprint
 import jinja2
 import re
+from tqdm import tqdm
+import shlex, subprocess
+import glob
+import shutil
 
 if not os.path.exists('download'):
   os.system("paprika-recipes store-password")
@@ -13,6 +18,18 @@ if not os.path.exists('download'):
 
 if not os.path.exists('markdown'):
   os.mkdir('markdown')
+
+if not os.path.exists('html'):
+  os.mkdir('html')
+
+if not os.path.exists('foam-mkdocs-template/docs'):
+  os.mkdir('foam-mkdocs-template/docs')
+
+files = glob.glob('foam-mkdocs-template/docs/**/*')
+for f in files:
+    if 'index.md' in f:
+        continue
+    os.remove(f)
 
 templateLoader = jinja2.FileSystemLoader(searchpath="./")
 templateEnv = jinja2.Environment(loader=templateLoader)
@@ -23,9 +40,10 @@ download_path = "./download/"
 
 files = os.listdir("./download")
 
-for file in files:
+for i in tqdm(range(len(files))):
+  file = files[i]
   new_filename = file.replace(".yaml", ".md").replace('.paprikarecipe', '')
-  paprika = yaml.load(open(download_path + file, 'r'))
+  paprika = yaml.safe_load(open(download_path + file, 'r'))
   # pprint.pp(paprika)
 
   if isinstance(paprika['directions'], str):
@@ -48,4 +66,11 @@ for file in files:
   fh = open('./markdown/' + new_filename, "w+")
   fh.write(outputText)
   fh.close()
-  print(file)
+
+  # html_name = new_filename.replace(".md", ".html")
+  # command = 'pandoc --standalone -f markdown -t html5 -o "html/{}" "markdown/{}" --css pandoc.css'.format(html_name, new_filename)
+  # subprocess.call(shlex.split(command))
+
+# Copy images and markdown files to foam-mkdocs-template
+os.system('cp -r markdown/* foam-mkdocs-template/docs/')
+os.system('cp -r images foam-mkdocs-template/docs/')

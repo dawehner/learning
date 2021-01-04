@@ -1,8 +1,16 @@
 {# Jinja2 template for converting a pyprika Recipe object to Markdown #}
 # {{ name }}
 
-
 [[ recipes ]]
+
+{% if categories -%}
+## Categories
+{% for category in categories -%}
+[[recipes/{{ category.name -}}]]
+{% endfor -%}
+{% endif -%}
+
+## Info
 
 {% if on_favorites %}
 ⭐️
