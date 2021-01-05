@@ -8,6 +8,12 @@ SHOULD_UPLOAD=0
 for arg in "$@"
 do
     case $arg in
+      -h|--help)
+        echo "Available options --help|--reset|--upload"
+        exit
+        ;;
+    esac
+    case $arg in
         -r|--reset)
         SHOULD_RESET=1
         shift # Remove --initialize from processing
@@ -26,7 +32,7 @@ if [[ $SHOULD_RESET == 1 ]]; then
   rm -Rf markdown
 fi
 
-'./get-convert-paprika.py'
+nix-shell ./env --command './get-convert-paprika.py'
 
 cd foam-mkdocs-template
 nix-shell ./env --command 'mkdocs build'
