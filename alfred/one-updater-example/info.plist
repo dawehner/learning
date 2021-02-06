@@ -39,10 +39,10 @@
 				<integer>0</integer>
 				<key>script</key>
 				<string># THESE VARIABLES MUST BE SET. SEE THE ONEUPDATER README FOR AN EXPLANATION OF EACH.
-readonly remote_info_plist=''
-readonly workflow_url=''
-readonly download_type=''
-readonly frequency_check=''
+readonly remote_info_plist='https://raw.githubusercontent.com/dawehner/learning/main/alfred/one-updater-example/info.plist'
+readonly workflow_url='https://github.com/dawehner/learning/blob/main/alfred/one-updater-example/Example%20updated.alfredworkflow'
+readonly download_type='direct'
+readonly frequency_check='1'
 
 # FROM HERE ON, CODE SHOULD BE LEFT UNTOUCHED!
 function abort {
@@ -169,7 +169,7 @@ fi</string>
 	<key>variablesdontexport</key>
 	<array/>
 	<key>version</key>
-	<string></string>
+	<string>1.1</string>
 	<key>webaddress</key>
 	<string></string>
 </dict>
