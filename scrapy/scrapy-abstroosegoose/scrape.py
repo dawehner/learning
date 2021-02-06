@@ -10,13 +10,14 @@ class AbstrooseSpider(scrapy.Spider):
         for title in response.css('h1.storytitle'):
             yield {
                 'title': title.css('::text').get(),
-                'image': response.css('html body section img::attr(src)').get()
+                'image': response.css('html body section img::attr(src)').get(),
+                'url': response.url,
             }
 
 
         next_links = response.xpath("//a[contains(.//text(), 'Next')]")
-        if len(next_links) == 0:
-            # inspect_response(response, self)
+        # if len(next_links) == 0:
+        #     inspect_response(response, self)
 
         for next_page in next_links:
             yield response.follow(next_page, self.parse)
