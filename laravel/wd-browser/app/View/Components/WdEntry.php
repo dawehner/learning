@@ -32,7 +32,6 @@ class WdEntry extends Component
 
     private string $description;
 
-
     /**
      * Create a new component instance.
      *
