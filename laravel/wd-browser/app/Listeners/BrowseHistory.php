@@ -29,9 +29,8 @@ class BrowseHistory
      */
     public function handle(RouteMatched $event)
     {
-        $history = session()->get('history', []);
-        $history[] = $event->request->getPathInfo();
-        session()->put('history', $history);
+//        $event->request->session()->push('history', $event->request->getPathInfo());
+        $a = 123;
     }
 
 }

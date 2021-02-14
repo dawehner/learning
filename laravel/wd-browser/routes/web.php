@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use Wikidata\Wikidata;
@@ -26,12 +27,20 @@ Route::get(
     }
 );
 
-Route::get('/entity/{eid}', function (string $eid) {
-   $wd = new Wikidata();
-   $res = $wd->get($eid);
+Route::get(
+    '/entity/{eid}',
+    function (string $eid, Request $request) {
+        $wd = new Wikidata();
+        $res = $wd->get($eid);
 
-   return view('wd-properties-table', ['properties' => $res->properties]);
-});
+        return view('wd-entry-page',
+                    [
+                        'entry' => $res,
+                        'session' => app('session'),
+                    ]
+        );
+    }
+);
 
 Route::get(
     '/welcome',

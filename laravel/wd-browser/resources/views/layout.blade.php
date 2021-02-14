@@ -40,7 +40,7 @@
         }
 
         a {
-            color: inherit;
+            color: dodgerblue;
             text-decoration: inherit
         }
 
@@ -385,6 +385,11 @@
                 color: rgba(203, 213, 224, var(--text-opacity))
             }
         }
+
+
+        .body.grid {
+            grid-template-columns: 3fr 1fr;
+        }
     </style>
 
     <style>
@@ -394,6 +399,15 @@
     </style>
 </head>
 <body class="antialiased">
-<h1>{{$title}}</h1>
-{{ $slot }}
+<h1> @yield('title')</h1>
+<div class="grid body">
+    <div class="main">
+        @yield('content')
+    </div>
+    <div class="sidebar">
+        @section('sidebar')
+            @include('components.browser-history', ['history' => $session->get('history')])
+        @show
+    </div>
+</div>
 </body>

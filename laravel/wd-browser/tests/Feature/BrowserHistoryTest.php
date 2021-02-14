@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class BrowserHistoryListenerTest extends TestCase
+class BrowserHistoryTest extends TestCase
 {
 
     /**
@@ -16,7 +16,6 @@ class BrowserHistoryListenerTest extends TestCase
      */
     public function test_example()
     {
-        $this->startSession();
         $response = $this->withSession([])->get('/');
         $this->assertEquals(['/'], $this->app['session']->get('history'));
 
