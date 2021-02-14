@@ -18,8 +18,7 @@ use Wikidata\Wikidata;
 
 Route::get(
     '/',
-    function () {
-        $wd = new Wikidata();
+    function (Wikidata $wd) {
         $results = $wd->search('kingston', 'en', 5);
 
         return view('wd-list', ['results' => $results]);
@@ -29,8 +28,7 @@ Route::get(
 
 Route::get(
     '/entity/{eid}',
-    function (string $eid, Request $request) {
-        $wd = new Wikidata();
+    function (string $eid, Request $request, Wikidata $wd) {
         $res = $wd->get($eid);
 
         return view('wd-entry-page',
