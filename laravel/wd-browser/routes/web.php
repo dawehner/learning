@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+use Wikidata\Wikidata;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +15,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get(
+    '/',
+    function () {
+        $wd = new Wikidata();
+        $results = $wd->search('kingston', 'en', 5);
+
+        return view('wd-list', ['results' => $results]);
+        //    return view('welcome');
+    }
+);
+
+Route::get('/entity/{eid}', function (string $eid) {
+   $wd = new Wikidata();
+   $res = $wd->get($eid);
+
+   return view('wd-properties-table', ['properties' => $res->properties]);
 });
+
+Route::get(
+    '/welcome',
+    function () {
+        return view('welcome');
+    }
+);
