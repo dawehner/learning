@@ -25,10 +25,7 @@ class WdEntry extends Component
      */
     private $label;
 
-    /**
-     * @var string
-     */
-    private $url;
+    private ?string $url;
 
     private string $description;
 
@@ -41,7 +38,7 @@ class WdEntry extends Component
         string $id,
         string $lang,
         string $label,
-        string $url,
+        ?string $url = null,
         string $description = '',
     ) {
         $this->id = $id;

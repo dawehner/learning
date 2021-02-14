@@ -1,3 +1,4 @@
+<h3>History</h3>
 <ul>
     @foreach (array_unique($history) as $path)
         <li>

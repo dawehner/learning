@@ -22,7 +22,6 @@ Route::get(
         $results = $wd->search('kingston', 'en', 5);
 
         return view('wd-list', ['results' => $results]);
-        //    return view('welcome');
     }
 );
 
@@ -37,6 +36,14 @@ Route::get(
                         'session' => app('session'),
                     ]
         );
+    }
+);
+
+Route::get(
+    '/search',
+    function (Request $request, Wikidata $wd) {
+        $results = $wd->search($request->query->get('term'), 'en', 5);
+        return view('wd-list', ['results' => $results]);
     }
 );
 

@@ -406,6 +406,7 @@
     </div>
     <div class="sidebar">
         @section('sidebar')
+            @include('components.search')
             @include('components.browser-history', ['history' => $session->get('history')])
         @show
     </div>
