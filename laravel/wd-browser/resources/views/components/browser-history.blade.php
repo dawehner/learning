@@ -1,5 +1,11 @@
 <ul>
-    @foreach ($history as $path)
-        <li>{{$path}}</li>
+    @foreach (array_unique($history) as $path)
+        <li>
+            @if (Str::startsWith($path, '/entity/Q'))
+                @include('wd-link', ['ref' => str_replace('/entity/', '', $path), 'title' => $path])
+            @else
+                {{$path}}
+            @endif
+        </li>
     @endforeach
 </ul>

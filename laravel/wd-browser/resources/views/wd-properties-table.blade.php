@@ -6,13 +6,13 @@
     <tbody>
     @foreach($properties as $property)
         <tr>
-            <td>{{$property->label}} (<a href="/entity/{{$property->id}}">{{$property->id}})</a>)</td>
+            <td>{{$property->label}} (@include('wd-link', ['title' => $property->id, 'ref' => $property->id]))</td>
             <td>
                 <ul>
                     @foreach ($property->values as $value)
                         <li>
                             @if($value->id[0] === 'Q')
-                                <a href="/entity/{{$value->id}}">{{$value->label}}</a>
+                                @include('wd-link', ['title' => $value->label, 'ref' => $value->id])
                             @else
                                 {{ $value->label }}
 
